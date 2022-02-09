@@ -6,30 +6,51 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import java.util.function.Supplier;
 
-/** An example command that uses an example subsystem. */
-public class ExampleCommand extends CommandBase {
+
+
+
+/** default drive using the DriveSubystem. */
+public class DefaultDriveCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final DriveSubsystem m_subsystem;
 
+  //drivesubsystem declaration
+  private final DriveSubsystem driveTrain;
+
+  //supplier lambda's declaration
+  Supplier<Double> speedFunction, turnFunction;
+
+  //linear and angular speed
+  double xSpeed;
+  double rotSpeed;
+ 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new default drive.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(DriveSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public DefaultDriveCmd(DriveSubsystem subsystem, Supplier<Double> speedFunction, Supplier<Double> turnFunction) {
+    driveTrain = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(driveTrain);
+
+    //double suppliers init
+    this.speedFunction = speedFunction;
+    this.turnFunction = turnFunction;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    //regular drive with inputted joystick values
+    driveTrain.drive(speedFunction.get(), turnFunction.get());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
