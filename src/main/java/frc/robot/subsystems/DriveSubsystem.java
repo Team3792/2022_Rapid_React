@@ -25,10 +25,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DriveSubsystem extends SubsystemBase {
 
   //motor init
-  public final WPI_TalonFX rightLead = new WPI_TalonFX(10);
-  public final WPI_TalonFX rightFollow = new WPI_TalonFX(11);
-  public final WPI_TalonFX leftLead = new WPI_TalonFX(13);
-  public final WPI_TalonFX leftFollow = new WPI_TalonFX(12);
+  public final WPI_TalonFX rightLead = new WPI_TalonFX(0);
+  public final WPI_TalonFX rightFollow = new WPI_TalonFX(0);
+  public final WPI_TalonFX leftLead = new WPI_TalonFX(0);
+  public final WPI_TalonFX leftFollow = new WPI_TalonFX(0);
 
 
   public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftLead, leftFollow);

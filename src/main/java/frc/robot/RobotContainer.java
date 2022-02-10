@@ -6,11 +6,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DefaultDriveCmd;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
 import java.util.function.Supplier;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.commands.ExampleCommand;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,11 +28,27 @@ public class RobotContainer {
   //init the joystick
   Joystick joystick1 = new Joystick(0);
 
-  // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_drive = new DriveSubsystem();
-    //default drive with the DoubleSupplier Lambdas
-  private final DefaultDriveCmd defaultDrive = new DefaultDriveCmd(m_drive, () -> joystick1.getY(), () -> joystick1.getZ());
+  //buttons init
+  JoystickButton button1 = new JoystickButton(joystick1, 1);
+  JoystickButton button2 = new JoystickButton(joystick1, 2);
+  JoystickButton button3 = new JoystickButton(joystick1, 3);
 
+
+  // The robot's subsystems and commands are defined here...
+
+  //default drive with the DoubleSupplier Lambdas
+  //private final DriveSubsystem m_drive = new DriveSubsystem();
+  //private final DefaultDriveCmd defaultDrive = new DefaultDriveCmd(m_drive, () -> joystick1.getY(), () -> joystick1.getZ());
+
+  //shooter control command with PID stuff
+  private final ShooterPID m_shooter = new ShooterPID();
+  private final ShooterCmd shooterControl = new ShooterCmd(m_shooter);
+
+  //feeder command stuff
+  private final Feeder m_feeder = new Feeder();
+  private final FeederCmd feedControl = new FeederCmd(m_feeder);
+
+  private final ExampleCommand exampleCommand = new ExampleCommand();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -35,7 +57,7 @@ public class RobotContainer {
     configureButtonBindings();
     
     //set default drive to be the default driveSubsystem command
-    m_drive.setDefaultCommand(defaultDrive);
+   // m_drive.setDefaultCommand(defaultDrive);
 
   }
 
@@ -46,7 +68,25 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-      return;
+    button1.whileHeld(shooterControl);
+
+    button2.whileHeld(new StartEndCommand(
+      // Start a flywheel spinning at 50% power
+      () -> feedControl.runFeederForward(),
+      // Stop the flywheel at the end of the command
+      () -> feedControl.stopFeeder(),
+      // Requires the feeder subsystem
+      m_feeder
+    ));
+
+    button3.whileHeld(new StartEndCommand(
+      // Start a flywheel spinning at 50% power
+      () -> feedControl.runFeederBackwards(),
+      // Stop the flywheel at the end of the command
+      () -> feedControl.stopFeeder(),
+      // Requires the feeder subsystem
+      m_feeder
+    ));
   }
 
   /**
@@ -60,6 +100,6 @@ public class RobotContainer {
   //}
   public Command getAutonomousCommand(){
     //filler for rn- change later when we actually have an auto command group
-    return defaultDrive;
+    return exampleCommand;
   }
 }
