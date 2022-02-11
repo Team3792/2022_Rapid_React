@@ -33,17 +33,18 @@ public class ShooterPID extends SubsystemBase {
     }
 
     public void zero(double output) {
-        shooter.setVoltage(output + shooterFF.calculate(0));
-        // shooter.set(0);
+        shooter.set(0);
     }
 
-    public void useOutput(double output) {
-        shooter.setVoltage(output + shooterFF.calculate(setpoint()));
+    public void useOutput(double output, double setpoint) {
+        shooter.setVoltage(output + shooterFF.calculate(setpoint));
     }
 
     public double getMeasurement() {
         double rpmVal = toRPM(shooter.getSelectedSensorVelocity());
         System.out.println("RPM Val:   " + rpmVal);
+        SmartDashboard.putNumber("RPM", rpmVal);
+        SmartDashboard.putNumber("RPM_graph", rpmVal);
         // SmartDashboard.putNumber("RPM", toRPM(shooter.getSelectedSensorVelocity()));
         // SmartDashboard.putNumber("RPMGraph", toRPM(shooter.getSelectedSensorVelocity()));
 

@@ -40,9 +40,10 @@ public class RobotContainer {
   //private final DriveSubsystem m_drive = new DriveSubsystem();
   //private final DefaultDriveCmd defaultDrive = new DefaultDriveCmd(m_drive, () -> joystick1.getY(), () -> joystick1.getZ());
 
-  //shooter control command with PID stuff
+  //shooter control command with PID stuff + lambdas
   private final ShooterPID m_shooter = new ShooterPID();
-  private final ShooterCmd shooterControl = new ShooterCmd(m_shooter);
+  private final ShooterCmd shooterControl = new ShooterCmd(m_shooter, () -> (((joystick1.getRawAxis(3) + 1) / 2) * 7500));
+
 
   //feeder command stuff
   private final Feeder m_feeder = new Feeder();
