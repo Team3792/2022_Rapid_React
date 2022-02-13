@@ -14,7 +14,6 @@ package frc.robot;
  */
 public final class Constants {
 
-
   public static final class ButtonConstant
   {
     //Driver Joystick
@@ -24,6 +23,36 @@ public final class Constants {
     //Operator Controller
     public static final int kOperatJoystick = 1;
 
+
+  }
+
+  public static final class MotorID
+  {
+    //Drive Train (Talon FX/Falcon)
+    public static final int kRightDriveLead = 0;
+    public static final int kRightDriveFollow = 0;
+    public static final int kLeftDriveLead = 0;
+    public static final int kLeftDriveFollow = 0;
+
+    //Shooter Motor (Talon FX/Falcon)
+    public static final int kShootMotor = 10;
+    //Feeder Motor (Talon FX/Falcon)
+    public static final int kFeedMotor = 4;
+  }
+
+  public static final class DriveConstants
+  {
+    //Drive Kinematics
+    public static final double kDriveTrainWidthMeters = 0.6216331403;
+
+    //Drivetrain PID Vars
+    public static final double kDrivekP = 0.00691;
+    public static final double kDrivekI = 0;
+    public static final double kDrivekD = 0;
+
+    //Drive Speed Constants
+    public static final double kMaxDriveSpeed = 3.0;           // meters per second
+    public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
 
   }
@@ -45,14 +74,14 @@ public final class Constants {
   {
 
     //Climb PID constants
-    public static final double climbkP = 0;
-    public static final double climbkI = 0;
-    public static final double climbkD = 0;
+    public static final double kClimbkP = 0;
+    public static final double kClimbkI = 0;
+    public static final double kClimbkD = 0;
 
      //Arm PID constants
-     public static final double armkP = 0;
-     public static final double armkI = 0;
-     public static final double armkD = 0;
+     public static final double kArmkP = 0;
+     public static final double kArmkI = 0;
+     public static final double kArmkD = 0;
 
 
   }

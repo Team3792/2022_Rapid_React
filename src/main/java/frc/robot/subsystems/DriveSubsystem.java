@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.motorcontrol.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 
@@ -20,15 +19,16 @@ import com.ctre.phoenix.motorcontrol.can.*;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 public class DriveSubsystem extends SubsystemBase {
 
   //motor init
-  public final WPI_TalonFX rightLead = new WPI_TalonFX(0);
-  public final WPI_TalonFX rightFollow = new WPI_TalonFX(0);
-  public final WPI_TalonFX leftLead = new WPI_TalonFX(0);
-  public final WPI_TalonFX leftFollow = new WPI_TalonFX(0);
+  public final WPI_TalonFX rightLead = new WPI_TalonFX(Constants.MotorID.kRightDriveLead);
+  public final WPI_TalonFX rightFollow = new WPI_TalonFX(Constants.MotorID.kRightDriveFollow);
+  public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
+  public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
 
 
   public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftLead, leftFollow);
@@ -36,20 +36,17 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   //drivetrain kinematics init 
-  public static final double driveTrainWidthMeters = 0.6216331403;
-  private static DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(driveTrainWidthMeters);
+  private static DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters);
 
 
   //PID things init
-  private static final PIDController m_leftPIDController = new PIDController(0.00691, 0, 0);
-  private static final PIDController m_rightPIDController = new PIDController(0.00691, 0, 0);
+  private static final PIDController m_leftPIDController = new PIDController(Constants.DriveConstants.kDrivekP, Constants.DriveConstants.kDrivekI, Constants.DriveConstants.kDrivekD);
+  private static final PIDController m_rightPIDController = new PIDController(Constants.DriveConstants.kDrivekP, Constants.DriveConstants.kDrivekI, Constants.DriveConstants.kDrivekD);
   private double rotSpeed = 0;
   private double xSpeed = 0;
   
   private final SlewRateLimiter speedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter rotLimiter = new SlewRateLimiter(10);
-  private double kMaxSpeed = 3.0; // meters per second
-  private double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
 
   //feedforward init
@@ -77,7 +74,7 @@ public class DriveSubsystem extends SubsystemBase {
     //   xSpeed = 0;
     // }
     // else{ //Outside of deadband
-       xSpeed = -speedLimiter.calculate(fwd) * kMaxSpeed;
+       xSpeed = -speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
     // }
 
     // //Drive twist
@@ -85,7 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
     //   rotSpeed = 0;
     // }
     // else{ //Outside of deadband
-       rotSpeed = -rotLimiter.calculate(rot) * kMaxAngularSpeed;
+       rotSpeed = -rotLimiter.calculate(rot) * Constants.DriveConstants.kMaxAngularSpeed;
     // }
 
 

@@ -7,10 +7,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 /** Add your docs here. */
 public class Feeder extends SubsystemBase {
-  private final WPI_TalonFX feeder = new WPI_TalonFX(4);
+  private final WPI_TalonFX feeder = new WPI_TalonFX(Constants.MotorID.kFeedMotor);
   
   public Feeder() {}
 

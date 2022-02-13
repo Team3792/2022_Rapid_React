@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterPID extends SubsystemBase {
-    private final WPI_TalonFX shooter = new WPI_TalonFX(10);
-    private final SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(Constants.shooterKs, Constants.shooterKv, Constants.shooterKa);
+    private final WPI_TalonFX shooter = new WPI_TalonFX(Constants.MotorID.kShootMotor);
+    private final SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(Constants.ShooterConstants.shooterKs, Constants.ShooterConstants.shooterKv, Constants.ShooterConstants.shooterKa);
     private final static Joystick stick = new Joystick(0);
     
 
@@ -23,7 +23,7 @@ public class ShooterPID extends SubsystemBase {
         shooter.setSelectedSensorPosition(0);
     }
 
-    public static double setpoint() {
+    public double setpoint() {
         double setpointVal = ((stick.getRawAxis(3) + 1) / 2) * 7500;
         //System.out.println("Setpoint " + setpointVal);
         // SmartDashboard.putNumber("setpoint", ((stick.getRawAxis(3) + 1) / 2) * 7500);

@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.PS4Controller;
 
 
 
@@ -26,7 +27,7 @@ import frc.robot.commands.ExampleCommand;
  */
 public class RobotContainer {
   //init the joystick
-  Joystick joystick1 = new Joystick(0);
+  Joystick joystick1 = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
   //buttons init
   JoystickButton button1 = new JoystickButton(joystick1, 1);

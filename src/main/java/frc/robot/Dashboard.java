@@ -14,23 +14,29 @@ import edu.wpi.first.cameraserver.CameraServer;
 
 public final class Dashboard {
 
-  double setPointVal;
+  ShooterPID shooterVals = new ShooterPID();
+  private double setPointVal;
+  private double RPMVal;
 
-  public static void updateVals()
+  public void updateVals()
   {
-   ShooterPID.setpoint();
+    setPointVal = shooterVals.setpoint();
+    RPMVal = shooterVals.getMeasurement();
 
 
   }
 
-  public static void showVals()
+  public void showVals()
   {
 
-
+    //Setpoint
+    SmartDashboard.putNumber("Setpoint Value", setPointVal);
+    SmartDashboard.putNumber("Shooter RPM", RPMVal);
 
 
   }
 
+  
   public static void showFeed()
   {
     CameraServer.getInstance().startAutomaticCapture(1);

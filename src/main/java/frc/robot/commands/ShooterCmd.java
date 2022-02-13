@@ -17,7 +17,7 @@ public class ShooterCmd extends PIDCommand {
 
   public ShooterCmd(ShooterPID s, Supplier<Double> stickInput) {
       super(
-      new PIDController(Constants.shooterkP, Constants.shooterkI, Constants.shooterkD),
+      new PIDController(Constants.ShooterConstants.shooterkP, Constants.ShooterConstants.shooterkI, Constants.ShooterConstants.shooterkD),
        // Close the loop on the turn rate
        s::getMeasurement,
        // Setpoint is in subsystem
