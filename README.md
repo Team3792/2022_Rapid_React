@@ -1,15 +1,17 @@
-# 2022_Rapid_React
+# Army Ants 2022 Master Project 
 
-Tenative Mappings (Updated 2/15)
+Tenative Mappings (Updated 2/16)
 
 Driver Joystick Mapping
-- Y Axis:           Forward Movement
-- Z Axis:           Twist Movement
-- Thumb (B_2):      Speed Drive
-- Trigger (B_1):    Intake Ball
-- Upper Left (B_5): Target Autoalign
-- Upper Right (B5): Ball Autoalign
-
+- Y Axis:               Forward Movement
+- Z Axis:               Twist Movement
+- Thumb (B_2):          Speed Drive
+- Trigger (B_1):        Intake Ball
+- Lower Left (B_3):     Target Autoalign
+- Upper Left (B_5):     Alert Shoot Ready
+- Lower Right (B_4):    Ball Autoalign
+- Button Panel (B_11):  Intake Reverser
+- Button Panel (B_8):   Feeder Reverser
 
 
 
@@ -22,6 +24,7 @@ Operator Controller Mapping
 - R Axis Button (B_11):  Auto Climb Function 2?
 - L1 Button (B_4):       Feeder Motor 
 - D-Pad Left:            Feeder Reverser
+- D-Pad Down:            Intake Reverser
 - Circle Button (B_2):   Auto High Shooter
 - Triangle Button (B_3): Preset High Shooter
 - X Button (B_1):        Preset Low Shooter

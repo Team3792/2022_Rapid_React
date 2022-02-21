@@ -18,10 +18,13 @@ public final class Constants {
   {
     //Driver Joystick
     public static final int kDriveJoystick = 0;
+
+    public static final int kAlertShoot = 5;
     
 
     //Operator Controller
-    public static final int kOperatJoystick = 1;
+    public static final int kOperateController = 1;
+    public static final int kRunFeederButton = 4;
 
 
   }
@@ -38,6 +41,10 @@ public final class Constants {
     public static final int kShootMotor = 10;
     //Feeder Motor (Talon FX/Falcon)
     public static final int kFeedMotor = 4;
+
+    //Intake Motor (775)
+    public static final int kIntakeMotor = 0;
+
   }
 
   public static final class DriveConstants

@@ -6,22 +6,22 @@ package frc.robot.commands;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.FeedSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class FeederCmd extends CommandBase {
+public class IntakeCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final FeedSubsystem feeder;
+    private final IntakeSubsystem intake;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public FeederCmd(FeedSubsystem f) {
-     feeder = f;
+  public IntakeCmd(IntakeSubsystem intake) {
+     this.intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(feeder);
+    addRequirements(intake);
     }
 
   // Called when the command is initially scheduled.
@@ -36,16 +36,16 @@ public class FeederCmd extends CommandBase {
     
   }
 
-  public void runFeederForward(){
-    feeder.setValue(.8);
+  public void runIntakeForward(){
+    intake.setValue(.8);
   }
 
-  public void runFeederBackwards(){
-    feeder.setValue(-0.5);
+  public void runIntakeBackward(){
+    intake.setValue(-0.5);
   }
 
-  public void stopFeeder(){
-    feeder.setValue(0);
+  public void stopIntake(){
+    intake.setValue(0);
   }
 
   // Called once the command ends or is interrupted.

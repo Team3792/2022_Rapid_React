@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /** Add your docs here. */
-public class Feeder extends SubsystemBase {
-  private final WPI_TalonFX feeder = new WPI_TalonFX(Constants.MotorID.kFeedMotor);
+public class FeedSubsystem extends SubsystemBase {
+  private final WPI_TalonFX feedMotor = new WPI_TalonFX(Constants.MotorID.kFeedMotor);
   
-  public Feeder() {}
+  public FeedSubsystem() {}
 
   public void setValue(double v){
-    feeder.set(v);
+    feedMotor.set(v);
   }
 
 }

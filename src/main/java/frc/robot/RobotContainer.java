@@ -8,14 +8,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.Joystick;
 import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.commands.ExampleCommand;
-import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
 
 
 
@@ -27,28 +25,39 @@ import edu.wpi.first.wpilibj.PS4Controller;
  */
 public class RobotContainer {
   //init the joystick
-  Joystick joystick1 = new Joystick(Constants.ButtonConstant.kDriveJoystick);
+  Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
   //buttons init
-  JoystickButton button1 = new JoystickButton(joystick1, 1);
-  JoystickButton button2 = new JoystickButton(joystick1, 2);
-  JoystickButton button3 = new JoystickButton(joystick1, 3);
+  JoystickButton shootButton = new JoystickButton(driveJoystick, 10);
+  JoystickButton alertShootButton = new JoystickButton(driveJoystick, Constants.ButtonConstant.kAlertShoot);
+  JoystickButton intakeButton = new JoystickButton(driveJoystick, 1);
+
+
+
+  XboxController operateController = new XboxController(Constants.ButtonConstant.kOperateController);
+
+  JoystickButton feederButton = new JoystickButton(operateController, Constants.ButtonConstant.kRunFeederButton);
+  JoystickButton revFeederButton = new JoystickButton(operateController, 3);
+
+
 
 
   // The robot's subsystems and commands are defined here...
 
   //default drive with the DoubleSupplier Lambdas
-  //private final DriveSubsystem m_drive = new DriveSubsystem();
-  //private final DefaultDriveCmd defaultDrive = new DefaultDriveCmd(m_drive, () -> joystick1.getY(), () -> joystick1.getZ());
+  private final DriveSubsystem m_drive = new DriveSubsystem();
+  //private final DefaultDriveCmd defaultDrive = new DefaultDriveCmd(m_drive, () -> driveJoystick.getY(), () -> driveJoystick.getZ());
 
   //shooter control command with PID stuff + lambdas
   private final ShooterPID m_shooter = new ShooterPID();
-  private final ShooterCmd shooterControl = new ShooterCmd(m_shooter, () -> (((joystick1.getRawAxis(3) + 1) / 2) * 7500));
+  //private final ShooterCmd shooterControl = new ShooterCmd(m_shooter, () -> (((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
 
 
   //feeder command stuff
-  private final Feeder m_feeder = new Feeder();
+  private final FeedSubsystem m_feeder = new FeedSubsystem();
   private final FeederCmd feedControl = new FeederCmd(m_feeder);
+
+  private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
   private final ExampleCommand exampleCommand = new ExampleCommand();
 
@@ -59,7 +68,17 @@ public class RobotContainer {
     configureButtonBindings();
     
     //set default drive to be the default driveSubsystem command
-   // m_drive.setDefaultCommand(defaultDrive);
+
+
+    m_drive.setDefaultCommand(new DefaultDriveCmd(m_drive, 
+            () -> driveJoystick.getRawAxis(1), 
+            () -> driveJoystick.getRawAxis(3))
+    );
+
+
+
+    //m_drive.setDefaultCommand(defaultDrive);
+    
 
   }
 
@@ -70,9 +89,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    button1.whileHeld(shooterControl);
+    shootButton.whileHeld(new ShooterCmd(m_shooter, 
+        () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
 
-    button2.whileHeld(new StartEndCommand(
+
+    feederButton.whileHeld(new StartEndCommand(
       // Start a flywheel spinning at 50% power
       () -> feedControl.runFeederForward(),
       // Stop the flywheel at the end of the command
@@ -81,7 +102,7 @@ public class RobotContainer {
       m_feeder
     ));
 
-    button3.whileHeld(new StartEndCommand(
+    revFeederButton.whileHeld(new StartEndCommand(
       // Start a flywheel spinning at 50% power
       () -> feedControl.runFeederBackwards(),
       // Stop the flywheel at the end of the command
@@ -89,6 +110,19 @@ public class RobotContainer {
       // Requires the feeder subsystem
       m_feeder
     ));
+
+    intakeButton.whileHeld(new StartEndCommand(
+      
+      () -> new IntakeCmd(m_intake).runIntakeBackward(),
+
+      () -> new IntakeCmd(m_intake).stopIntake(),
+
+      m_intake
+    ));
+
+
+
+
   }
 
   /**
