@@ -32,18 +32,19 @@ public final class Constants {
   public static final class MotorID
   {
     //Drive Train (Talon FX/Falcon)
-    public static final int kRightDriveLead = 0;
-    public static final int kRightDriveFollow = 0;
     public static final int kLeftDriveLead = 0;
-    public static final int kLeftDriveFollow = 0;
+    public static final int kLeftDriveFollow = 1;
+    public static final int kRightDriveLead = 2;
+    public static final int kRightDriveFollow = 3;
+    
 
     //Shooter Motor (Talon FX/Falcon)
     public static final int kShootMotor = 10;
     //Feeder Motor (Talon FX/Falcon)
-    public static final int kFeedMotor = 4;
+    public static final int kFeedMotor = 11;
 
     //Intake Motor (775)
-    public static final int kIntakeMotor = 0;
+    public static final int kIntakeMotor = 20;
 
   }
 

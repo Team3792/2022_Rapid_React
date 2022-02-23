@@ -7,13 +7,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /** Add your docs here. */
 public class IntakeSubsystem extends SubsystemBase {
-  private final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(Constants.MotorID.kIntakeMotor);
+  private final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.MotorID.kIntakeMotor);
   
   public IntakeSubsystem() {}
 

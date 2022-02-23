@@ -7,11 +7,15 @@ package frc.robot.commands;
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FeedSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+
 
 /** An example command that uses an example subsystem. */
 public class FeederCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final FeedSubsystem feeder;
+    private XboxController operateController = new XboxController(1);
 
   /**
    * Creates a new ExampleCommand.
@@ -46,6 +50,20 @@ public class FeederCmd extends CommandBase {
 
   public void stopFeeder(){
     feeder.setValue(0);
+  }
+
+  public void startShake()
+  {
+    operateController.setRumble(RumbleType.kLeftRumble, 0.5);
+    operateController.setRumble(RumbleType.kRightRumble, 0.5);
+
+
+  }
+
+  public void stopShake()
+  {
+    operateController.setRumble(RumbleType.kLeftRumble, 0);
+    operateController.setRumble(RumbleType.kRightRumble, 0);
   }
 
   // Called once the command ends or is interrupted.

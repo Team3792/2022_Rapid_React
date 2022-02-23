@@ -6,9 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -28,13 +30,19 @@ public class RobotContainer {
   Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
   //buttons init
-  JoystickButton shootButton = new JoystickButton(driveJoystick, 10);
+  JoystickButton testShootButton = new JoystickButton(driveJoystick, 10);
   JoystickButton alertShootButton = new JoystickButton(driveJoystick, Constants.ButtonConstant.kAlertShoot);
   JoystickButton intakeButton = new JoystickButton(driveJoystick, 1);
+  JoystickButton readyShoot = new JoystickButton(driveJoystick, 5);
+
 
 
 
   XboxController operateController = new XboxController(Constants.ButtonConstant.kOperateController);
+  JoystickButton shootButton = new JoystickButton(operateController, 1);
+
+  //JoystickButton testShootButton = new JoystickButton(driveJoystick, 10);
+
 
   JoystickButton feederButton = new JoystickButton(operateController, Constants.ButtonConstant.kRunFeederButton);
   JoystickButton revFeederButton = new JoystickButton(operateController, 3);
@@ -72,9 +80,8 @@ public class RobotContainer {
 
     m_drive.setDefaultCommand(new DefaultDriveCmd(m_drive, 
             () -> driveJoystick.getRawAxis(1), 
-            () -> driveJoystick.getRawAxis(3))
+            () -> driveJoystick.getRawAxis(2))
     );
-
 
 
     //m_drive.setDefaultCommand(defaultDrive);
@@ -89,8 +96,17 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    shootButton.whileHeld(new ShooterCmd(m_shooter, 
+    testShootButton.whileHeld(new ShooterCmd(m_shooter, 
         () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
+
+        readyShoot.whileHeld(new StartEndCommand(
+          // Start a flywheel spinning at 50% power
+          () -> feedControl.startShake(),
+          // Stop the flywheel at the end of the command
+          () -> feedControl.stopShake(),
+          // Requires the feeder subsystem
+          m_feeder
+        ));
 
 
     feederButton.whileHeld(new StartEndCommand(
@@ -113,12 +129,14 @@ public class RobotContainer {
 
     intakeButton.whileHeld(new StartEndCommand(
       
-      () -> new IntakeCmd(m_intake).runIntakeBackward(),
+      () -> new IntakeCmd(m_intake).runIntakeForward(),
 
       () -> new IntakeCmd(m_intake).stopIntake(),
 
       m_intake
     ));
+
+
 
 
 

@@ -15,21 +15,21 @@ public class ShooterCmd extends PIDCommand {
     private final ShooterPID shooter; 
     private Supplier<Double> inputFunction;
 
-  public ShooterCmd(ShooterPID s, Supplier<Double> stickInput) {
+  public ShooterCmd(ShooterPID shooter, Supplier<Double> stickInput) {
       super(
       new PIDController(Constants.ShooterConstants.shooterkP, Constants.ShooterConstants.shooterkI, Constants.ShooterConstants.shooterkD),
        // Close the loop on the turn rate
-       s::getMeasurement,
+       shooter::getMeasurement,
        // Setpoint is in subsystem
         stickInput.get(),
        // Pipe the output to the feedforward control
-       output -> s.useOutput(output, stickInput.get()),
+       output -> shooter.useOutput(output, stickInput.get()),
        // Require the shooter
-        s
+        shooter
       // Use addRequirements() here to declare subsystem dependencies. 
       );
       inputFunction = stickInput;
-      shooter = s;
+      this.shooter = shooter;
       addRequirements(shooter);
     }
  // Called once the command ends or is interrupted.

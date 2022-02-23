@@ -47,10 +47,10 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     //Initalize Dashboard
-    Dashboard dashboard = new Dashboard();
+    //Dashboard dashboard = new Dashboard();
     //Get values for dashboard and print
-    dashboard.updateVals();
-    dashboard.showVals();
+    //dashboard.updateVals();
+    //dashboard.showVals();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

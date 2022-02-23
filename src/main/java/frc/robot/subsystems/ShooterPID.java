@@ -43,8 +43,8 @@ public class ShooterPID extends SubsystemBase {
     public double getMeasurement() {
         double rpmVal = toRPM(shooter.getSelectedSensorVelocity());
         System.out.println("RPM Val:   " + rpmVal);
-        SmartDashboard.putNumber("RPM", rpmVal);
-        SmartDashboard.putNumber("RPM_graph", rpmVal);
+        // SmartDashboard.putNumber("RPM", rpmVal);
+        // SmartDashboard.putNumber("RPM_graph", rpmVal);
         // SmartDashboard.putNumber("RPM", toRPM(shooter.getSelectedSensorVelocity()));
         // SmartDashboard.putNumber("RPMGraph", toRPM(shooter.getSelectedSensorVelocity()));
 
