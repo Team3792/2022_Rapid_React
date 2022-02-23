@@ -40,11 +40,15 @@ public final class Constants {
 
     //Shooter Motor (Talon FX/Falcon)
     public static final int kShootMotor = 10;
-    //Feeder Motor (Talon FX/Falcon)
+    //Feeder Motor (Victor SPX)
     public static final int kFeedMotor = 11;
 
-    //Intake Motor (775)
+    //Intake Motor (Victor SPX)
     public static final int kIntakeMotor = 20;
+
+    //Climb Motor (Talon FX/Falcon)
+    public static final int kLeftClimbMotor = 30;
+    public static final int kRightClimbMotor = 31;
 
   }
 

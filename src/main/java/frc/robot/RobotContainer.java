@@ -46,7 +46,7 @@ public class RobotContainer {
 
   JoystickButton feederButton = new JoystickButton(operateController, Constants.ButtonConstant.kRunFeederButton);
   JoystickButton revFeederButton = new JoystickButton(operateController, 3);
-
+  JoystickButton revIntakeButton = new JoystickButton(operateController, 2);
 
 
 
@@ -64,6 +64,8 @@ public class RobotContainer {
   //feeder command stuff
   private final FeedSubsystem m_feeder = new FeedSubsystem();
   private final FeederCmd feedControl = new FeederCmd(m_feeder);
+  private final RumbleCmd rumble = new RumbleCmd();
+
 
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
@@ -96,17 +98,22 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
+    
     testShootButton.whileHeld(new ShooterCmd(m_shooter, 
         () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
 
-        readyShoot.whileHeld(new StartEndCommand(
-          // Start a flywheel spinning at 50% power
-          () -> feedControl.startShake(),
-          // Stop the flywheel at the end of the command
-          () -> feedControl.stopShake(),
-          // Requires the feeder subsystem
-          m_feeder
-        ));
+    shootButton.whileHeld(new ShooterCmd(m_shooter, 
+    () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
+
+    readyShoot.whileHeld(new StartEndCommand(
+      // Start a flywheel spinning at 50% power
+      () -> rumble.startShake(),
+      // Stop the flywheel at the end of the command
+      () -> rumble.stopShake(),
+      // Requires the feeder subsystem
+      m_feeder
+    ));
 
 
     feederButton.whileHeld(new StartEndCommand(
@@ -130,6 +137,15 @@ public class RobotContainer {
     intakeButton.whileHeld(new StartEndCommand(
       
       () -> new IntakeCmd(m_intake).runIntakeForward(),
+
+      () -> new IntakeCmd(m_intake).stopIntake(),
+
+      m_intake
+    ));
+
+    revIntakeButton.whileHeld(new StartEndCommand(
+      
+      () -> new IntakeCmd(m_intake).runIntakeBackward(),
 
       () -> new IntakeCmd(m_intake).stopIntake(),
 
