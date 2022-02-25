@@ -4,10 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.*;
+import frc.robot.commands.AutoRoutines.Auto2Ball;
+import frc.robot.commands.Joystick.RumbleCmd;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -16,6 +20,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj.XboxController;
+
 
 
 
@@ -49,6 +54,9 @@ public class RobotContainer {
   JoystickButton revIntakeButton = new JoystickButton(operateController, 2);
 
 
+  //Auto Choose Sendable Class
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+
 
   // The robot's subsystems and commands are defined here...
 
@@ -65,12 +73,13 @@ public class RobotContainer {
   private final FeedSubsystem m_feeder = new FeedSubsystem();
   private final FeederCmd feedControl = new FeederCmd(m_feeder);
   private final RumbleCmd rumble = new RumbleCmd();
-
-
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
-  private final ExampleCommand exampleCommand = new ExampleCommand();
 
+  //Auto Declarators
+  private final Auto2Ball auto2ball = new Auto2Ball(m_drive, 
+  () -> driveJoystick.getRawAxis(1), 
+  () -> driveJoystick.getRawAxis(2));
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -84,6 +93,9 @@ public class RobotContainer {
             () -> driveJoystick.getRawAxis(1), 
             () -> driveJoystick.getRawAxis(2))
     );
+
+    autoChooser.setDefaultOption("2 Ball Auto", auto2ball);
+
 
 
     //m_drive.setDefaultCommand(defaultDrive);
@@ -172,6 +184,6 @@ public class RobotContainer {
   //}
   public Command getAutonomousCommand(){
     //filler for rn- change later when we actually have an auto command group
-    return exampleCommand;
+    return autoChooser.getSelected();
   }
 }

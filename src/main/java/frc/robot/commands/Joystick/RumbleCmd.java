@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Joystick;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -11,22 +11,18 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 
 /** An example command that uses an example subsystem. */
-public class ThresholdButtonCmd extends CommandBase {
+public class RumbleCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private XboxController operateController = new XboxController(1);
-    private XboxController stick;
-    private int controllerVal;
-    private double joystickVal;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ThresholdButtonCmd(XboxController stick, int controllerVal) 
-  {
-      this.stick = stick;
-      this.controllerVal = controllerVal;    // Use addRequirements() here to declare subsystem dependencies.
+  public RumbleCmd() {
+
+    // Use addRequirements() here to declare subsystem dependencies.
 
     }
 
@@ -40,30 +36,6 @@ public class ThresholdButtonCmd extends CommandBase {
   @Override
   public void execute() {
     
-  }
-
-  public boolean ifPosTrigger()
-  {
-    if (stick.getRawAxis(controllerVal) >= 0.8)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
-
-  public boolean ifNegTrigger()
-  {
-    if (stick.getRawAxis(controllerVal) <= 0.8)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
   }
 
 
