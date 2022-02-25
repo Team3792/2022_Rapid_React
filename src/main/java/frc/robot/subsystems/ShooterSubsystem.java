@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ShooterPID extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
     private final WPI_TalonFX shooter = new WPI_TalonFX(Constants.MotorID.kShootMotor);
     private final SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(Constants.ShooterConstants.shooterKs, Constants.ShooterConstants.shooterKv, Constants.ShooterConstants.shooterKa);
     private final static Joystick stick = new Joystick(0);
     
 
 
-    public ShooterPID() {
+    public ShooterSubsystem() {
         shooter.setInverted(false);
         shooter.setSelectedSensorPosition(0);
     }

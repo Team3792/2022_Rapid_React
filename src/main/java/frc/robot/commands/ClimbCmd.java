@@ -6,23 +6,24 @@ package frc.robot.commands;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.FeedSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 
 
 /** An example command that uses an example subsystem. */
-public class FeederCmd extends CommandBase {
+public class ClimbCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final FeedSubsystem feeder;
+    private final ClimbSubsystem climber;
 
+    
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public FeederCmd(FeedSubsystem f) {
-     feeder = f;
+  public ClimbCmd(ClimbSubsystem climber) {
+     this.climber = climber;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(feeder);
+    addRequirements(climber);
     }
 
   // Called when the command is initially scheduled.
@@ -37,19 +38,17 @@ public class FeederCmd extends CommandBase {
     
   }
 
-  public void runFeederForward(){
-    feeder.setValue(.8);
+  public void moveArmUp(){
+    climber.setValue(.2);
   }
 
-  public void runFeederBackwards(){
-    feeder.setValue(-0.5);
+  public void moveArmDown(){
+    climber.setValue(-0.2);
   }
 
-  public void stopFeeder(){
-    feeder.setValue(0);
+  public void stopArm(){
+    climber.setValue(0);
   }
-
-
 
   // Called once the command ends or is interrupted.
   @Override

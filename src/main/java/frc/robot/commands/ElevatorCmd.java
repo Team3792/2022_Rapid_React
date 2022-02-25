@@ -6,23 +6,23 @@ package frc.robot.commands;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.FeedSubsystem;
-
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class FeederCmd extends CommandBase {
+public class ElevatorCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final FeedSubsystem feeder;
+    private final ElevatorSubsystem elevator;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public FeederCmd(FeedSubsystem f) {
-     feeder = f;
+  public ElevatorCmd(ElevatorSubsystem elevator) {
+     this.elevator = elevator;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(feeder);
+    addRequirements(elevator);
     }
 
   // Called when the command is initially scheduled.
@@ -37,19 +37,17 @@ public class FeederCmd extends CommandBase {
     
   }
 
-  public void runFeederForward(){
-    feeder.setValue(.8);
+  public void moveElevatorUp(){
+    elevator.setValue(.2);
   }
 
-  public void runFeederBackwards(){
-    feeder.setValue(-0.5);
+  public void moveElevatorDown(){
+    elevator.setValue(-0.2);
   }
 
-  public void stopFeeder(){
-    feeder.setValue(0);
+  public void stopElevator(){
+    elevator.setValue(0);
   }
-
-
 
   // Called once the command ends or is interrupted.
   @Override

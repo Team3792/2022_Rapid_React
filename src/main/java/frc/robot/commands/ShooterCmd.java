@@ -1,9 +1,9 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.ShooterPID;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ShooterPID;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -12,10 +12,10 @@ import java.util.function.Supplier;
 
 public class ShooterCmd extends PIDCommand {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final ShooterPID shooter; 
+    private final ShooterSubsystem shooter; 
     private Supplier<Double> inputFunction;
 
-  public ShooterCmd(ShooterPID shooter, Supplier<Double> stickInput) {
+  public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> stickInput) {
       super(
       new PIDController(Constants.ShooterConstants.shooterkP, Constants.ShooterConstants.shooterkI, Constants.ShooterConstants.shooterkD),
        // Close the loop on the turn rate
