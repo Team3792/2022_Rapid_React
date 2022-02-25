@@ -78,8 +78,7 @@ public class RobotContainer {
 
   //Auto Declarators
   private final Auto2Ball auto2ball = new Auto2Ball(m_drive, 
-  () -> driveJoystick.getRawAxis(1), 
-  () -> driveJoystick.getRawAxis(2));
+  m_intake, m_feeder, m_shooter);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
