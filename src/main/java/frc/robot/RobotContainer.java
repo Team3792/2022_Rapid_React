@@ -183,6 +183,6 @@ public class RobotContainer {
   //}
   public Command getAutonomousCommand(){
     //filler for rn- change later when we actually have an auto command group
-    return autoChooser.getSelected();
+    return new Auto2Ball(m_drive, m_intake, m_feeder, m_shooter);
   }
 }
