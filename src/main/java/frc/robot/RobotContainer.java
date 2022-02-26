@@ -197,6 +197,17 @@ operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
   m_feeder
 ));
 
+
+operateController.POVUpish.whileActiveContinuous(new StartEndCommand(
+  
+  () -> new IntakeCmd(m_intake).runIntakeForwardSlow(),
+
+  () -> new IntakeCmd(m_intake).stopIntake(),
+
+  m_intake
+));
+
+
 intakeButton.whileHeld(new StartEndCommand(
   
   () -> new IntakeCmd(m_intake).runIntakeForward(),

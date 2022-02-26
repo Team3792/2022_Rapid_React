@@ -92,7 +92,7 @@ public final class Constants {
     public static final double kDrivekD = 0;
 
     //Drive Speed Constants
-    public static final double kMaxDriveSpeed = 3.0;           // meters per second
+    public static final double kMaxDriveSpeed = 4.0;           // meters per second
     public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
 

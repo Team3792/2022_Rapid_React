@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
   public final WPI_TalonFX rightFollow = new WPI_TalonFX(Constants.MotorID.kRightDriveFollow);
   public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
+  private final WPI_VictorSPX feedMotor = new WPI_VictorSPX(Constants.MotorID.kFeedMotor);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -69,6 +71,7 @@ public class Robot extends TimedRobot {
     rightFollow.setNeutralMode(NeutralMode.Coast);
     leftLead.setNeutralMode(NeutralMode.Coast);
     leftFollow.setNeutralMode(NeutralMode.Coast);
+    feedMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override

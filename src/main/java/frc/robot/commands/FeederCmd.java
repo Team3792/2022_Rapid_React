@@ -38,11 +38,11 @@ public class FeederCmd extends CommandBase {
   }
 
   public void runFeederForward(){
-    feeder.setValue(.8);
+    feeder.setValue(.5);
   }
 
   public void runFeederBackwards(){
-    feeder.setValue(-0.5);
+    feeder.setValue(-0.4);
   }
 
   public void stopFeeder(){

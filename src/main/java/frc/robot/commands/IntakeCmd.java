@@ -39,6 +39,9 @@ public class IntakeCmd extends CommandBase {
   public void runIntakeForward(){
     intake.setValue(.8);
   }
+  public void runIntakeForwardSlow(){
+    intake.setValue(.4);
+  }
 
   public void runIntakeBackward(){
     intake.setValue(-0.5);
