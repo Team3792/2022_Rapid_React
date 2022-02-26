@@ -4,6 +4,7 @@
 
 package frc.robot.commands.AutoRoutines;
 
+import frc.robot.Constants;
 import frc.robot.commands.ClimbCmd;
 import frc.robot.commands.DefaultDriveCmd;
 import frc.robot.commands.AutoRoutines.*;
@@ -48,6 +49,7 @@ public class Auto2Ball extends SequentialCommandGroup {
     this.shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
+
 
     addCommands(
 

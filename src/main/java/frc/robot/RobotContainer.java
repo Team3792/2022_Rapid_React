@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoRoutines.Auto2Ball;
+import frc.robot.commands.AutoRoutines.AutoAlignCmd;
+
 import frc.robot.commands.Joystick.RumbleCmd;
 import frc.robot.commands.Joystick.ThresholdButtonCmd;
 import frc.robot.subsystems.*;
@@ -51,7 +53,7 @@ public class RobotContainer {
   JoystickButton XButton = new JoystickButton(operateController, 1);
 
   JoystickButton feederButton = new JoystickButton(operateController, 3);
-  JoystickButton revFeederButton = new JoystickButton(operateController, 15);
+  //JoystickButton revFeederButton = new JoystickButton(operateController, 15);
   JoystickButton revIntakeButton = new JoystickButton(operateController, 2);
 
   JoystickButton L1Trigger = new JoystickButton(operateController, 5);
@@ -177,14 +179,14 @@ private ThresholdButtonCmd myButton = new ThresholdButtonCmd(operateController, 
       m_feeder
     ));
 
-    revFeederButton.whileHeld(new StartEndCommand(
-      // Start a flywheel spinning at 50% power
-      () -> feedControl.runFeederBackwards(),
-      // Stop the flywheel at the end of the command
-      () -> feedControl.stopFeeder(),
-      // Requires the feeder subsystem
-      m_feeder
-    ));
+    // revFeederButton.whileHeld(new StartEndCommand(
+    //   // Start a flywheel spinning at 50% power
+    //   () -> feedControl.runFeederBackwards(),
+    //   // Stop the flywheel at the end of the command
+    //   () -> feedControl.stopFeeder(),
+    //   // Requires the feeder subsystem
+    //   m_feeder
+    // ));
 
     intakeButton.whileHeld(new StartEndCommand(
       

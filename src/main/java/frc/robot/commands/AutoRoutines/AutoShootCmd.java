@@ -20,6 +20,12 @@ public class AutoShootCmd extends CommandBase{
   private final ShooterSubsystem shooter;
   private final Timer timer;
   private final ShooterCmd shoot;
+  private boolean complete = false;
+
+  @Override
+  public boolean isFinished() {
+    return complete;
+  }
  
   /**
    * Creates a new default drive.
@@ -32,19 +38,19 @@ public class AutoShootCmd extends CommandBase{
     shoot = new ShooterCmd(shooter, () -> 0.2);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
-
+    timer.start();
 
     
     }
     @Override
     public void execute() {
-      timer.start();
-      while(!timer.hasElapsed(1.0)){
+      
+      if(!timer.hasElapsed(5.0))
+      {
         shoot.execute();
-      }
-      while(!timer.hasElapsed(2.0)){
-        shoot.execute();
-        
+        System.out.println("Moved to shoot");
+      }else {
+        complete = true;
       }
 
     }
