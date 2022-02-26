@@ -14,7 +14,6 @@ import frc.robot.commands.AutoRoutines.Auto2Ball;
 import frc.robot.commands.AutoRoutines.AutoAlignCmd;
 
 import frc.robot.commands.Joystick.RumbleCmd;
-import frc.robot.commands.Joystick.ThresholdButtonCmd;
 
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +23,8 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj.XboxController;
+
+import frc.robot.commands.Joystick.*;
 
 
 
