@@ -1,11 +1,14 @@
 package frc.robot.commands.AutoRoutines;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import java.util.function.Supplier;
+
 import frc.robot.commands.ShooterCmd;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
@@ -41,7 +44,7 @@ public class AutoFeedCmd extends CommandBase{
       if(timer.hasElapsed(1.0)){
         feeder.setValue(0.8);
       }
-      if(timer.hasElapsed(3.0)){
+      if(timer.hasElapsed(5.0)){
           feeder.setValue(0);
       }
 

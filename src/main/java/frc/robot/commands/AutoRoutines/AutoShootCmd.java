@@ -39,18 +39,17 @@ public class AutoShootCmd extends CommandBase{
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
     timer.start();
+    shoot.schedule();
 
     
     }
     @Override
     public void execute() {
       
-      if(!timer.hasElapsed(5.0))
+      if(timer.hasElapsed(5.0))
       {
-        shoot.execute();
-        System.out.println("Moved to shoot");
-      }else {
-        complete = true;
+        shoot.cancel();
+
       }
 
     }
