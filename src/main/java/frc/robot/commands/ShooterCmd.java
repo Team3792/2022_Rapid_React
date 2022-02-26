@@ -8,14 +8,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import java.util.function.Supplier;
+
 
 public class ShooterCmd extends PIDCommand {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ShooterSubsystem shooter; 
     private Supplier<Double> inputFunction;
 
-  public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> stickInput) {
+    //timer for auto init
+    private final Timer timer;
+
+    //bool for auto or not + cutoff
+    private boolean autoStatus;
+    private boolean complete;
+
+  public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> stickInput, boolean autoStatus) {
       super(
       new PIDController(Constants.ShooterConstants.shooterkP, Constants.ShooterConstants.shooterkI, Constants.ShooterConstants.shooterkD),
        // Close the loop on the turn rate
@@ -31,6 +40,13 @@ public class ShooterCmd extends PIDCommand {
       inputFunction = stickInput;
       this.shooter = shooter;
       addRequirements(shooter);
+      
+      timer = new Timer();
+      timer.start();
+
+      this.autoStatus = autoStatus;
+
+      complete = false;
     }
  // Called once the command ends or is interrupted.
  @Override
@@ -38,6 +54,21 @@ public class ShooterCmd extends PIDCommand {
    shooter.zero(inputFunction.get());
  }
 
+ 
+ @Override
+ public void execute() {
+   if(autoStatus && timer.hasElapsed(5.0)){
+    complete = true;
+   }
+   else{
+    super.execute();
+   }
+ }
+
+ @Override
+    public boolean isFinished() {
+      return complete;
+  } 
  /** no overrides needed of reg PID command 
   // Called when the command is initially scheduled.
   @Override
@@ -45,10 +76,7 @@ public class ShooterCmd extends PIDCommand {
     
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
+
 
   // Returns true when the command should end.
   @Override

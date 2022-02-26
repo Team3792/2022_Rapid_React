@@ -9,6 +9,7 @@ import frc.robot.commands.ClimbCmd;
 import frc.robot.commands.DefaultDriveCmd;
 import frc.robot.commands.AutoRoutines.*;
 import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.ShooterCmd;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
@@ -57,9 +58,9 @@ public class Auto2Ball extends SequentialCommandGroup {
       new AutoAlignCmd(driveTrain, shooter, feeder),
 
       new ParallelCommandGroup(
-        new AutoShootCmd(shooter),
+        new AutoFeedCmd(feeder),
 
-        new AutoFeedCmd(feeder)
+        new ShooterCmd(shooter, () -> 0.1, true)
       )
 
 

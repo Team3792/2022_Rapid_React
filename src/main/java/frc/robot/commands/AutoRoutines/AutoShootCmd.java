@@ -19,8 +19,11 @@ public class AutoShootCmd extends CommandBase{
   //drivesubsystem declaration
   private final ShooterSubsystem shooter;
   private final Timer timer;
-  private final ShooterCmd shoot;
   private boolean complete = false;
+
+  //output PID stuff
+  private double output;
+  private ShooterCmd shootCmd;
 
   @Override
   public boolean isFinished() {
@@ -35,21 +38,25 @@ public class AutoShootCmd extends CommandBase{
   public AutoShootCmd(ShooterSubsystem shooter) {
     this.shooter = shooter;
     this.timer = new Timer();
-    shoot = new ShooterCmd(shooter, () -> 0.2);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
-    timer.start();
-    shoot.schedule();
 
+    shootCmd = new ShooterCmd(shooter, ()-> 0.1, true);
+
+    timer.start();
     
     }
     @Override
     public void execute() {
       
-      if(timer.hasElapsed(5.0))
+      if(!timer.hasElapsed(7.0))
       {
-        shoot.cancel();
-
+        output = shooter.getMeasurement();
+        shooter.useOutput(output , 0.1);
+      }
+      else{
+        shooter.zero(output);
+        complete = true;
       }
 
     }

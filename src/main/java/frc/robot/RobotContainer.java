@@ -111,7 +111,14 @@ public class RobotContainer {
     
     
     testShootButton.whileHeld(new ShooterCmd(m_shooter, 
+<<<<<<< Updated upstream
     () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
+=======
+        () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
+
+    XButton.whileHeld(new ShooterCmd(m_shooter, 
+    () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
+>>>>>>> Stashed changes
 
 operateController.XButton.whileHeld(new ShooterCmd(m_shooter, 
 () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));

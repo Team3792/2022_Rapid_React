@@ -23,6 +23,8 @@ public class AutoFeedCmd extends CommandBase{
   //drivesubsystem declaration
   private final FeedSubsystem feeder;
   private final Timer timer;
+
+  private boolean complete;
  
   /**
    * Creates a new default drive.
@@ -35,18 +37,26 @@ public class AutoFeedCmd extends CommandBase{
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(feeder);
 
+    complete = false;
+
 
     
     }
     @Override
     public void execute() {
       timer.start();
-      if(timer.hasElapsed(1.0)){
+      if(timer.hasElapsed(3.0)){
         feeder.setValue(0.8);
       }
-      if(timer.hasElapsed(5.0)){
+      if(timer.hasElapsed(7.0)){
           feeder.setValue(0);
+          complete = true;
       }
 
     }
+
+    @Override
+    public boolean isFinished() {
+      return complete;
+  } 
 }
