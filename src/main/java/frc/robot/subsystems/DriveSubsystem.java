@@ -50,7 +50,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   //feedforward init
-  private static final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.694, 1.71, 0.367);
+  private static final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.6, 1.7, 0.3);
 
 
 
