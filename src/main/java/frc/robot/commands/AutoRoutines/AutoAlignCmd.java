@@ -16,8 +16,6 @@ public class AutoAlignCmd extends CommandBase{
 
   //subsystem declarations
   private final DriveSubsystem driveTrain;
-  private final ShooterSubsystem shooter;
-  private final FeedSubsystem feeder;
   private boolean complete = false;
 
   @Override
@@ -29,10 +27,9 @@ public class AutoAlignCmd extends CommandBase{
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoAlignCmd(DriveSubsystem m_drive, ShooterSubsystem m_shooter, FeedSubsystem m_feed) {
+  public AutoAlignCmd(DriveSubsystem m_drive) {
     driveTrain = m_drive;
-    shooter = m_shooter;
-    feeder = m_feed;
+
      
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);

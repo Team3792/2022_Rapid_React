@@ -14,6 +14,8 @@ package frc.robot;
  */
 public final class Constants {
 
+  public static String ballType = "red";
+
   public static int stateCounter = 0;
 
   public static final class ButtonConstant
@@ -22,6 +24,9 @@ public final class Constants {
     public static final int kDriveJoystick = 0;
 
     public static final int kAlertShoot = 5;
+
+    public static final int targetAlignButton = 3;
+    public static final int ballAlignButton = 4;
     
 
     //Operator Controller
@@ -45,8 +50,6 @@ public final class Constants {
 
     public static final int kRXAxis = 4;
     public static final int kRYAxis = 5;
-
-    
 
 
   }

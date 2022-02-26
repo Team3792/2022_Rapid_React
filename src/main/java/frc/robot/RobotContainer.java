@@ -10,8 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.*;
-import frc.robot.commands.AutoRoutines.Auto2Ball;
-import frc.robot.commands.AutoRoutines.AutoAlignCmd;
+import frc.robot.commands.AutoRoutines.*;
 
 
 import frc.robot.subsystems.*;
@@ -22,8 +21,10 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.commands.Joystick.*;
+import frc.robot.commands.SemiAuto.semiAutoAlignCmd;
 
 
 
@@ -43,6 +44,8 @@ public class RobotContainer {
   JoystickButton alertShootButton = new JoystickButton(driveJoystick, Constants.ButtonConstant.kAlertShoot);
   JoystickButton intakeButton = new JoystickButton(driveJoystick, 1);
   JoystickButton readyShoot = new JoystickButton(driveJoystick, 5);
+  JoystickButton targetAlign = new JoystickButton(driveJoystick, Constants.ButtonConstant.targetAlignButton);
+  JoystickButton ballAlign = new JoystickButton(driveJoystick, Constants.ButtonConstant.ballAlignButton);
 
 
 
@@ -115,6 +118,10 @@ public class RobotContainer {
 
     operateController.XButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
+
+    targetAlign.whenPressed(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 0));
+
+    ballAlign.whenPressed(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 1));
 
 
 

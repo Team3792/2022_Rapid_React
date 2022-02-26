@@ -6,13 +6,14 @@ import java.util.function.Supplier;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.IntakeCmd;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 
@@ -48,10 +49,10 @@ public class AutoDriveCmd extends CommandBase{
     public void execute() {
 
       // SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
-      if(SmartDashboard.getNumber("ballArea",0)<4500 && SmartDashboard.getNumber("ballArea",0)!=0)
+      if(SmartDashboard.getNumber(Constants.ballType + "BallArea",0)<4500 && SmartDashboard.getNumber(Constants.ballType + "BallArea",0)!=0)
       {
-        driveTrain.drive(-0.3, (SmartDashboard.getNumber("ballAngle", 0))/3);
-        System.out.println("Angle here: " + SmartDashboard.getNumber("ballAngle", 0));   
+        driveTrain.drive(-0.3, (SmartDashboard.getNumber(Constants.ballType + "BallAngle", 0))/3);
+        System.out.println("Angle here: " + SmartDashboard.getNumber(Constants.ballType + "BallAngle", 0));   
       }
       else{
         //intakeCmd.stopIntake();
