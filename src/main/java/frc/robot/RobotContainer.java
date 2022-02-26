@@ -49,8 +49,8 @@ public class RobotContainer {
   //JoystickButton testShootButton = new JoystickButton(driveJoystick, 10);
 
 
-  JoystickButton feederButton = new JoystickButton(operateController, Constants.ButtonConstant.kRunFeederButton);
-  JoystickButton revFeederButton = new JoystickButton(operateController, 3);
+  JoystickButton feederButton = new JoystickButton(operateController, 3);
+  JoystickButton revFeederButton = new JoystickButton(operateController, 15);
   JoystickButton revIntakeButton = new JoystickButton(operateController, 2);
 
 

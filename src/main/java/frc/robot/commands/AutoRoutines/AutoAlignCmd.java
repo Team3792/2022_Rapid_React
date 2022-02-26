@@ -36,9 +36,9 @@ public class AutoAlignCmd extends CommandBase{
     }
     @Override
     public void execute() {
-      while(SmartDashboard.getNumber("targetAngle", 0) > 0.1){
+      while(Math.abs(SmartDashboard.getNumber("targetAngle", 0)) > 0.03){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
-        driveTrain.drive(-0.1, (SmartDashboard.getNumber("targetAngle", 0))/3);
+        driveTrain.drive(0, (SmartDashboard.getNumber("targetAngle", 0))/3);
         System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));  
       }
       driveTrain.drive(0.0, 0.0);
