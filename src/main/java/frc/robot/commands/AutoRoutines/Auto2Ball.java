@@ -51,7 +51,13 @@ public class Auto2Ball extends SequentialCommandGroup {
 
     addCommands(
 
-      new AutoAlignCmd(driveTrain, shooter, feeder)
+      new AutoAlignCmd(driveTrain, shooter, feeder),
+
+      new ParallelCommandGroup(
+        new AutoShootCmd(shooter),
+
+        new AutoFeedCmd(feeder)
+      )
 
 
     );
