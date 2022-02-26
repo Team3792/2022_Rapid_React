@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import java.util.function.Supplier;
 
 import com.AA3792.CustomButtons.*;
+import com.AA3792.CustomButtons.ThresholdTrigger.*;
 import com.AA3792.commands.*;
 import com.AA3792.commands.AutoRoutines.Auto2Ball;
 import com.AA3792.commands.AutoRoutines.AutoAlignCmd;
@@ -44,8 +45,9 @@ public class RobotContainer {
 
 
 
-
   XboxController operateController = new XboxController(Constants.ButtonConstant.kOperateController);
+
+
 
   //JoystickButton testShootButton = new JoystickButton(driveJoystick, 10);
 
@@ -83,7 +85,7 @@ private RStickRight pivotForward = new RStickRight(operateController);
   //feeder command stuff
   private final FeedSubsystem m_feeder = new FeedSubsystem();
   private final FeederCmd feedControl = new FeederCmd(m_feeder);
-  private final RumbleCmd rumble = new RumbleCmd();
+  private final PS5Mapping rumble = new PS5Mapping();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
   private final ClimbSubsystem m_climber = new ClimbSubsystem();

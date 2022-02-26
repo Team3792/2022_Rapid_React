@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 
 /** An example command that uses an example subsystem. */
-public class LStickUp extends Button {
+public class LTriggerY extends Button {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private XboxController operateController = new XboxController(1);
     private XboxController stick;
@@ -23,7 +23,7 @@ public class LStickUp extends Button {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LStickUp(XboxController stick) 
+  public LTriggerY(XboxController stick) 
   {
       this.stick = stick;
 
@@ -33,7 +33,7 @@ public class LStickUp extends Button {
 
   public boolean get()
   {
-    if (stick.getRawAxis(1) >= 0.8)
+    if (stick.getRawAxis(4) <= -0.8)
     {
       return true;
     }
