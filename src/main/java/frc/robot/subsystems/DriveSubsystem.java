@@ -13,8 +13,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 
-
-
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 
 
@@ -58,7 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     leftFollow.follow(leftLead);
     rightFollow.follow(rightLead);
-    rightMotors.setInverted(true);    
+    rightMotors.setInverted(true);
   }
 
   @Override
@@ -69,21 +68,21 @@ public class DriveSubsystem extends SubsystemBase {
   public void drive(double fwd, double rot){
     //deadband + calculate speeds
 
-    // //Drive forward
-    // if(Math.abs(fwd) < 0.1){ //In deadband
-    //   xSpeed = 0;
-    // }
-    // else{ //Outside of deadband
-       xSpeed = -speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
-    // }
+    //Drive forward
+    if(Math.abs(fwd) < 0.1){ //In deadband
+      xSpeed = 0;
+    }
+    else{ //Outside of deadband
+      xSpeed = -speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
+    }
 
-    // //Drive twist
-    // if(Math.abs(rot) < 0.2){ //In deadband
-    //   rotSpeed = 0;
-    // }
-    // else{ //Outside of deadband
+    //Drive twist
+    if(Math.abs(rot) < 0.1){ //In deadband
+      rotSpeed = 0;
+    }
+    else{ //Outside of deadband
        rotSpeed = -rotLimiter.calculate(rot) * Constants.DriveConstants.kMaxAngularSpeed;
-    // }
+    }
 
 
     //create a wheelSpeeds object using linear and angular speed
