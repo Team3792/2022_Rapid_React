@@ -8,15 +8,13 @@ package com.AA3792.CustomButtons.ThresholdTrigger;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import com.AA3792.Constants;
 
 
 /** An example command that uses an example subsystem. */
 public class RStickLeft extends Button {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private XboxController operateController = new XboxController(1);
     private XboxController stick;
-    private int axisNum;
 
   /**
    * Creates a new ExampleCommand.
@@ -33,7 +31,7 @@ public class RStickLeft extends Button {
 
   public boolean get()
   {
-    if (stick.getRawAxis(4) >= 0.8)
+    if (stick.getRawAxis(Constants.ButtonConstant.kRXAxis) >= 0.8)
     {
       return true;
     }

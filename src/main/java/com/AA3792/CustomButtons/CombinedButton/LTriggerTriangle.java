@@ -2,38 +2,35 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.AA3792.CustomButtons;
+package com.AA3792.CustomButtons.CombinedButton;
 
 // import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import com.AA3792.Constants;
+
 
 
 /** An example command that uses an example subsystem. */
-public class LTriggerY extends Button {
+public class LTriggerTriangle extends Button {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private XboxController operateController = new XboxController(1);
     private XboxController stick;
-    private int axisNum;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LTriggerY(XboxController stick) 
+  public LTriggerTriangle(XboxController stick) 
   {
       this.stick = stick;
 
     }
 
 
-
   public boolean get()
   {
-    if (stick.getRawAxis(4) <= -0.8)
+    if ((stick.getRawAxis(Constants.ButtonConstant.kLTrigger) >= 0.7) && (stick.getRawButton(Constants.ButtonConstant.kTriangleButton)))
     {
       return true;
     }

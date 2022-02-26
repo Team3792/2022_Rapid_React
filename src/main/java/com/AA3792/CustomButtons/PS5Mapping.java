@@ -6,6 +6,9 @@ package com.AA3792.CustomButtons;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import com.AA3792.Constants;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -28,13 +31,13 @@ public class PS5Mapping extends CommandBase {
     public final Trigger POVLeft;
     public final Trigger POVRight;
 
+    public final JoystickButton TriangleButton;
+    public final JoystickButton SquareButton;
     public final JoystickButton XButton;
-    public final JoystickButton YButton;
-    public final JoystickButton AButton;
-    public final JoystickButton BButton;
+    public final JoystickButton CircleButton;
 
-    public final JoystickButton BumperL;
-    public final JoystickButton BumperR;
+    public final JoystickButton L1Button;
+    public final JoystickButton R1Button;
 
     public final JoystickButton BackButton;
     public final JoystickButton StartButton;
@@ -42,7 +45,7 @@ public class PS5Mapping extends CommandBase {
     public final JoystickButton LeftStickButton;
     public final JoystickButton RightStickButton;
 
-
+    
   public PS5Mapping() {
 
     POVUpish = new POVButton(operateController, 315).or(new POVButton(operateController, 0)).or(new POVButton(operateController, 45));
@@ -55,13 +58,14 @@ public class PS5Mapping extends CommandBase {
     POVDown = new POVButton(operateController, 180);
     POVLeft = new POVButton(operateController, 270);
 
-    XButton = new JoystickButton(operateController, XboxController.Button.kX.value);
-    YButton = new JoystickButton(operateController, XboxController.Button.kY.value);
-    AButton = new JoystickButton(operateController, XboxController.Button.kA.value);
-    BButton = new JoystickButton(operateController, XboxController.Button.kB.value);
+    XButton = new JoystickButton(operateController, Constants.ButtonConstant.kXButton);
+    CircleButton = new JoystickButton(operateController, Constants.ButtonConstant.kCircleButton);
+    SquareButton = new JoystickButton(operateController, Constants.ButtonConstant.kSquareButton);
+    TriangleButton = new JoystickButton(operateController, Constants.ButtonConstant.kTriangleButton);
 
-    BumperL = new JoystickButton(operateController, XboxController.Button.kLeftBumper.value);
-    BumperR = new JoystickButton(operateController, XboxController.Button.kRightBumper.value);
+
+    L1Button = new JoystickButton(operateController, Constants.ButtonConstant.kL1Button);
+    R1Button = new JoystickButton(operateController, Constants.ButtonConstant.kR1Button);
 
     BackButton = new JoystickButton(operateController, XboxController.Button.kBack.value);
     StartButton = new JoystickButton(operateController, XboxController.Button.kStart.value);

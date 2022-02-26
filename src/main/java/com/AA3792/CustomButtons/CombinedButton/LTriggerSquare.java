@@ -2,16 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.AA3792.CustomButtons.ThresholdTrigger;
+package com.AA3792.CustomButtons.CombinedButton;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj.XboxController;
+
 import com.AA3792.Constants;
+
+import edu.wpi.first.wpilibj.XboxController;
 
 
 /** An example command that uses an example subsystem. */
-public class LStickDown extends Button {
+public class LTriggerSquare extends Button {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private XboxController stick;
 
@@ -20,7 +22,7 @@ public class LStickDown extends Button {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LStickDown(XboxController stick) 
+  public LTriggerSquare(XboxController stick) 
   {
       this.stick = stick;
 
@@ -29,7 +31,7 @@ public class LStickDown extends Button {
 
   public boolean get()
   {
-    if (stick.getRawAxis(Constants.ButtonConstant.kLYAxis) <= -0.8)
+    if ((stick.getRawAxis(Constants.ButtonConstant.kLTrigger) >= 0.7) && (stick.getRawButton(Constants.ButtonConstant.kSquareButton)))
     {
       return true;
     }
