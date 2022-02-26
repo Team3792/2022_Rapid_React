@@ -1,5 +1,6 @@
 package frc.robot.commands.AutoRoutines;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.Supplier;
@@ -17,8 +18,12 @@ public class AutoAlignCmd extends CommandBase{
   private final DriveSubsystem driveTrain;
   private final ShooterSubsystem shooter;
   private final FeedSubsystem feeder;
+  private boolean complete = false;
 
- 
+  @Override
+  public boolean isFinished() {
+    return complete;
+  } 
   /**
    * Creates a new default drive.
    *
@@ -28,20 +33,31 @@ public class AutoAlignCmd extends CommandBase{
     driveTrain = m_drive;
     shooter = m_shooter;
     feeder = m_feed;
+     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
 
     
     }
+
+
     @Override
     public void execute() {
-      while(Math.abs(SmartDashboard.getNumber("targetAngle", 0)) > 0.03){
+      if(Math.abs(SmartDashboard.getNumber("targetAngle", 0)) > 0.03){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
         driveTrain.drive(0, (SmartDashboard.getNumber("targetAngle", 0))/3);
         System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));  
       }
-      driveTrain.drive(0.0, 0.0);
+      else
+      {
+        Constants.stateCounter = 1;
+        System.out.println("In da else");
+        System.out.println(Constants.stateCounter);
+
+        complete = true;
+      }
+      
     }
 
 

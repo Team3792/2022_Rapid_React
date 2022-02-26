@@ -14,6 +14,8 @@ package frc.robot;
  */
 public final class Constants {
 
+  public static int stateCounter = 0;
+
   public static final class ButtonConstant
   {
     //Driver Joystick
