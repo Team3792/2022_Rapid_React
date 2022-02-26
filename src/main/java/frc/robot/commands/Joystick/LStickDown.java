@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 
 /** An example command that uses an example subsystem. */
-public class ThresholdButtonCmd extends Button {
+public class LStickDown extends Button {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private XboxController operateController = new XboxController(1);
     private XboxController stick;
@@ -23,10 +23,9 @@ public class ThresholdButtonCmd extends Button {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ThresholdButtonCmd(XboxController stick, int axisNum) 
+  public LStickDown(XboxController stick) 
   {
       this.stick = stick;
-      this.axisNum = axisNum;    // Use addRequirements() here to declare subsystem dependencies.
 
     }
 
@@ -34,7 +33,7 @@ public class ThresholdButtonCmd extends Button {
 
   public boolean get()
   {
-    if (stick.getRawAxis(axisNum) >= 0.8)
+    if (stick.getRawAxis(1) <= -0.8)
     {
       return true;
     }

@@ -31,7 +31,7 @@ public class ClimbSubsystem extends SubsystemBase {
   
   public ClimbSubsystem() 
   {
-
+    leftArmMotor.setInverted(true);
   }
 
   public void setValue(double v)
