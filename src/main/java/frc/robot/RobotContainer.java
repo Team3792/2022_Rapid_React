@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoRoutines.Auto2Ball;
-import frc.robot.commands.Joystick.RumbleCmd;
-import frc.robot.commands.Joystick.ThresholdButtonCmd;
+import frc.robot.commands.Joystick.*;
+
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -58,7 +58,11 @@ public class RobotContainer {
   JoystickButton R1Trigger = new JoystickButton(operateController, 6);
 
 
-private ThresholdButtonCmd myButton = new ThresholdButtonCmd(operateController, 1);
+private LStickUp climbUp = new LStickUp(operateController);
+private LStickDown climbDown = new LStickDown(operateController);
+private RStickLeft pivotBack = new RStickLeft(operateController);
+private RStickRight pivotForward = new RStickRight(operateController);
+
 
   //Auto Choose Sendable Class
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -81,6 +85,7 @@ private ThresholdButtonCmd myButton = new ThresholdButtonCmd(operateController, 
   private final RumbleCmd rumble = new RumbleCmd();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
+  private final ClimbSubsystem m_climber = new ClimbSubsystem();
 
 
   //Auto Declarators
@@ -126,7 +131,7 @@ private ThresholdButtonCmd myButton = new ThresholdButtonCmd(operateController, 
     () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
 
 
-    L1Trigger.whileHeld(new StartEndCommand(
+    climbUp.whileHeld(new StartEndCommand(
       
     ()-> new ElevatorCmd(m_elevator).moveElevatorUp(), 
     
@@ -136,7 +141,7 @@ private ThresholdButtonCmd myButton = new ThresholdButtonCmd(operateController, 
     
     ));
 
-    R1Trigger.whileHeld(new StartEndCommand(
+    climbDown.whileHeld(new StartEndCommand(
       
     ()-> new ElevatorCmd(m_elevator).moveElevatorDown(), 
     
@@ -146,15 +151,27 @@ private ThresholdButtonCmd myButton = new ThresholdButtonCmd(operateController, 
     
     ));
 
+    pivotForward.whileHeld(new StartEndCommand(
+      
+    ()-> new ClimbCmd(m_climber).moveArmUp(), 
     
-    myButton.whileHeld(new StartEndCommand(
-      // Start a flywheel spinning at 50% power
-      () -> rumble.startShake(),
-      // Stop the flywheel at the end of the command
-      () -> rumble.stopShake(),
-      // Requires the feeder subsystem
-      m_feeder
+    ()-> new ClimbCmd(m_climber).stopArm(), 
+    
+    m_climber
+    
     ));
+
+    pivotBack.whileHeld(new StartEndCommand(
+      
+    ()-> new ClimbCmd(m_climber).moveArmDown(), 
+    
+    ()-> new ClimbCmd(m_climber).stopArm(), 
+    
+    m_climber
+    
+    ));
+
+  
 
 
 

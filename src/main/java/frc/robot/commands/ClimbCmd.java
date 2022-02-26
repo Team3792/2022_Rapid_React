@@ -39,11 +39,11 @@ public class ClimbCmd extends CommandBase {
   }
 
   public void moveArmUp(){
-    climber.setValue(.2);
+    climber.setValue(-0.05);
   }
 
   public void moveArmDown(){
-    climber.setValue(-0.2);
+    climber.setValue(0.05);
   }
 
   public void stopArm(){
