@@ -6,45 +6,35 @@ package frc.robot.commands.Joystick;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 
 /** An example command that uses an example subsystem. */
-public class ThresholdButtonCmd extends CommandBase {
+public class ThresholdButtonCmd extends Button {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private XboxController operateController = new XboxController(1);
     private XboxController stick;
-    private int controllerVal;
-    private double joystickVal;
+    private int axisNum;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ThresholdButtonCmd(XboxController stick, int controllerVal) 
+  public ThresholdButtonCmd(XboxController stick, int axisNum) 
   {
       this.stick = stick;
-      this.controllerVal = controllerVal;    // Use addRequirements() here to declare subsystem dependencies.
+      this.axisNum = axisNum;    // Use addRequirements() here to declare subsystem dependencies.
 
     }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    
-  }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    
-  }
 
-  public boolean ifPosTrigger()
+  public boolean get()
   {
-    if (stick.getRawAxis(controllerVal) >= 0.8)
+    if (stick.getRawAxis(axisNum) >= 0.8)
     {
       return true;
     }
@@ -54,40 +44,9 @@ public class ThresholdButtonCmd extends CommandBase {
     }
   }
 
-  public boolean ifNegTrigger()
-  {
-    if (stick.getRawAxis(controllerVal) <= 0.8)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
+ 
 
 
-  public void startShake()
-  {
-    operateController.setRumble(RumbleType.kLeftRumble, 0.5);
-    operateController.setRumble(RumbleType.kRightRumble, 0.5);
 
 
-  }
-
-  public void stopShake()
-  {
-    operateController.setRumble(RumbleType.kLeftRumble, 0);
-    operateController.setRumble(RumbleType.kRightRumble, 0);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

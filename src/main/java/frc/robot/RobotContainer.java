@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoRoutines.Auto2Ball;
 import frc.robot.commands.Joystick.RumbleCmd;
+import frc.robot.commands.Joystick.ThresholdButtonCmd;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -44,15 +45,20 @@ public class RobotContainer {
 
 
   XboxController operateController = new XboxController(Constants.ButtonConstant.kOperateController);
-  JoystickButton shootButton = new JoystickButton(operateController, 1);
 
   //JoystickButton testShootButton = new JoystickButton(driveJoystick, 10);
 
+  JoystickButton XButton = new JoystickButton(operateController, 1);
 
   JoystickButton feederButton = new JoystickButton(operateController, Constants.ButtonConstant.kRunFeederButton);
   JoystickButton revFeederButton = new JoystickButton(operateController, 3);
   JoystickButton revIntakeButton = new JoystickButton(operateController, 2);
 
+  JoystickButton L1Trigger = new JoystickButton(operateController, 5);
+  JoystickButton R1Trigger = new JoystickButton(operateController, 6);
+
+
+private ThresholdButtonCmd myButton = new ThresholdButtonCmd(operateController, 1);
 
   //Auto Choose Sendable Class
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -74,6 +80,7 @@ public class RobotContainer {
   private final FeederCmd feedControl = new FeederCmd(m_feeder);
   private final RumbleCmd rumble = new RumbleCmd();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
+  private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
 
 
   //Auto Declarators
@@ -101,6 +108,7 @@ public class RobotContainer {
     
 
   }
+  
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -114,8 +122,41 @@ public class RobotContainer {
     testShootButton.whileHeld(new ShooterCmd(m_shooter, 
         () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
 
-    shootButton.whileHeld(new ShooterCmd(m_shooter, 
+    XButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
+
+
+    L1Trigger.whileHeld(new StartEndCommand(
+      
+    ()-> new ElevatorCmd(m_elevator).moveElevatorUp(), 
+    
+    () -> new ElevatorCmd(m_elevator).stopElevator(), 
+    
+    m_elevator
+    
+    ));
+
+    R1Trigger.whileHeld(new StartEndCommand(
+      
+    ()-> new ElevatorCmd(m_elevator).moveElevatorDown(), 
+    
+    () -> new ElevatorCmd(m_elevator).stopElevator(), 
+    
+    m_elevator
+    
+    ));
+
+    
+    myButton.whileHeld(new StartEndCommand(
+      // Start a flywheel spinning at 50% power
+      () -> rumble.startShake(),
+      // Stop the flywheel at the end of the command
+      () -> rumble.stopShake(),
+      // Requires the feeder subsystem
+      m_feeder
+    ));
+
+
 
     readyShoot.whileHeld(new StartEndCommand(
       // Start a flywheel spinning at 50% power

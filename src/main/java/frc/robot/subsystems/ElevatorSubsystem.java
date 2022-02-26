@@ -32,6 +32,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public ElevatorSubsystem() {
 
     //rightElevatorMotor.follow(leftElevatorMotor);
+    leftElevatorMotor.setInverted(true);
   }
 
   public void setValue(double v)
