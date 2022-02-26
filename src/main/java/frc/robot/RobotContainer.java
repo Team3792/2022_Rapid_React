@@ -50,8 +50,8 @@ public class RobotContainer {
 
   JoystickButton XButton = new JoystickButton(operateController, 1);
 
-  JoystickButton feederButton = new JoystickButton(operateController, Constants.ButtonConstant.kRunFeederButton);
-  JoystickButton revFeederButton = new JoystickButton(operateController, 3);
+  JoystickButton feederButton = new JoystickButton(operateController, 3);
+  JoystickButton revFeederButton = new JoystickButton(operateController, 15);
   JoystickButton revIntakeButton = new JoystickButton(operateController, 2);
 
   JoystickButton L1Trigger = new JoystickButton(operateController, 5);
@@ -224,6 +224,6 @@ private ThresholdButtonCmd myButton = new ThresholdButtonCmd(operateController, 
   //}
   public Command getAutonomousCommand(){
     //filler for rn- change later when we actually have an auto command group
-    return autoChooser.getSelected();
+    return new Auto2Ball(m_drive, m_intake, m_feeder, m_shooter);
   }
 }

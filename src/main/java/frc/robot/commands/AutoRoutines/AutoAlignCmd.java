@@ -1,6 +1,6 @@
 package frc.robot.commands.AutoRoutines;
 
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -10,11 +10,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 
 
-public class AutoDriveCmd extends CommandBase{
+public class AutoAlignCmd extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  //drivesubsystem declaration
+  //subsystem declarations
   private final DriveSubsystem driveTrain;
+  private final ShooterSubsystem shooter;
+  private final FeedSubsystem feeder;
 
  
   /**
@@ -22,8 +24,10 @@ public class AutoDriveCmd extends CommandBase{
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoDriveCmd(DriveSubsystem subsystem) {
-    driveTrain = subsystem;
+  public AutoAlignCmd(DriveSubsystem m_drive, ShooterSubsystem m_shooter, FeedSubsystem m_feed) {
+    driveTrain = m_drive;
+    shooter = m_shooter;
+    feeder = m_feed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
@@ -32,15 +36,13 @@ public class AutoDriveCmd extends CommandBase{
     }
     @Override
     public void execute() {
-
-      // SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
-      while(SmartDashboard.getNumber("ballArea",0)<4500 && SmartDashboard.getNumber("ballArea",0)!=0)
-      {
-        driveTrain.drive(0.1, (SmartDashboard.getNumber("ballAngle", 0))/3);
-        System.out.println("Angle here: " + SmartDashboard.getNumber("ballAngle", 0));   
-
+      while(Math.abs(SmartDashboard.getNumber("targetAngle", 0)) > 0.03){
+        //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
+        driveTrain.drive(0, (SmartDashboard.getNumber("targetAngle", 0))/3);
+        System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));  
+      }
+      driveTrain.drive(0.0, 0.0);
     }
-    driveTrain.drive(0.0,0.0);
 
-}
+
 }
