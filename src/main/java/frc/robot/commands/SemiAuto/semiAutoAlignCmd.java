@@ -57,6 +57,7 @@ public class semiAutoAlignCmd extends CommandBase{
       }
       else{
         align(Constants.ballType + "BallAngle");
+        System.out.print(Constants.ballType + "BallAngle");
       }
       
     }
@@ -65,7 +66,7 @@ public class semiAutoAlignCmd extends CommandBase{
     public void align(String camera){
       if(Math.abs(SmartDashboard.getNumber(camera, 0)) > 0.03){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
-        driveTrain.drive(input.get(), (SmartDashboard.getNumber(camera, 0))/1);
+        driveTrain.drive(input.get(), (SmartDashboard.getNumber(camera, 0))/2);
         System.out.println("Angle here: " + SmartDashboard.getNumber(camera, 0));  
       }
       else

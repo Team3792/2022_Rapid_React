@@ -38,11 +38,11 @@ public class ElevatorCmd extends CommandBase {
   }
 
   public void moveElevatorUp(){
-    elevator.setValue(.2);
+    elevator.setValue(-0.2);
   }
 
   public void moveElevatorDown(){
-    elevator.setValue(-0.2);
+    elevator.setValue(0.2);
   }
 
   public void stopElevator(){

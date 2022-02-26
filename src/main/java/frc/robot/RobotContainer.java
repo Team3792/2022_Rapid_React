@@ -119,9 +119,9 @@ public class RobotContainer {
     operateController.XButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
 
-    targetAlign.whenPressed(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 0));
+    targetAlign.whileHeld(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 0));
 
-    ballAlign.whenPressed(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 1));
+    ballAlign.whileHeld(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 1));
 
 
 
