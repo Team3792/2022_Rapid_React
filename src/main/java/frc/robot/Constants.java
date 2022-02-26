@@ -28,6 +28,26 @@ public final class Constants {
     public static final int kOperateController = 1;
     public static final int kRunFeederButton = 4;
 
+    public static final int kXButton = 1;
+    public static final int kCircleButton = 2;
+    public static final int kSquareButton = 3;
+    public static final int kTriangleButton = 4;
+
+    public static final int kL1Button = 5;
+    public static final int kR1Button = 6;
+
+
+    public static final int kLXAxis = 0;
+    public static final int kLYAxis = 1;
+
+    public static final int kLTrigger = 2;
+    public static final int kRTrigger = 3;
+
+    public static final int kRXAxis = 4;
+    public static final int kRYAxis = 5;
+
+    
+
 
   }
 

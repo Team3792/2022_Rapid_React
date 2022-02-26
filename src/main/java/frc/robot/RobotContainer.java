@@ -13,7 +13,6 @@ import frc.robot.commands.*;
 import frc.robot.commands.AutoRoutines.Auto2Ball;
 import frc.robot.commands.AutoRoutines.AutoAlignCmd;
 
-import frc.robot.commands.Joystick.RumbleCmd;
 
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,25 +46,9 @@ public class RobotContainer {
 
 
 
-
-  XboxController operateController = new XboxController(Constants.ButtonConstant.kOperateController);
-
-  //JoystickButton testShootButton = new JoystickButton(driveJoystick, 10);
-
-  JoystickButton XButton = new JoystickButton(operateController, 1);
-
-  JoystickButton feederButton = new JoystickButton(operateController, 3);
-  //JoystickButton revFeederButton = new JoystickButton(operateController, 15);
-  JoystickButton revIntakeButton = new JoystickButton(operateController, 2);
-
-  JoystickButton L1Trigger = new JoystickButton(operateController, 5);
-  JoystickButton R1Trigger = new JoystickButton(operateController, 6);
+  PS5Mapping operateController = new PS5Mapping();
 
 
-private LStickUp climbUp = new LStickUp(operateController);
-private LStickDown climbDown = new LStickDown(operateController);
-private RStickLeft pivotBack = new RStickLeft(operateController);
-private RStickRight pivotForward = new RStickRight(operateController);
 
 
   //Auto Choose Sendable Class
@@ -86,7 +69,6 @@ private RStickRight pivotForward = new RStickRight(operateController);
   //feeder command stuff
   private final FeedSubsystem m_feeder = new FeedSubsystem();
   private final FeederCmd feedControl = new FeederCmd(m_feeder);
-  private final RumbleCmd rumble = new RumbleCmd();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
   private final ClimbSubsystem m_climber = new ClimbSubsystem();
@@ -129,104 +111,100 @@ private RStickRight pivotForward = new RStickRight(operateController);
     
     
     testShootButton.whileHeld(new ShooterCmd(m_shooter, 
-        () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
-
-    XButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
 
+operateController.XButton.whileHeld(new ShooterCmd(m_shooter, 
+() -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
 
-    climbUp.whileHeld(new StartEndCommand(
-      
-    ()-> new ElevatorCmd(m_elevator).moveElevatorUp(), 
-    
-    () -> new ElevatorCmd(m_elevator).stopElevator(), 
-    
-    m_elevator
-    
-    ));
 
-    climbDown.whileHeld(new StartEndCommand(
-      
-    ()-> new ElevatorCmd(m_elevator).moveElevatorDown(), 
-    
-    () -> new ElevatorCmd(m_elevator).stopElevator(), 
-    
-    m_elevator
-    
-    ));
-
-    pivotForward.whileHeld(new StartEndCommand(
-      
-    ()-> new ClimbCmd(m_climber).moveArmUp(), 
-    
-    ()-> new ClimbCmd(m_climber).stopArm(), 
-    
-    m_climber
-    
-    ));
-
-    pivotBack.whileHeld(new StartEndCommand(
-      
-    ()-> new ClimbCmd(m_climber).moveArmDown(), 
-    
-    ()-> new ClimbCmd(m_climber).stopArm(), 
-    
-    m_climber
-    
-    ));
-
+//Climb Stuff
+operateController.climbUp.whileHeld(new StartEndCommand(
   
+()-> new ElevatorCmd(m_elevator).moveElevatorUp(), 
+
+() -> new ElevatorCmd(m_elevator).stopElevator(), 
+
+m_elevator
+
+));
+
+operateController.climbDown.whileHeld(new StartEndCommand(
+  
+()-> new ElevatorCmd(m_elevator).moveElevatorDown(), 
+
+() -> new ElevatorCmd(m_elevator).stopElevator(), 
+
+m_elevator
+
+));
+
+operateController.pivotForward.whileHeld(new StartEndCommand(
+  
+()-> new ClimbCmd(m_climber).moveArmUp(), 
+
+()-> new ClimbCmd(m_climber).stopArm(), 
+
+m_climber
+
+));
+
+operateController.pivotBack.whileHeld(new StartEndCommand(
+  
+()-> new ClimbCmd(m_climber).moveArmDown(), 
+
+()-> new ClimbCmd(m_climber).stopArm(), 
+
+m_climber
+
+));
 
 
 
-    readyShoot.whileHeld(new StartEndCommand(
-      // Start a flywheel spinning at 50% power
-      () -> rumble.startShake(),
-      // Stop the flywheel at the end of the command
-      () -> rumble.stopShake(),
-      // Requires the feeder subsystem
-      m_feeder
-    ));
+readyShoot.whileHeld(new StartEndCommand(
+  // Start a flywheel spinning at 50% power
+  () -> operateController.startShake(),
+  // Stop the flywheel at the end of the command
+  () -> operateController.stopShake(),
+  // Requires the feeder subsystem
+  m_feeder
+));
 
 
-    feederButton.whileHeld(new StartEndCommand(
-      // Start a flywheel spinning at 50% power
-      () -> feedControl.runFeederForward(),
-      // Stop the flywheel at the end of the command
-      () -> feedControl.stopFeeder(),
-      // Requires the feeder subsystem
-      m_feeder
-    ));
+operateController.RTriggerButton.whileHeld(new StartEndCommand(
+  // Start a flywheel spinning at 50% power
+  () -> feedControl.runFeederForward(),
+  // Stop the flywheel at the end of the command
+  () -> feedControl.stopFeeder(),
+  // Requires the feeder subsystem
+  m_feeder
+));
 
-    // revFeederButton.whileHeld(new StartEndCommand(
-    //   // Start a flywheel spinning at 50% power
-    //   () -> feedControl.runFeederBackwards(),
-    //   // Stop the flywheel at the end of the command
-    //   () -> feedControl.stopFeeder(),
-    //   // Requires the feeder subsystem
-    //   m_feeder
-    // ));
+operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
+  // Start a flywheel spinning at 50% power
+  () -> feedControl.runFeederBackwards(),
+  // Stop the flywheel at the end of the command
+  () -> feedControl.stopFeeder(),
+  // Requires the feeder subsystem
+  m_feeder
+));
 
-    intakeButton.whileHeld(new StartEndCommand(
-      
-      () -> new IntakeCmd(m_intake).runIntakeForward(),
+intakeButton.whileHeld(new StartEndCommand(
+  
+  () -> new IntakeCmd(m_intake).runIntakeForward(),
 
-      () -> new IntakeCmd(m_intake).stopIntake(),
+  () -> new IntakeCmd(m_intake).stopIntake(),
 
-      m_intake
-    ));
+  m_intake
+));
 
-    revIntakeButton.whileHeld(new StartEndCommand(
-      
-      () -> new IntakeCmd(m_intake).runIntakeBackward(),
+operateController.POVDownish.whileActiveContinuous(new StartEndCommand(
+  
+  () -> new IntakeCmd(m_intake).runIntakeBackward(),
 
-      () -> new IntakeCmd(m_intake).stopIntake(),
+  () -> new IntakeCmd(m_intake).stopIntake(),
 
-      m_intake
-    ));
-
-    
-
+  m_intake
+));
 
 
 
