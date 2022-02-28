@@ -75,7 +75,7 @@ public final class Constants {
     public static final int kLeftElevatorMotor = 30;
     public static final int kRightElevatorMotor = 31;
 
-    //Climb Motor (Talon FX/Falcon)
+    //Elevator Motor (Talon FX/Falcon)
     public static final int kLeftArmMotor = 32;
     public static final int kRightArmMotor = 33;
 
@@ -111,25 +111,39 @@ public final class Constants {
 
   }
 
+  public static final class ElevatorConstants
+  {
+    //Elevator PID constants
+    public static final double kElevatorP = 0.012397;
+    public static final double kElevatorI = 0;
+    public static final double kElevatorD = 0;
+    public static final double kElevatorF = 0.049348;
+    public static final double kElevatorIzone = 0;
+    public static final double kElevatorPeakOutput = 0;
+
+    public static final double setpoint = 22280;
+    public static final double ElevatorArbFF = 0;
+    public static final double CFSArbFF = 0;
+    public static final double RobotArbFF = 0;
+  }
+
+  public static final class ElevatorAuxConstants
+  {
+    //Elevator AUX PID Constants
+    public static final double kElevatorAuxP = 0;
+    public static final double kElevatorAuxI = 0;
+    public static final double kElevatorAuxD = 0;
+    public static final double kElevatorAuxF = 0;
+    public static final double kElevatorAuxIzone = 0;
+    public static final double kElevatorAuxPeakOutput = 0;
+  }
+
   public static final class ClimbConstants
   {
-
-    //Climb PID constants
-    public static final double kClimbkP = 0;
-    public static final double kClimbkI = 0;
-    public static final double kClimbkD = 0;
-
-     //Arm PID constants
+     //Climb PID constants
      public static final double kArmkP = 0;
      public static final double kArmkI = 0;
      public static final double kArmkD = 0;
-
-
   }
-
-
-
-
-
 
 }
