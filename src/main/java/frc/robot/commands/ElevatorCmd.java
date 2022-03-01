@@ -147,8 +147,9 @@ public class ElevatorCmd extends CommandBase {
 
   }
 
-  public void stopElevator(){
-  }
+//   public void stopElevator(){
+// 	  elevator.rightElevatorMotor.set(0);
+//   }
 
   // Called once the command ends or is interrupted.
   @Override
