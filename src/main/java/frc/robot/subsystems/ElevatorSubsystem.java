@@ -22,30 +22,26 @@ import frc.robot.Constants;
 
 /** Add your docs here. */
 public class ElevatorSubsystem extends SubsystemBase {
-  public final WPI_TalonFX leftElevatorMotor = new WPI_TalonFX(Constants.MotorID.kLeftElevatorMotor);
-  public final WPI_TalonFX rightElevatorMotor = new WPI_TalonFX(Constants.MotorID.kRightElevatorMotor);
+	public final WPI_TalonFX leftElevatorMotor = new WPI_TalonFX(Constants.MotorID.kLeftElevatorMotor);
+  	public final WPI_TalonFX rightElevatorMotor = new WPI_TalonFX(Constants.MotorID.kRightElevatorMotor);
 
-  public TalonFXConfiguration leftConfig = new TalonFXConfiguration();
-  public TalonFXConfiguration rightConfig = new TalonFXConfiguration();
-    
-  int smoothing;
+	public TalonFXConfiguration leftConfig = new TalonFXConfiguration();
+	public TalonFXConfiguration rightConfig = new TalonFXConfiguration();
+		
+	int smoothing;
 
-  public ElevatorSubsystem() {
-  }
+	public ElevatorSubsystem() {
+	}
 
-  public void setValue(double v)
-  {
-    
+	//can add something for smoothing: eleva.rightElevatorMotor.gMotionSCurveStrength(smoothing);
 
-  }
-
-  public void zeroSensors() {
-		leftElevatorMotor.getSensorCollection().setIntegratedSensorPosition(0, 30);
-		rightElevatorMotor.getSensorCollection().setIntegratedSensorPosition(0, 30);
-		System.out.println("[Integrated Sensors] All sensors are zeroed.\n");
-  }
-  
-  public void setRobotDistanceConfigs(TalonFXInvertType masterInvertType, TalonFXConfiguration masterConfig){
+	public void zeroSensors() {
+			leftElevatorMotor.getSensorCollection().setIntegratedSensorPosition(0, 30);
+			rightElevatorMotor.getSensorCollection().setIntegratedSensorPosition(0, 30);
+			System.out.println("[Integrated Sensors] All sensors are zeroed.\n");
+	}
+	
+	public void setRobotDistanceConfigs(TalonFXInvertType masterInvertType, TalonFXConfiguration masterConfig){
 		/**
 		 * Determine if we need a Sum or Difference.
 		 * 
@@ -95,7 +91,83 @@ public class ElevatorSubsystem extends SubsystemBase {
 		/* Since the Distance is the sum of the two sides, divide by 2 so the total isn't double
 		   the real-world value */
 		masterConfig.primaryPID.selectedFeedbackCoefficient = 0.5;
-	 }
+	}
+
+
+	public void setRobotTurnConfigs(TalonFXInvertType masterInvertType, TalonFXConfiguration masterConfig){
+		/**
+		 * Determine if we need a Sum or Difference.
+		 * 
+		 * The auxiliary Talon FX will always be positive
+		 * in the forward direction because it's a selected sensor
+		 * over the CAN bus.
+		 * 
+		 * The master's native integrated sensor may not always be positive when forward because
+		 * sensor phase is only applied to *Selected Sensors*, not native
+		 * sensor sources.  And we need the native to be combined with the 
+		 * aux (other side's) distance into a single robot heading.
+		 */
+
+		/* THIS FUNCTION should not need to be modified. 
+		This setup will work regardless of whether the master
+		is on the Right or Left side since it only deals with
+		heading magnitude.  */
+
+		/* Check if we're inverted */
+		if (masterInvertType == TalonFXInvertType.Clockwise){
+			/* 
+				If master is inverted, that means the integrated sensor
+				will be negative in the forward direction.
+				If master is inverted, the final sum/diff result will also be inverted.
+				This is how Talon FX corrects the sensor phase when inverting 
+				the motor direction.  This inversion applies to the *Selected Sensor*,
+				not the native value.
+				Will a sensor sum or difference give us a positive heading?
+				Remember the Master is one side of your drivetrain distance and 
+				Auxiliary is the other side's distance.
+					Phase | Term 0   |   Term 1  | Result
+				Sum:  -((-)Master + (+)Aux   )| OK - magnitude will cancel each other out
+				Diff: -((-)Master - (+)Aux   )| NOT OK - magnitude increases with forward distance.
+				Diff: -((+)Aux    - (-)Master)| NOT OK - magnitude decreases with forward distance
+			*/
+
+			masterConfig.sum0Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Integrated Sensor
+			masterConfig.sum1Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();   //Aux Selected Sensor
+			masterConfig.auxiliaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorSum.toFeedbackDevice(); //Sum0 + Sum1
+
+			/*
+				PID Polarity
+				With the sensor phasing taken care of, we now need to determine if the PID polarity is in the correct direction
+				This is important because if the PID polarity is incorrect, we will run away while trying to correct
+				Will inverting the polarity give us a positive counterclockwise heading?
+				If we're moving counterclockwise(+), and the master is on the right side and inverted,
+				it will have a negative velocity and the auxiliary will have a negative velocity
+				heading = right + left
+				heading = (-) + (-)
+				heading = (-)
+				Let's assume a setpoint of 0 heading.
+				This produces a positive error, in order to cancel the error, the right master needs to
+				drive backwards. This means the PID polarity needs to be inverted to handle this
+				
+				Conversely, if we're moving counterclwise(+), and the master is on the left side and inverted,
+				it will have a positive velocity and the auxiliary will have a positive velocity.
+				heading = right + left
+				heading = (+) + (+)
+				heading = (+)
+				Let's assume a setpoint of 0 heading.
+				This produces a negative error, in order to cancel the error, the left master needs to
+				drive forwards. This means the PID polarity needs to be inverted to handle this
+			*/
+			masterConfig.auxPIDPolarity = true;
+		} else {
+			/* Master is not inverted, both sides are positive so we can diff them. */
+			masterConfig.diff0Term = TalonFXFeedbackDevice.RemoteSensor1.toFeedbackDevice();    //Aux Selected Sensor
+			masterConfig.diff1Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local IntegratedSensor
+			masterConfig.auxiliaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorDifference.toFeedbackDevice(); //Sum0 + Sum1
+			/* With current diff terms, a counterclockwise rotation results in negative heading with a right master */
+			masterConfig.auxPIDPolarity = true;
+		}
+	}
 
 }
 
