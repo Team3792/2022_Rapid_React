@@ -43,11 +43,13 @@ public class PS5Mapping extends CommandBase {
     public final JoystickButton L1Button;
     public final JoystickButton R1Button;
 
-    public final JoystickButton BackButton;
-    public final JoystickButton StartButton;
 
-    public final JoystickButton LeftStickButton;
-    public final JoystickButton RightStickButton;
+    public final JoystickButton LFaceButton;
+    public final JoystickButton RFaceButton;
+
+    public final JoystickButton LStickButton;
+    public final JoystickButton RStickButton;
+
 
     public final LStickUp climbUp;
     public final LStickDown climbDown;
@@ -103,12 +105,12 @@ public class PS5Mapping extends CommandBase {
 
 
 
+    LFaceButton = new JoystickButton(operateController, 7);
+    RFaceButton = new JoystickButton(operateController, 8);
 
-    BackButton = new JoystickButton(operateController, XboxController.Button.kBack.value);
-    StartButton = new JoystickButton(operateController, XboxController.Button.kStart.value);
+    LStickButton = new JoystickButton(operateController, 9);
+    RStickButton = new JoystickButton(operateController, 10);
 
-    LeftStickButton = new JoystickButton(operateController, XboxController.Button.kLeftStick.value);
-    RightStickButton = new JoystickButton(operateController, XboxController.Button.kRightStick.value);
 
 
     }

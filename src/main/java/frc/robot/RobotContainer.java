@@ -76,6 +76,8 @@ public class RobotContainer {
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
   private final ClimbSubsystem m_climber = new ClimbSubsystem();
+  private final ServoSubsystem m_servo = new ServoSubsystem();
+  private PDHSubsystem m_PDH = new PDHSubsystem();
 
 
   //Auto Declarators
@@ -235,31 +237,41 @@ operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
   
   ));
 
-
-  operateController.L1Button.whileHeld(new StartEndCommand(
+  operateController.LFaceButton.whileHeld(new RunCommand(
     
-  () -> new ParallelCommandGroup(
-    new RunCommand(() -> new SetShootCmd(m_shooter).reverseShooter()),
-    new RunCommand(() -> new SetShootCmd(m_shooter).reverseShooter())),
-
+  () -> new ServoCmd(m_servo).runServoFull(),
   
-    
-  () -> new IntakeCmd(m_intake).stopIntake(), 
-    
-    m_intake);
-
-
-
-
-
-
-  operateController.L1Button.whileHeld(new ParallelCommandGroup(
-    new RunCommand(() -> new SetShootCmd(m_shooter).reverseShooter()),
-    new RunCommand(() -> new SetShootCmd(m_shooter).reverseShooter())
-
+  m_servo
+  
   ));
 
-  operateController.L1Button.whenInactive(command, interruptible)
+  operateController.RFaceButton.whileHeld(new RunCommand(
+    
+  () -> new ServoCmd(m_servo).resetServo(),
+  
+  m_servo
+  
+  ));
+
+  operateController.LStickButton.whileHeld(new RunCommand(
+    
+  () -> new LightsCmd(m_PDH).ringLightOn(), 
+
+  m_PDH
+  
+  ));
+
+  operateController.RStickButton.whileHeld(new RunCommand(
+    
+  () -> new LightsCmd(m_PDH).ringLightOff(), 
+
+  m_PDH
+  
+  ));
+
+  
+
+
 
 
 
