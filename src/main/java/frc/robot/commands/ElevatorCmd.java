@@ -26,6 +26,10 @@ public class ElevatorCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ElevatorSubsystem elevator;
 
+	public int kErrThreshold = 10; // how many sensor units until its close-enough
+	public int kLoopsToSettle = 10; // how many loops sensor must be close-enough
+	public int _withinThresholdLoops = 0;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -50,6 +54,8 @@ public class ElevatorCmd extends CommandBase {
 		elevator.rightElevatorMotor.setNeutralMode(NeutralMode.Brake);
 
 		/* Configure output */
+		elevator.rightElevatorMotor.setInverted(true);
+		
 		TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
 	  	TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
 		
@@ -133,21 +139,29 @@ public class ElevatorCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  }
+
+	/* Check if closed loop error is within the threshld */
+	if (elevator.rightElevatorMotor.getActiveTrajectoryPosition() < +kErrThreshold &&
+	elevator.rightElevatorMotor.getActiveTrajectoryPosition() > -kErrThreshold) {
+
+		++_withinThresholdLoops;
+	} else {
+		_withinThresholdLoops = 0;
+	}
+}
 
   public void moveElevatorUp(){
-    elevator.rightElevatorMotor.set(TalonFXControlMode.MotionMagic, 0, DemandType.AuxPID, 0);
+    elevator.rightElevatorMotor.set(TalonFXControlMode.MotionMagic, Constants.ElevatorConstants.setpoint, DemandType.AuxPID, 0);
     elevator.leftElevatorMotor.follow(elevator.rightElevatorMotor, FollowerType.AuxOutput1);
   }
 
   public void moveElevatorDown(){
-    elevator.rightElevatorMotor.set(TalonFXControlMode.MotionMagic, Constants.ElevatorConstants.setpoint, DemandType.AuxPID, 0);
+    elevator.rightElevatorMotor.set(TalonFXControlMode.MotionMagic, 0, DemandType.AuxPID, 0);
     elevator.leftElevatorMotor.follow(elevator.rightElevatorMotor, FollowerType.AuxOutput1);
-
-
   }
 
   public void stopElevator(){
+	  elevator.rightElevatorMotor.set(0);
   }
 
   // Called once the command ends or is interrupted.
@@ -157,6 +171,6 @@ public class ElevatorCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (_withinThresholdLoops > kLoopsToSettle);
   }
 }

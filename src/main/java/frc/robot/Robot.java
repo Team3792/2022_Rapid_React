@@ -11,7 +11,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Sim.PhysicsSim;
 import frc.robot.commands.DefaultDriveCmd;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -29,6 +31,19 @@ public class Robot extends TimedRobot {
   public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
   private final WPI_VictorSPX feedMotor = new WPI_VictorSPX(Constants.MotorID.kFeedMotor);
+
+  ElevatorSubsystem elevator = new ElevatorSubsystem();
+
+  // @Override
+	// public void simulationInit() {
+	// 	PhysicsSim.getInstance().addTalonFX(elevator.leftElevatorMotor, 5, 15596);
+	// 	PhysicsSim.getInstance().addTalonFX(elevator.rightElevatorMotor, 5, 15596);
+  // }
+
+	// @Override
+	// public void simulationPeriodic() {
+	// 	PhysicsSim.getInstance().run();
+	// }
 
   /**
    * This function is run when the robot is first started up and should be used for any

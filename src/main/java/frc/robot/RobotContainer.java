@@ -15,6 +15,7 @@ import frc.robot.commands.AutoRoutines.*;
 
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import java.util.function.Supplier;
@@ -127,21 +128,21 @@ public class RobotContainer {
 
 
 //Climb Stuff
-operateController.climbUp.whileHeld(new StartEndCommand(
+operateController.climbUp.whileHeld(new InstantCommand(
   
 ()-> new ElevatorCmd(m_elevator).moveElevatorUp(), 
 
-() -> new ElevatorCmd(m_elevator).stopElevator(), 
+// () -> new ElevatorCmd(m_elevator).stopElevator(), 
 
 m_elevator
 
 ));
 
-operateController.climbDown.whileHeld(new StartEndCommand(
+operateController.climbDown.whileHeld(new InstantCommand(
   
 ()-> new ElevatorCmd(m_elevator).moveElevatorDown(), 
 
-() -> new ElevatorCmd(m_elevator).stopElevator(), 
+// () -> new ElevatorCmd(m_elevator).stopElevator(), 
 
 m_elevator
 
