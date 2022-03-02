@@ -15,6 +15,7 @@ import frc.robot.commands.AutoRoutines.*;
 
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import java.util.function.Supplier;
@@ -225,6 +226,40 @@ operateController.POVDownish.whileActiveContinuous(new StartEndCommand(
 
   m_intake
 ));
+
+operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
+  () -> new SetShootCmd(m_shooter).reverseShooter(), 
+  () -> new SetShootCmd(m_shooter).stopShoot(), 
+  
+  m_shooter
+  
+  ));
+
+
+  operateController.L1Button.whileHeld(new StartEndCommand(
+    
+  () -> new ParallelCommandGroup(
+    new RunCommand(() -> new SetShootCmd(m_shooter).reverseShooter()),
+    new RunCommand(() -> new SetShootCmd(m_shooter).reverseShooter())),
+
+  
+    
+  () -> new IntakeCmd(m_intake).stopIntake(), 
+    
+    m_intake);
+
+
+
+
+
+
+  operateController.L1Button.whileHeld(new ParallelCommandGroup(
+    new RunCommand(() -> new SetShootCmd(m_shooter).reverseShooter()),
+    new RunCommand(() -> new SetShootCmd(m_shooter).reverseShooter())
+
+  ));
+
+  operateController.L1Button.whenInactive(command, interruptible)
 
 
 
