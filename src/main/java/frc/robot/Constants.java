@@ -121,11 +121,12 @@ public final class Constants {
     public static final double kElevatorIzone = 0;
     public static final double kElevatorPeakOutput = 0.75;
 
-    public static final double setpoint = 22200;
+    public static final double setpointUp = 22200;
+    public static final double setpointDown = 0;
 
     //Motion Magic Constants
     public static final double kElevatorMaxV = 15596; // u/100ms
-    public static final double kElevatorAccel = 3119; // u/100ms/s
+    public static final double kElevatorAccel = 7798; // u/100ms/s
   }
 
   public static final class ElevatorAuxConstants

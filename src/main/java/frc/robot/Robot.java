@@ -87,6 +87,7 @@ public class Robot extends TimedRobot {
     leftLead.setNeutralMode(NeutralMode.Coast);
     leftFollow.setNeutralMode(NeutralMode.Coast);
     feedMotor.setNeutralMode(NeutralMode.Brake);
+    
   }
 
   @Override

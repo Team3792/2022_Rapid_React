@@ -4,6 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
@@ -13,10 +20,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-
-
-
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,7 +35,109 @@ public class ElevatorSubsystem extends SubsystemBase {
 	int smoothing;
 
 	public ElevatorSubsystem() {
+		
+    /* Disable all motors */
+	rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
+	leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
+	
+	/* Set neutral modes */
+	leftElevatorMotor.setNeutralMode(NeutralMode.Brake);
+	rightElevatorMotor.setNeutralMode(NeutralMode.Brake);
+
+	/* Configure output */
+	// rightElevatorMotor.setInverted(false);
+	// leftElevatorMotor.setInverted(true);
+	
+	// TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
+	// TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+
+	rightElevatorMotor.setInverted(true);
+	leftElevatorMotor.setInverted(false);
+	
+	TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
+	
+	/** Feedback Sensor Configuration */
+
+	/** Distance Configs */
+
+	/* Configure Feedback Sensors */
+	leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Feedback Source
+
+	/* Configure the Remote (Left) Talon's selected sensor as a remote sensor for the right Talon */
+	rightConfig.remoteFilter0.remoteSensorDeviceID = leftElevatorMotor.getDeviceID(); //Device ID of Remote Source
+	rightConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor; //Remote Source Type
+	
+	/* Now that the Left sensor can be used by the master Talon,
+	 * set up the Left (Aux) and Right (Master) distance into a single
+	 * Robot distance as the Master's Selected Sensor 0. */
+	setRobotDistanceConfigs(rightInvert, rightConfig);
+
+	/* Setup difference signal to be used to keep elevators in phase */
+	setRobotTurnConfigs(rightInvert, rightConfig);
+
+	/* FPID for Distance */
+	rightConfig.slot0.kP = Constants.ElevatorConstants.kElevatorP;
+	rightConfig.slot0.kI = Constants.ElevatorConstants.kElevatorI;
+	rightConfig.slot0.kD = Constants.ElevatorConstants.kElevatorD;
+	rightConfig.slot0.kF = Constants.ElevatorConstants.kElevatorF;
+	rightConfig.slot0.integralZone = Constants.ElevatorConstants.kElevatorIzone;
+	rightConfig.slot0.closedLoopPeakOutput = Constants.ElevatorConstants.kElevatorPeakOutput;
+	rightConfig.slot0.allowableClosedloopError = 0;
+
+	/* false means talon's local output is PID0 + PID1, and other side Talon is PID0 - PID1
+	 * 
+	 * true means talon's local output is PID0 - PID1, and other side Talon is PID0 + PID1
+	 */
+	rightConfig.auxPIDPolarity = false;
+
+	/* FPID for Correction */
+	rightConfig.slot1.kP = Constants.ElevatorAuxConstants.kElevatorAuxP;
+	rightConfig.slot1.kI = Constants.ElevatorAuxConstants.kElevatorAuxI;
+	rightConfig.slot1.kD = Constants.ElevatorAuxConstants.kElevatorAuxD;
+	rightConfig.slot1.kF = Constants.ElevatorAuxConstants.kElevatorAuxF;
+	rightConfig.slot1.integralZone = Constants.ElevatorAuxConstants.kElevatorAuxIzone;
+	rightConfig.slot1.closedLoopPeakOutput = Constants.ElevatorAuxConstants.kElevatorAuxPeakOutput;
+	rightConfig.slot0.allowableClosedloopError = 0;
+
+	/** Config the neutral deadband. */
+	rightConfig.neutralDeadband = .001;
+	leftConfig.neutralDeadband = .001;
+	/**
+	 * 1ms per loop.  PID loop can be slowed down if need be.
+	 */
+	int closedLoopTimeMs = 1;
+	rightConfig.slot0.closedLoopPeriod = closedLoopTimeMs;
+	rightConfig.slot1.closedLoopPeriod = closedLoopTimeMs;
+	rightConfig.slot2.closedLoopPeriod = closedLoopTimeMs;
+	rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
+
+	/* Motion Magic Configs */
+	rightConfig.motionAcceleration = 3301; //(distance units per 100 ms) per second
+	rightConfig.motionCruiseVelocity = 16504; // distance units per 100 ms
+
+	/* APPLY the config settings */
+	leftElevatorMotor.configAllSettings(leftConfig);
+	rightElevatorMotor.configAllSettings(rightConfig);
+
+	/* Set status frame periods to ensure we don't have stale data */
+	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, 30);
+	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, 30);
+	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, 30);
+	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, 30);
+	leftElevatorMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, 30);
+
+	/* Initialize */
+	rightElevatorMotor.selectProfileSlot(0, 0);
+	rightElevatorMotor.selectProfileSlot(1, 1);
+	rightElevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 10);
+	zeroSensors();
 	}
+
+	public void moveElevator(double Setpoint){
+		rightElevatorMotor.set(TalonFXControlMode.MotionMagic, Setpoint, DemandType.AuxPID, 0);
+		leftElevatorMotor.follow(rightElevatorMotor, FollowerType.AuxOutput1);
+	  }
 
 	//can add something for smoothing: eleva.rightElevatorMotor.gMotionSCurveStrength(smoothing);
 
@@ -169,5 +275,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 		}
 	}
 
+	@Override
+	public void periodic() {
+		SmartDashboard.putNumber("Right Pos", (rightElevatorMotor.getSelectedSensorPosition()));
+		SmartDashboard.putNumber("Left Pos", (leftElevatorMotor.getSelectedSensorPosition()));
+		SmartDashboard.putNumber("Right V", (rightElevatorMotor.getSelectedSensorVelocity()));
+		SmartDashboard.putNumber("Left V", (leftElevatorMotor.getSelectedSensorVelocity()));
+		// SmartDashboard.putNumber("Right Error", (rightElevatorMotor.getClosedLoopError(0)));
+		// SmartDashboard.putNumber("Left Error", (leftElevatorMotor.getClosedLoopError(0)));
+	}
 }
 

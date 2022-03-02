@@ -127,24 +127,16 @@ public class RobotContainer {
 
 
 
-//Climb Stuff
-operateController.climbUp.whileHeld(new InstantCommand(
-  
-()-> new ElevatorCmd(m_elevator).moveElevatorUp(), 
+//Climb
+operateController.climbUp.whenPressed(new ElevatorCmd(m_elevator, 
 
-// () -> new ElevatorCmd(m_elevator).stopElevator(), 
-
-m_elevator
+Constants.ElevatorConstants.setpointUp
 
 ));
 
-operateController.climbDown.whileHeld(new InstantCommand(
-  
-()-> new ElevatorCmd(m_elevator).moveElevatorDown(), 
+operateController.climbDown.whenPressed(new ElevatorCmd(m_elevator, 
 
-// () -> new ElevatorCmd(m_elevator).stopElevator(), 
-
-m_elevator
+Constants.ElevatorConstants.setpointDown
 
 ));
 
