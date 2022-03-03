@@ -2,25 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Joystick;
+package frc.robot.Joystick;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Constants;
-
+import frc.robot.Joystick.CombinedButton.*;
+import frc.robot.Joystick.SingleButton.CircleOnly;
+import frc.robot.Joystick.SingleButton.SquareOnly;
+import frc.robot.Joystick.SingleButton.TriangeOnly;
+import frc.robot.Joystick.SingleButton.XOnly;
+import frc.robot.Joystick.ThresholdTrigger.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import frc.robot.commands.Joystick.ThresholdTrigger.*;
-import frc.robot.commands.Joystick.CombinedButton.*;
-import frc.robot.commands.Joystick.SingleButton.CircleOnly;
-import frc.robot.commands.Joystick.SingleButton.SquareOnly;
-import frc.robot.commands.Joystick.SingleButton.TriangeOnly;
-import frc.robot.commands.Joystick.SingleButton.XOnly;
 
 
 

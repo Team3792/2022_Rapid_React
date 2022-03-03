@@ -2,17 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Joystick.SingleButton;
+package frc.robot.Joystick.SingleButton;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants;
+import frc.robot.*;
 
 
 
 /** An example command that uses an example subsystem. */
-public class TriangeOnly extends Button {
+public class CircleOnly extends Button {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private XboxController stick;
 
@@ -21,7 +21,7 @@ public class TriangeOnly extends Button {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TriangeOnly(XboxController stick) 
+  public CircleOnly(XboxController stick) 
   {
       this.stick = stick;
 
@@ -30,7 +30,7 @@ public class TriangeOnly extends Button {
 
   public boolean get()
   {
-    if ((stick.getRawAxis(Constants.ButtonConstant.kLTrigger) < 0.7) && (stick.getRawButton(Constants.ButtonConstant.kTriangleButton)))
+    if ((stick.getRawAxis(Constants.ButtonConstant.kLTrigger) < 0.7) && (stick.getRawButton(Constants.ButtonConstant.kCircleButton)))
     {
       return true;
     }

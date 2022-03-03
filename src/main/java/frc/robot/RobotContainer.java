@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.Joystick.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AutoRoutines.*;
 
@@ -23,8 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import frc.robot.commands.Joystick.*;
 import frc.robot.commands.SemiAuto.semiAutoAlignCmd;
 
 
@@ -201,6 +200,8 @@ operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
 ));
 
 
+
+
 operateController.POVUpish.whileActiveContinuous(new StartEndCommand(
   
   () -> new IntakeCmd(m_intake).runIntakeForwardSlow(),
@@ -231,11 +232,16 @@ operateController.POVDownish.whileActiveContinuous(new StartEndCommand(
 
 operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
   () -> new SetShootCmd(m_shooter).reverseShooter(), 
+
   () -> new SetShootCmd(m_shooter).stopShoot(), 
   
   m_shooter
   
   ));
+
+
+
+
 
   operateController.LFaceButton.whileHeld(new RunCommand(
     
