@@ -119,7 +119,7 @@ public class RobotContainer {
     testShootButton.whileHeld(new ShooterCmd(m_shooter, 
         () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
 
-    operateController.XButton.whileHeld(new ShooterCmd(m_shooter, 
+    operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
 
     targetAlign.whileHeld(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 0));
@@ -261,13 +261,7 @@ operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
   
   ));
 
-  operateController.RStickButton.whileHeld(new RunCommand(
-    
-  () -> new LightsCmd(m_PDH).ringLightOff(), 
-
-  m_PDH
-  
-  ));
+ 
 
   
 

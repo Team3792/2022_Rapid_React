@@ -17,6 +17,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.Joystick.ThresholdTrigger.*;
 import frc.robot.commands.Joystick.CombinedButton.*;
+import frc.robot.commands.Joystick.SingleButton.CircleOnly;
+import frc.robot.commands.Joystick.SingleButton.SquareOnly;
+import frc.robot.commands.Joystick.SingleButton.TriangeOnly;
+import frc.robot.commands.Joystick.SingleButton.XOnly;
 
 
 
@@ -35,10 +39,7 @@ public class PS5Mapping extends CommandBase {
     public final Trigger POVLeft;
     public final Trigger POVRight;
 
-    public final JoystickButton TriangleButton;
-    public final JoystickButton SquareButton;
-    public final JoystickButton XButton;
-    public final JoystickButton CircleButton;
+    
 
     public final JoystickButton L1Button;
     public final JoystickButton R1Button;
@@ -55,6 +56,13 @@ public class PS5Mapping extends CommandBase {
     public final LStickDown climbDown;
     public final RStickLeft pivotBack;
     public final RStickRight pivotForward;
+
+
+
+    public final TriangeOnly TriangeOnlyButton;
+    public final CircleOnly CircleOnlyButton;
+    public final SquareOnly SquareOnlyButton;
+    public final XOnly XOnlyButton;
 
     public final LTriggerCircle LTriggerCircleButton;
     public final LTriggerSquare LTriggerSquareButton;
@@ -79,10 +87,10 @@ public class PS5Mapping extends CommandBase {
     POVDown = new POVButton(operateController, 180);
     POVLeft = new POVButton(operateController, 270);
 
-    XButton = new JoystickButton(operateController, Constants.ButtonConstant.kXButton);
-    CircleButton = new JoystickButton(operateController, Constants.ButtonConstant.kCircleButton);
-    SquareButton = new JoystickButton(operateController, Constants.ButtonConstant.kSquareButton);
-    TriangleButton = new JoystickButton(operateController, Constants.ButtonConstant.kTriangleButton);
+    XOnlyButton = new XOnly(operateController);
+    CircleOnlyButton = new CircleOnly(operateController);
+    SquareOnlyButton = new SquareOnly(operateController);
+    TriangeOnlyButton = new TriangeOnly(operateController);
 
 
     L1Button = new JoystickButton(operateController, Constants.ButtonConstant.kL1Button);

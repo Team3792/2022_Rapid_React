@@ -11,7 +11,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.DefaultDriveCmd;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.LightsCmd;
+import frc.robot.subsystems.PDHSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,6 +25,9 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private PDHSubsystem m_PDH = new PDHSubsystem();
+
 
   public final WPI_TalonFX rightLead = new WPI_TalonFX(Constants.MotorID.kRightDriveLead);
   public final WPI_TalonFX rightFollow = new WPI_TalonFX(Constants.MotorID.kRightDriveFollow);
@@ -40,6 +45,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     
     m_robotContainer = new RobotContainer();
+    new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
+
   }
 
   /**
@@ -72,6 +79,9 @@ public class Robot extends TimedRobot {
     leftLead.setNeutralMode(NeutralMode.Coast);
     leftFollow.setNeutralMode(NeutralMode.Coast);
     feedMotor.setNeutralMode(NeutralMode.Brake);
+
+    new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
+
   }
 
   @Override
