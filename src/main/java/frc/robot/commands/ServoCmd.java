@@ -43,7 +43,7 @@ public class ServoCmd extends CommandBase {
   
 
   public void resetServo(){
-    servo.turnAngle(0);
+    servo.turnAngle(-90);
   }
 
   // Called once the command ends or is interrupted.
