@@ -8,10 +8,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
+import edu.wpi.first.wpilibj.Timer;
+
 /** An example command that uses an example subsystem. */
 public class SetShootCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ShooterSubsystem shooter;
+    private final Timer timer;
+    private boolean complete;
+
 
   /**
    * Creates a new ExampleCommand.
@@ -22,6 +27,9 @@ public class SetShootCmd extends CommandBase {
      this.shooter = shooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
+
+      timer = new Timer();
+      timer.start();
     }
 
   // Called when the command is initially scheduled.
@@ -33,7 +41,13 @@ public class SetShootCmd extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    if(timer.get() >= 5.0){
+      complete = true;
+      shooter.zero(0);
+    }
+    else{
+      shooter.setValue(0.3);
+    }
   }
 
   public void reverseShooter()
@@ -46,6 +60,10 @@ public class SetShootCmd extends CommandBase {
     shooter.setValue(0);
   }
   
+  public void forwardShoot()
+  {
+    shooter.setValue(0.3);
+  }
 
 
  
@@ -57,6 +75,6 @@ public class SetShootCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return complete;
   }
 }
