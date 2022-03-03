@@ -141,7 +141,7 @@ Constants.ElevatorConstants.setpointDown
 
 ));
 
-operateController.LeftStickButton.whenPressed(new InstantCommand(
+operateController.LeftStickButton.whenReleased(new InstantCommand(
 
 m_elevator::stopElevator,
 
