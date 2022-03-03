@@ -2,7 +2,11 @@ package frc.robot.commands.AutoRoutines;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
+import frc.robot.commands.LightsCmd;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+
 import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,19 +20,18 @@ public class AutoAlignCmd extends CommandBase{
 
   //subsystem declarations
   private final DriveSubsystem driveTrain;
+  private PDHSubsystem m_PDH = new PDHSubsystem();
+
   private boolean complete = false;
 
-  @Override
-  public boolean isFinished() {
-    return complete;
-  } 
+  
   /**
    * Creates a new default drive.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoAlignCmd(DriveSubsystem m_drive) {
-    driveTrain = m_drive;
+  public AutoAlignCmd(DriveSubsystem driveTrain) {
+    this.driveTrain = driveTrain;
 
      
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,10 +40,17 @@ public class AutoAlignCmd extends CommandBase{
 
     
     }
+    @Override
+    public void initialize() 
+    {
+      new RunCommand(() -> new LightsCmd(m_PDH).ringLightOn(), m_PDH);
+    
+    }
 
 
     @Override
     public void execute() {
+
       if(Math.abs(SmartDashboard.getNumber("targetAngle", 0)) > 0.03){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
         driveTrain.drive(0, (SmartDashboard.getNumber("targetAngle", 0))/1);
@@ -56,6 +66,12 @@ public class AutoAlignCmd extends CommandBase{
       }
       
     }
+    @Override
+    public boolean isFinished() 
+    {
+      new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
+      return complete;
+    } 
 
 
 }

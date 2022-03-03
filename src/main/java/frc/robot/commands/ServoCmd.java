@@ -38,12 +38,12 @@ public class ServoCmd extends CommandBase {
   }
 
   public void runServoFull(){
-    servo.setValue(.8);
+    servo.turnAngle(90);;
   }
   
 
   public void resetServo(){
-    servo.setValue(0);
+    servo.turnAngle(0);
   }
 
   // Called once the command ends or is interrupted.

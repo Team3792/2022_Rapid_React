@@ -40,8 +40,6 @@ public class RobotContainer {
   Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
   //buttons init
-  JoystickButton testShootButton = new JoystickButton(driveJoystick, 10);
-  JoystickButton alertShootButton = new JoystickButton(driveJoystick, Constants.ButtonConstant.kAlertShoot);
   JoystickButton intakeButton = new JoystickButton(driveJoystick, 1);
   JoystickButton readyShoot = new JoystickButton(driveJoystick, 5);
   JoystickButton targetAlign = new JoystickButton(driveJoystick, Constants.ButtonConstant.targetAlignButton);
@@ -115,15 +113,27 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
     
-    testShootButton.whileHeld(new ShooterCmd(m_shooter, 
-        () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
+
 
     operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
 
+
+
     targetAlign.whileHeld(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 0));
 
+
+    // targetAlign.whileHeld(new StartEndCommand(
+      
+    // () -> new LightsCmd(m_PDH).ringLightOn(),
+    
+    // () -> new LightsCmd(m_PDH).ringLightOff(), 
+    
+    // m_PDH));
+
     ballAlign.whileHeld(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 1));
+
+    
 
 
 
@@ -259,13 +269,7 @@ operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
   
   ));
 
-  operateController.LStickButton.whileHeld(new RunCommand(
-    
-  () -> new LightsCmd(m_PDH).ringLightOn(), 
 
-  m_PDH
-  
-  ));
 
  
 

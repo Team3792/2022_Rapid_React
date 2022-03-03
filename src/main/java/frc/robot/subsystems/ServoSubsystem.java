@@ -25,9 +25,9 @@ public class ServoSubsystem extends SubsystemBase {
   {
   }
 
-  public void setValue(double v)
+  public void turnAngle(double v)
   {
-    testServo.set(v);
+    testServo.setAngle(v);
   }
 
 }

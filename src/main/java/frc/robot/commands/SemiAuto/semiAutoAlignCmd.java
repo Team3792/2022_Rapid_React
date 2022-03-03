@@ -1,8 +1,11 @@
   package frc.robot.commands.SemiAuto;
   import frc.robot.Constants;
-  import frc.robot.subsystems.*;
+import frc.robot.commands.LightsCmd;
+import frc.robot.subsystems.*;
   import edu.wpi.first.wpilibj2.command.CommandBase;
-  import java.util.function.Supplier;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+
+import java.util.function.Supplier;
   import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
   import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
   import edu.wpi.first.networktables.NetworkTable;
@@ -18,6 +21,8 @@ public class semiAutoAlignCmd extends CommandBase{
   //subsystem declarations
   private final DriveSubsystem driveTrain;
   private boolean complete = false;
+  private PDHSubsystem m_PDH = new PDHSubsystem();
+
 
 
   //which camera: 0 is target and 1 is ball
@@ -45,9 +50,14 @@ public class semiAutoAlignCmd extends CommandBase{
   private final Supplier<Double> input;
 
   @Override
-  public boolean isFinished() {
-    return complete;
-  } 
+    public void initialize() 
+    {
+      new RunCommand(() -> new LightsCmd(m_PDH).ringLightOn(), m_PDH);
+    
+    }
+  
+  
+  
 
 
     @Override
@@ -75,6 +85,13 @@ public class semiAutoAlignCmd extends CommandBase{
       }
 
     }
+
+    @Override
+    public boolean isFinished() 
+    {
+      new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
+      return complete;
+    } 
 
 
 }
