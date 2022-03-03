@@ -82,11 +82,8 @@ public class PS5Mapping extends CommandBase {
     SquareButton = new JoystickButton(operateController, Constants.ButtonConstant.kSquareButton);
     TriangleButton = new JoystickButton(operateController, Constants.ButtonConstant.kTriangleButton);
 
-
     L1Button = new JoystickButton(operateController, Constants.ButtonConstant.kL1Button);
     R1Button = new JoystickButton(operateController, Constants.ButtonConstant.kR1Button);
-
-
 
     climbUp = new LStickUp(operateController);
     climbDown = new LStickDown(operateController);

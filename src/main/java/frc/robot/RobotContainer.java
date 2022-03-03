@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -137,6 +138,30 @@ Constants.ElevatorConstants.setpointUp
 operateController.climbDown.whenPressed(new ElevatorCmd(m_elevator, 
 
 Constants.ElevatorConstants.setpointDown
+
+));
+
+operateController.LeftStickButton.whenPressed(new InstantCommand(
+
+m_elevator::stopElevator,
+
+m_elevator
+
+));
+
+operateController.LeftStickButton.and(operateController.climbUp).whenActive(new InstantCommand(
+
+m_elevator::moveElevatorUp,
+
+m_elevator
+
+));
+
+operateController.LeftStickButton.and(operateController.climbDown).whenActive(new InstantCommand(
+
+m_elevator::moveElevatorDown,
+
+m_elevator
 
 ));
 

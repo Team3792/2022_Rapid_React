@@ -14,20 +14,22 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.Joystick.PS5Mapping;
 
 /** Add your docs here. */
 public class ElevatorSubsystem extends SubsystemBase {
 	public final WPI_TalonFX leftElevatorMotor = new WPI_TalonFX(Constants.MotorID.kLeftElevatorMotor);
   	public final WPI_TalonFX rightElevatorMotor = new WPI_TalonFX(Constants.MotorID.kRightElevatorMotor);
+
+	public final PS5Mapping operateController = new PS5Mapping();
+	public final XboxController controller = new XboxController(1);
 
 	public TalonFXConfiguration leftConfig = new TalonFXConfiguration();
 	public TalonFXConfiguration rightConfig = new TalonFXConfiguration();
@@ -45,17 +47,17 @@ public class ElevatorSubsystem extends SubsystemBase {
 	rightElevatorMotor.setNeutralMode(NeutralMode.Brake);
 
 	/* Configure output */
-	// rightElevatorMotor.setInverted(false);
-	// leftElevatorMotor.setInverted(true);
+	rightElevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);
+	leftElevatorMotor.setInverted(TalonFXInvertType.Clockwise);
 	
-	// TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
+	TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
 	// TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
 
-	rightElevatorMotor.setInverted(true);
-	leftElevatorMotor.setInverted(false);
+	// rightElevatorMotor.setInverted(TalonFXInvertType.Clockwise);
+	// leftElevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);
 	
-	TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
-	TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
+	// TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	// TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
 	
 	/** Feedback Sensor Configuration */
 
@@ -134,12 +136,33 @@ public class ElevatorSubsystem extends SubsystemBase {
 	zeroSensors();
 	}
 
-	public void moveElevator(double Setpoint){
+	public void moveElevatorMM(double Setpoint){
 		rightElevatorMotor.set(TalonFXControlMode.MotionMagic, Setpoint, DemandType.AuxPID, 0);
 		leftElevatorMotor.follow(rightElevatorMotor, FollowerType.AuxOutput1);
 	  }
 
-	//can add something for smoothing: eleva.rightElevatorMotor.gMotionSCurveStrength(smoothing);
+	public void moveElevatorUp(){
+		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, .25, DemandType.AuxPID, 0);
+		leftElevatorMotor.follow(rightElevatorMotor, FollowerType.AuxOutput1);
+	}
+
+	public void moveElevatorDown(){
+		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, .25, DemandType.AuxPID, 0);
+		leftElevatorMotor.follow(rightElevatorMotor, FollowerType.AuxOutput1);
+	}
+
+	public boolean depressedMove() {
+		if (operateController.LeftStickButton.get() & Math.abs(controller.getRawAxis(1)) > .1)
+			return true;
+		else
+			return false;
+	} 
+	  
+	public void stopElevator(){
+		rightElevatorMotor.set(0);
+	}
+
+	//can add something for smoothing: rightElevatorMotor.gMotionSCurveStrength(smoothing);
 
 	public void zeroSensors() {
 			leftElevatorMotor.getSensorCollection().setIntegratedSensorPosition(0, 30);
@@ -281,8 +304,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("Left Pos", (leftElevatorMotor.getSelectedSensorPosition()));
 		SmartDashboard.putNumber("Right V", (rightElevatorMotor.getSelectedSensorVelocity()));
 		SmartDashboard.putNumber("Left V", (leftElevatorMotor.getSelectedSensorVelocity()));
-		// SmartDashboard.putNumber("Right Error", (rightElevatorMotor.getClosedLoopError(0)));
-		// SmartDashboard.putNumber("Left Error", (leftElevatorMotor.getClosedLoopError(0)));
+		SmartDashboard.putNumber("Right Error", (rightElevatorMotor.getSensorCollection().getIntegratedSensorPosition()));
+		SmartDashboard.putNumber("Left Error", (leftElevatorMotor.getSensorCollection().getIntegratedSensorPosition()));
 	}
 }
 
