@@ -40,6 +40,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooter.set(v);
       }
     public void useOutput(double output, double setpoint) {
+        System.out.println("setpoint: " + setpoint);
         shooter.setVoltage(output + shooterFF.calculate(setpoint));
     }
 

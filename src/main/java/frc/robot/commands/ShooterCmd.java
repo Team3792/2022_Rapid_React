@@ -59,9 +59,11 @@ public class ShooterCmd extends PIDCommand {
  public void execute() {
    if(autoStatus && timer.hasElapsed(5.0)){
     complete = true;
+    System.out.println("done");
    }
    else{
     super.execute();
+    System.out.println("in progress");
    }
  }
 
