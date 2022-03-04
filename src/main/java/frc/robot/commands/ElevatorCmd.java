@@ -12,8 +12,8 @@ public class ElevatorCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ElevatorSubsystem elevator;
 
-	public int kErrThreshold = 10; // how many sensor units until its close-enough
-	public int kLoopsToSettle = 10; // how many loops sensor must be close-enough
+	public int kErrThreshold = 1000; // how many sensor units until its close-enough
+	public int kLoopsToSettle = 1000; // how many loops sensor must be close-enough
 	public int _withinThresholdLoops = 0;
 
   private Double setpoint;
@@ -41,22 +41,23 @@ public class ElevatorCmd extends CommandBase {
   public void execute() {
 
 	/* Check if closed loop error is within the threshld */
-	if (elevator.rightElevatorMotor.getActiveTrajectoryPosition() < +kErrThreshold &&
-	elevator.rightElevatorMotor.getActiveTrajectoryPosition() > -kErrThreshold) {
+	if (Math.abs(elevator.rightElevatorMotor.getClosedLoopError()) < kErrThreshold)
+  {
 
 		++_withinThresholdLoops;
 	} else {
 		_withinThresholdLoops = 0;
 	}
-}
 
-  public void stopElevator(){
-	  elevator.rightElevatorMotor.set(0);
-  }
+  // idk how to do this
+  // end(isFinished());
+}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("we made it");
+    elevator.stopElevator();
   }
 
   // Returns true when the command should end.

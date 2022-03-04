@@ -181,9 +181,9 @@ m_elevator
 ));
 operateController.TriangleButton.whileHeld(new StartEndCommand(
 
-m_elevator::moveLeftUp,
+m_climber::moveLeftUp,
 
-m_elevator::stopElevator,
+m_climber::stopClimb,
 
 m_elevator
 
@@ -200,7 +200,7 @@ Constants.ClimbConstants.setpointForward
 ));
 
 operateController.pivotBack.and(operateController.SquareButton).whenActive(new ClimbCmd(
-  
+
 m_climber, 
 
 Constants.ClimbConstants.setpointBack

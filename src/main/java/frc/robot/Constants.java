@@ -114,25 +114,25 @@ public final class Constants {
   public static final class ElevatorConstants
   {
     //Elevator PID constants
-    public static final double kElevatorP = 0.012397;
-    public static final double kElevatorI = 0;
+    public static final double kElevatorP = 0.0122;
+    public static final double kElevatorI = 0.0001;
     public static final double kElevatorD = 0;
-    public static final double kElevatorF = 0.049042;
-    public static final double kElevatorIzone = 0;
-    public static final double kElevatorPeakOutput = 0.75;
+    public static final double kElevatorF = 0.050;
+    public static final double kElevatorIzone = 2000;
+    public static final double kElevatorPeakOutput = 0.8;
 
-    public static final double setpointUp = 20000;
+    public static final double setpointUp = 400000;
     public static final double setpointDown = 0;
 
     //Motion Magic Constants
-    public static final double kElevatorMaxV = 15596; // u/100ms
-    public static final double kElevatorAccel = 7798; // u/100ms/s
+    public static final double kElevatorMaxV = 16504; // u/100ms
+    public static final double kElevatorAccel = 16504; // u/100ms/s
   }
 
   public static final class ElevatorAuxConstants
   {
     //Elevator AUX PID Constants
-    public static final double kElevatorAuxP = 0;
+    public static final double kElevatorAuxP = 0.001;
     public static final double kElevatorAuxI = 0;
     public static final double kElevatorAuxD = 0;
     public static final double kElevatorAuxF = 0;
@@ -147,10 +147,10 @@ public final class Constants {
     public static final double kClimbI = 0;
     public static final double kClimbD = 0;
     public static final double kClimbF = 0.04809    ;
-    public static final double kClimbIzone = 0;
-    public static final double kClimbPeakOutput = 0.75;
+    public static final double kClimbIzone = 50;
+    public static final double kClimbPeakOutput = 0.1;
 
-    public static final double setpointForward = 16384;
+    public static final double setpointForward = 300;
     public static final double setpointBack = 0;
 
     //Motion Magic Constants
@@ -160,7 +160,7 @@ public final class Constants {
 
   public static final class ClimbAuxConstants
   {
-    //Elevator AUX PID Constants
+    //Climb AUX PID Constants
     public static final double kClimbAuxP = 0;
     public static final double kClimbAuxI = 0;
     public static final double kClimbAuxD = 0;

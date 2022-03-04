@@ -14,17 +14,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-
-
-
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.Joystick.PS5Mapping;
@@ -53,17 +46,17 @@ public class ClimbSubsystem extends SubsystemBase {
 	rightClimbMotor.setNeutralMode(NeutralMode.Brake);
 
 	/* Configure output */
-	rightClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
-	leftClimbMotor.setInverted(TalonFXInvertType.Clockwise);
+	// rightClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
+	// leftClimbMotor.setInverted(TalonFXInvertType.Clockwise);
 	
-	TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
-	TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	// TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
+	// TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
 
-	// rightClimbMotor.setInverted(TalonFXInvertType.Clockwise);
-	// leftClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
+	rightClimbMotor.setInverted(TalonFXInvertType.Clockwise);
+	leftClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
 	
-	// TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
-	// TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
+	TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
 	
 	/** Feedback Sensor Configuration */
 
@@ -91,7 +84,7 @@ public class ClimbSubsystem extends SubsystemBase {
 	rightConfig.slot0.kF = Constants.ClimbConstants.kClimbF;
 	rightConfig.slot0.integralZone = Constants.ClimbConstants.kClimbIzone;
 	rightConfig.slot0.closedLoopPeakOutput = Constants.ClimbConstants.kClimbPeakOutput;
-	rightConfig.slot0.allowableClosedloopError = 0;
+	rightConfig.slot0.allowableClosedloopError = 50;
 
 	/* FPID for Correction */
 	rightConfig.slot1.kP = Constants.ClimbAuxConstants.kClimbAuxP;
@@ -137,27 +130,36 @@ public class ClimbSubsystem extends SubsystemBase {
 	}
 
 	public void moveClimbMM(double Setpoint){
-		rightClimbMotor.set(TalonFXControlMode.MotionMagic, Setpoint, DemandType.AuxPID, 0);
-		leftClimbMotor.follow(rightClimbMotor, FollowerType.AuxOutput1);
+		rightClimbMotor.set(TalonFXControlMode.MotionMagic, Setpoint);
+    // , DemandType.AuxPID, 0);
+		leftClimbMotor.follow(rightClimbMotor);
+    // , FollowerType.AuxOutput1);
   }
 
   public void moveClimbForward(){
-		rightClimbMotor.set(TalonFXControlMode.PercentOutput, 0.25, DemandType.AuxPID, 0);
-		leftClimbMotor.follow(rightClimbMotor, FollowerType.AuxOutput1);
+		rightClimbMotor.set(TalonFXControlMode.PercentOutput, 0.05);
+    // , DemandType.AuxPID, 0
+		leftClimbMotor.follow(rightClimbMotor);
+    // , FollowerType.AuxOutput1
 	}
 
   public void moveClimbBack(){
-		rightClimbMotor.set(TalonFXControlMode.PercentOutput, -0.25, DemandType.AuxPID, 0);
-		leftClimbMotor.follow(rightClimbMotor, FollowerType.AuxOutput1);
+		rightClimbMotor.set(TalonFXControlMode.PercentOutput, -0.05);
+    // , DemandType.AuxPID, 0
+		leftClimbMotor.follow(rightClimbMotor);
+    // , FollowerType.AuxOutput1
 	}
 
+  public void moveLeftUp(){
+		leftClimbMotor.set(TalonFXControlMode.PercentOutput, 0.05);
+	}
 
 	public void stopClimb(){
 		rightClimbMotor.set(0);
 		leftClimbMotor.set(0);
 	}
 
-  //can add something for smoothing: rightElevatorMotor.gMotionSCurveStrength(smoothing);
+  //can add something for smoothing: rightClimbMotor.gMotionSCurveStrength(smoothing);
 
 	public void zeroSensors() {
     leftClimbMotor.getSensorCollection().setIntegratedSensorPosition(0, 30);
@@ -185,7 +187,7 @@ public class ClimbSubsystem extends SubsystemBase {
       distance magnitude.  */
 
     /* Check if we're inverted */
-    if (masterInvertType == TalonFXInvertType.CounterClockwise){
+    if (masterInvertType == TalonFXInvertType.Clockwise){
       /* 
         If master is inverted, that means the integrated sensor
         will be negative in the forward direction.
@@ -202,9 +204,8 @@ public class ClimbSubsystem extends SubsystemBase {
         Diff: -((+)Aux    - (-)Master)| NOT OK, magnitude will be correct but negative
       */
 
-      //may need switch 0 <--> 1
-      masterConfig.diff1Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Integrated Sensor
-      masterConfig.diff0Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();   //Aux Selected Sensor
+      masterConfig.diff0Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Integrated Sensor
+      masterConfig.diff1Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();   //Aux Selected Sensor
       masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorDifference.toFeedbackDevice(); //Diff0 - Diff1
     } else {
       /* Master is not inverted, both sides are positive so we can sum them. */
@@ -293,5 +294,16 @@ public class ClimbSubsystem extends SubsystemBase {
       masterConfig.auxPIDPolarity = true;
     }
   }
+
+  @Override
+	public void periodic() {
+		SmartDashboard.putNumber("Right Climb Pos", rightClimbMotor.getSelectedSensorPosition());
+		SmartDashboard.putNumber("Left Climb Pos", leftClimbMotor.getSelectedSensorPosition());
+		SmartDashboard.putNumber("Right Climb V", (rightClimbMotor.getSelectedSensorVelocity()));
+		SmartDashboard.putNumber("Left Climb V", (leftClimbMotor.getSelectedSensorVelocity()));
+		SmartDashboard.putNumber("Right Climb Error", (rightClimbMotor.getSelectedSensorPosition()));
+		SmartDashboard.putNumber("Left Climb Error", (leftClimbMotor.getSelectedSensorPosition()));
+	}
+
 }
 
