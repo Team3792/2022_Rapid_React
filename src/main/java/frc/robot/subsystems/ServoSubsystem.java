@@ -17,9 +17,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ServoSubsystem extends SubsystemBase {
   
   Servo testServo = new Servo(0);
-  //public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftLead, leftFollow);
-
-
   
   public ServoSubsystem() 
   {

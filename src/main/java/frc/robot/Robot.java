@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.LightsCmd;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PDHSubsystem;
 
 /**
@@ -27,6 +29,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   private PDHSubsystem m_PDH = new PDHSubsystem();
+  private IntakeSubsystem m_intake = new IntakeSubsystem();
 
 
   public final WPI_TalonFX rightLead = new WPI_TalonFX(Constants.MotorID.kRightDriveLead);
@@ -45,6 +48,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     
     m_robotContainer = new RobotContainer();
+    new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
+
     new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
 
   }
