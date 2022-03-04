@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -87,7 +88,8 @@ public class Robot extends TimedRobot {
     leftLead.setNeutralMode(NeutralMode.Coast);
     leftFollow.setNeutralMode(NeutralMode.Coast);
     feedMotor.setNeutralMode(NeutralMode.Brake);
-    
+    elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
+    elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
   }
 
   @Override
@@ -116,6 +118,9 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+
+    elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
+    elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
     }
 
     rightLead.setNeutralMode(NeutralMode.Brake);

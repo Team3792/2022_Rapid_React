@@ -129,13 +129,22 @@ public class RobotContainer {
 
 
 //Climb
-operateController.climbUp.whenPressed(new ElevatorCmd(m_elevator, 
+
+operateController.CircleButton.whenPressed(new InstantCommand(
+
+m_elevator::zeroSensors,
+
+m_elevator
+
+));
+
+operateController.climbUp.and(operateController.SquareButton).whenActive(new ElevatorCmd(m_elevator, 
 
 Constants.ElevatorConstants.setpointUp
 
 ));
 
-operateController.climbDown.whenPressed(new ElevatorCmd(m_elevator, 
+operateController.climbDown.and(operateController.SquareButton).whenActive(new ElevatorCmd(m_elevator, 
 
 Constants.ElevatorConstants.setpointDown
 
@@ -160,6 +169,16 @@ m_elevator
 operateController.LeftStickButton.and(operateController.climbDown).whenActive(new InstantCommand(
 
 m_elevator::moveElevatorDown,
+
+m_elevator
+
+));
+
+operateController.TriangleButton.whileHeld(new StartEndCommand(
+
+m_elevator::moveLeftUp,
+
+m_elevator::stopElevator,
 
 m_elevator
 

@@ -51,7 +51,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 	leftElevatorMotor.setInverted(TalonFXInvertType.Clockwise);
 	
 	TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
-	// TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
 
 	// rightElevatorMotor.setInverted(TalonFXInvertType.Clockwise);
 	// leftElevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);
@@ -142,24 +142,22 @@ public class ElevatorSubsystem extends SubsystemBase {
 	  }
 
 	public void moveElevatorUp(){
-		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, .25, DemandType.AuxPID, 0);
-		leftElevatorMotor.follow(rightElevatorMotor, FollowerType.AuxOutput1);
+		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0.25);
+		leftElevatorMotor.follow(rightElevatorMotor);
+	}
+
+	public void moveLeftUp(){
+		leftElevatorMotor.set(TalonFXControlMode.PercentOutput, -0.25);
 	}
 
 	public void moveElevatorDown(){
-		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, .25, DemandType.AuxPID, 0);
-		leftElevatorMotor.follow(rightElevatorMotor, FollowerType.AuxOutput1);
+		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, -0.25);
+		leftElevatorMotor.follow(rightElevatorMotor);
 	}
 
-	public boolean depressedMove() {
-		if (operateController.LeftStickButton.get() & Math.abs(controller.getRawAxis(1)) > .1)
-			return true;
-		else
-			return false;
-	} 
-	  
 	public void stopElevator(){
 		rightElevatorMotor.set(0);
+		leftElevatorMotor.set(0);
 	}
 
 	//can add something for smoothing: rightElevatorMotor.gMotionSCurveStrength(smoothing);
@@ -190,7 +188,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 		   distance magnitude.  */
 
 		/* Check if we're inverted */
-		if (masterInvertType == TalonFXInvertType.Clockwise){
+		if (masterInvertType == TalonFXInvertType.CounterClockwise){
 			/* 
 				If master is inverted, that means the integrated sensor
 				will be negative in the forward direction.
@@ -207,8 +205,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 				Diff: -((+)Aux    - (-)Master)| NOT OK, magnitude will be correct but negative
 			*/
 
-			masterConfig.diff0Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Integrated Sensor
-			masterConfig.diff1Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();   //Aux Selected Sensor
+			masterConfig.diff1Term = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Integrated Sensor
+			masterConfig.diff0Term = TalonFXFeedbackDevice.RemoteSensor0.toFeedbackDevice();   //Aux Selected Sensor
 			masterConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.SensorDifference.toFeedbackDevice(); //Diff0 - Diff1
 		} else {
 			/* Master is not inverted, both sides are positive so we can sum them. */
@@ -243,7 +241,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 		heading magnitude.  */
 
 		/* Check if we're inverted */
-		if (masterInvertType == TalonFXInvertType.Clockwise){
+		if (masterInvertType == TalonFXInvertType.CounterClockwise){
 			/* 
 				If master is inverted, that means the integrated sensor
 				will be negative in the forward direction.
@@ -304,8 +302,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("Left Pos", (leftElevatorMotor.getSelectedSensorPosition()));
 		SmartDashboard.putNumber("Right V", (rightElevatorMotor.getSelectedSensorVelocity()));
 		SmartDashboard.putNumber("Left V", (leftElevatorMotor.getSelectedSensorVelocity()));
-		SmartDashboard.putNumber("Right Error", (rightElevatorMotor.getSensorCollection().getIntegratedSensorPosition()));
-		SmartDashboard.putNumber("Left Error", (leftElevatorMotor.getSensorCollection().getIntegratedSensorPosition()));
+		SmartDashboard.putNumber("Right Error", (rightElevatorMotor.getSelectedSensorPosition()));
+		SmartDashboard.putNumber("Left Error", (leftElevatorMotor.getSelectedSensorPosition()));
 	}
 }
 
