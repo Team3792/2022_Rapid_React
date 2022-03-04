@@ -6,22 +6,21 @@ package frc.robot.commands;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.PDHSubsystem;
-
+import frc.robot.AAPowerDistribution;
 import frc.robot.subsystems.LEDSubsystem;
 
 
 /** An example command that uses an example subsystem. */
 public class LightsCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private PDHSubsystem aaPDH;
+  private AAPowerDistribution aaPDH;
   private LEDSubsystem ledLights;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LightsCmd(PDHSubsystem aaPDH) {
+  public LightsCmd(AAPowerDistribution aaPDH) {
     this.aaPDH = aaPDH;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(aaPDH);
@@ -47,15 +46,15 @@ public class LightsCmd extends CommandBase {
     
   }
 
-  public void ringLightOn()
-  {
-    aaPDH.setRingLight(true);
-  }
+  // public void ringLightOn()
+  // {
+  //   aaPDH.setRingLight(true);
+  // }
 
-  public void ringLightOff()
-  {
-    aaPDH.setRingLight(false);
-  }
+  // public void ringLightOff()
+  // {
+  //   aaPDH.setRingLight(false);
+  // }
 
 
   

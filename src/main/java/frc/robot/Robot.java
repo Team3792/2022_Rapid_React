@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.LightsCmd;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.PDHSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,7 +27,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private PDHSubsystem m_PDH = new PDHSubsystem();
+  // private PDHSubsystem m_PDH = new PDHSubsystem();
   private IntakeSubsystem m_intake = new IntakeSubsystem();
 
 
@@ -49,8 +48,8 @@ public class Robot extends TimedRobot {
     
     m_robotContainer = new RobotContainer();
     new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
-
-    new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
+    AAPowerDistribution.ringLightOff();
+    // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
 
   }
 
@@ -85,7 +84,7 @@ public class Robot extends TimedRobot {
     leftFollow.setNeutralMode(NeutralMode.Coast);
     feedMotor.setNeutralMode(NeutralMode.Brake);
 
-    new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
+    // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
 
   }
 

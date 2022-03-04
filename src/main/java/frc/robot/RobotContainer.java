@@ -16,6 +16,7 @@ import frc.robot.commands.AutoRoutines.*;
 
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj.Joystick;
@@ -74,7 +75,6 @@ public class RobotContainer {
   private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
   private final ClimbSubsystem m_climber = new ClimbSubsystem();
   private final ServoSubsystem m_servo = new ServoSubsystem();
-  private PDHSubsystem m_PDH = new PDHSubsystem();
 
 
   //Auto Declarators
@@ -253,21 +253,20 @@ operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
 
 
 
-  operateController.LFaceButton.whileHeld(new RunCommand(
+  operateController.LFaceButton.whenPressed(new InstantCommand(
     
-  () -> new ServoCmd(m_servo).runServoFull(),
-  
-  m_servo
+  AAPowerDistribution::ringLightOn
   
   ));
 
-  operateController.RFaceButton.whileHeld(new RunCommand(
+  operateController.RFaceButton.whenPressed(new InstantCommand(
     
-  () -> new ServoCmd(m_servo).resetServo(),
+    AAPowerDistribution::ringLightOff
+    
+    ));
   
-  m_servo
+
   
-  ));
 
 
 

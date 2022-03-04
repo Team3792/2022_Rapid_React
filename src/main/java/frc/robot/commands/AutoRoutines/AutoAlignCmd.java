@@ -20,7 +20,7 @@ public class AutoAlignCmd extends CommandBase{
 
   //subsystem declarations
   private final DriveSubsystem driveTrain;
-  private PDHSubsystem m_PDH = new PDHSubsystem();
+  // private PDHSubsystem m_PDH = new PDHSubsystem();
 
   private boolean complete = false;
 
@@ -43,7 +43,7 @@ public class AutoAlignCmd extends CommandBase{
     @Override
     public void initialize() 
     {
-      new RunCommand(() -> new LightsCmd(m_PDH).ringLightOn(), m_PDH);
+      // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOn(), m_PDH);
     
     }
 
@@ -69,7 +69,7 @@ public class AutoAlignCmd extends CommandBase{
     @Override
     public boolean isFinished() 
     {
-      new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
+      // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
       return complete;
     } 
 
