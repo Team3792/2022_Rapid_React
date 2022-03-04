@@ -142,10 +142,31 @@ public final class Constants {
 
   public static final class ClimbConstants
   {
-     //Climb PID constants
-     public static final double kArmkP = 0;
-     public static final double kArmkI = 0;
-     public static final double kArmkD = 0;
+    //Climb PID constants
+    public static final double kClimbP = 0.22478;
+    public static final double kClimbI = 0;
+    public static final double kClimbD = 0;
+    public static final double kClimbF = 0.04809    ;
+    public static final double kClimbIzone = 0;
+    public static final double kClimbPeakOutput = 0.75;
+
+    public static final double setpointForward = 16384;
+    public static final double setpointBack = 0;
+
+    //Motion Magic Constants
+    public static final double kClimbMaxV = 114; // u/100ms
+    public static final double kClimbAccel = 228; // u/100ms/s
+  }
+
+  public static final class ClimbAuxConstants
+  {
+    //Elevator AUX PID Constants
+    public static final double kClimbAuxP = 0;
+    public static final double kClimbAuxI = 0;
+    public static final double kClimbAuxD = 0;
+    public static final double kClimbAuxF = 0;
+    public static final double kClimbAuxIzone = 0;
+    public static final double kClimbAuxPeakOutput = 0.75;
   }
 
 }

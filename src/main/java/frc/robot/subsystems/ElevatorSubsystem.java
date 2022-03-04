@@ -87,12 +87,6 @@ public class ElevatorSubsystem extends SubsystemBase {
 	rightConfig.slot0.closedLoopPeakOutput = Constants.ElevatorConstants.kElevatorPeakOutput;
 	rightConfig.slot0.allowableClosedloopError = 0;
 
-	/* false means talon's local output is PID0 + PID1, and other side Talon is PID0 - PID1
-	 * 
-	 * true means talon's local output is PID0 - PID1, and other side Talon is PID0 + PID1
-	 */
-	rightConfig.auxPIDPolarity = false;
-
 	/* FPID for Correction */
 	rightConfig.slot1.kP = Constants.ElevatorAuxConstants.kElevatorAuxP;
 	rightConfig.slot1.kI = Constants.ElevatorAuxConstants.kElevatorAuxI;
@@ -115,8 +109,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 	rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
 
 	/* Motion Magic Configs */
-	rightConfig.motionAcceleration = 3301; //(distance units per 100 ms) per second
-	rightConfig.motionCruiseVelocity = 16504; // distance units per 100 ms
+	rightConfig.motionAcceleration = Constants.ElevatorConstants.kElevatorAccel; //(distance units per 100 ms) per second
+	rightConfig.motionCruiseVelocity = Constants.ElevatorConstants.kElevatorMaxV; // distance units per 100 ms
 
 	/* APPLY the config settings */
 	leftElevatorMotor.configAllSettings(leftConfig);
@@ -142,12 +136,13 @@ public class ElevatorSubsystem extends SubsystemBase {
 	  }
 
 	public void moveElevatorUp(){
-		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0.25);
-		leftElevatorMotor.follow(rightElevatorMotor);
+		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0.25, DemandType.AuxPID, 0);
+		leftElevatorMotor.follow(rightElevatorMotor, FollowerType.AuxOutput1);
 	}
 
 	public void moveLeftUp(){
-		leftElevatorMotor.set(TalonFXControlMode.PercentOutput, -0.25);
+		leftElevatorMotor.set(TalonFXControlMode.PercentOutput, -0.25, DemandType.AuxPID, 0);
+		leftElevatorMotor.follow(rightElevatorMotor, FollowerType.AuxOutput1);
 	}
 
 	public void moveElevatorDown(){
