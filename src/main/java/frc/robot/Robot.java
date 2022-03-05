@@ -12,16 +12,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-<<<<<<< HEAD
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.LightsCmd;
 import frc.robot.subsystems.IntakeSubsystem;
-=======
 import frc.robot.Sim.PhysicsSim;
 import frc.robot.commands.DefaultDriveCmd;
 import frc.robot.subsystems.ElevatorSubsystem;
->>>>>>> Climb
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
