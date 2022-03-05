@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -37,14 +38,39 @@ public class ServoCmd extends CommandBase {
     
   }
 
-  public void openServo(){
+  public void openLServo()
+  {
     servo.turnAngle(90);;
+    // SmartDashboard.putBoolean("Servo", true);
   }
+
+  
   
 
-  public void resetServo(){
-    servo.turnAngle(-90);
+  public void resetServo()
+  {
+    servo.turnAngle(-10);
+    // SmartDashboard.putBoolean("Servo", false);
+
   }
+
+  public void openServo()
+  {
+    servo.turnAngle(10);;
+    // SmartDashboard.putBoolean("Servo", true);
+  }
+
+  
+  
+
+  public void resetLServo()
+  {
+    servo.turnAngle(-10);
+    // SmartDashboard.putBoolean("Servo", false);
+
+  }
+
+
 
   // Called once the command ends or is interrupted.
   @Override
