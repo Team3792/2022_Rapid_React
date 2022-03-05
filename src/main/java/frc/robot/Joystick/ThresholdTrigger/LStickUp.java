@@ -30,7 +30,7 @@ public class LStickUp extends Button {
 
   public boolean get()
   {
-    if (stick.getRawAxis(Constants.ButtonConstant.kLYAxis) >= 0.8)
+    if (stick.getRawAxis(Constants.ButtonConstant.kLYAxis) <= -0.8)
     {
       return true;
     }

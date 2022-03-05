@@ -14,40 +14,48 @@ public class ClimbCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ClimbSubsystem climber;
 
+  public int kErrThreshold = 10; // how many sensor units until its close-enough
+	public int kLoopsToSettle = 10; // how many loops sensor must be close-enough
+	public int _withinThresholdLoops = 0;
+
+  private Double setpoint;
+
     
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ClimbCmd(ClimbSubsystem climber) {
+  public ClimbCmd(ClimbSubsystem climber, double setpoint) {
      this.climber = climber;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);
+    this.setpoint = setpoint;
     }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    climber.moveClimbMM(setpoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    /* Check if closed loop error is within the threshld */
+	if (climber.rightClimbMotor.getActiveTrajectoryPosition() < +kErrThreshold &&
+	climber.rightClimbMotor.getActiveTrajectoryPosition() > -kErrThreshold) {
+
+		++_withinThresholdLoops;
+	} else {
+		_withinThresholdLoops = 0;
+	}
     
   }
 
-  public void moveArmUp(){
-    climber.setValue(-0.05);
-  }
-
-  public void moveArmDown(){
-    climber.setValue(0.05);
-  }
-
-  public void stopArm(){
-    climber.setValue(0);
+  public void stopElevator(){
+	  climber.rightClimbMotor.set(0);
   }
 
   // Called once the command ends or is interrupted.
@@ -57,6 +65,6 @@ public class ClimbCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (_withinThresholdLoops > kLoopsToSettle);
   }
 }

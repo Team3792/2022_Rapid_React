@@ -5,16 +5,23 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.LightsCmd;
 import frc.robot.subsystems.IntakeSubsystem;
+=======
+import frc.robot.Sim.PhysicsSim;
+import frc.robot.commands.DefaultDriveCmd;
+import frc.robot.subsystems.ElevatorSubsystem;
+>>>>>>> Climb
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -36,6 +43,19 @@ public class Robot extends TimedRobot {
   public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
   private final WPI_VictorSPX feedMotor = new WPI_VictorSPX(Constants.MotorID.kFeedMotor);
+
+  ElevatorSubsystem elevator = new ElevatorSubsystem();
+
+  // @Override
+	// public void simulationInit() {
+	// 	PhysicsSim.getInstance().addTalonFX(elevator.leftElevatorMotor, 5, 15596);
+	// 	PhysicsSim.getInstance().addTalonFX(elevator.rightElevatorMotor, 5, 15596);
+  // }
+
+	// @Override
+	// public void simulationPeriodic() {
+	// 	PhysicsSim.getInstance().run();
+	// }
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -83,9 +103,14 @@ public class Robot extends TimedRobot {
     leftLead.setNeutralMode(NeutralMode.Coast);
     leftFollow.setNeutralMode(NeutralMode.Coast);
     feedMotor.setNeutralMode(NeutralMode.Brake);
+<<<<<<< HEAD
 
     // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
 
+=======
+    elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
+    elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
+>>>>>>> Climb
   }
 
   @Override
@@ -114,6 +139,9 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+
+    elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
+    elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
     }
 
     rightLead.setNeutralMode(NeutralMode.Brake);

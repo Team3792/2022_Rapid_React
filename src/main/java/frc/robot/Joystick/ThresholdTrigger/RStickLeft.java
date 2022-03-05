@@ -30,7 +30,7 @@ public class RStickLeft extends Button {
 
   public boolean get()
   {
-    if (stick.getRawAxis(Constants.ButtonConstant.kRXAxis) >= 0.8)
+    if (stick.getRawAxis(Constants.ButtonConstant.kRXAxis) <= -0.8)
     {
       return true;
     }

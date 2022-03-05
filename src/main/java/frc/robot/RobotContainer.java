@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import java.util.function.Supplier;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -138,48 +139,108 @@ public class RobotContainer {
 
 
 
-//Climb Stuff
-operateController.climbUp.whileHeld(new StartEndCommand(
-  
-()-> new ElevatorCmd(m_elevator).moveElevatorUp(), 
+//Elevator
 
-() -> new ElevatorCmd(m_elevator).stopElevator(), 
+operateController.CircleButton.whenPressed(new ParallelCommandGroup(
+
+new InstantCommand(m_elevator::zeroSensors, m_elevator),
+
+new InstantCommand(m_climber::zeroSensors, m_climber)
+
+));
+
+operateController.climbUp.and(operateController.SquareButton).whenActive(new ElevatorCmd(
+  
+m_elevator, 
+
+Constants.ElevatorConstants.setpointUp
+
+));
+
+operateController.climbDown.and(operateController.SquareButton).whenActive(new ElevatorCmd(
+  
+m_elevator, 
+
+Constants.ElevatorConstants.setpointDown
+
+));
+
+
+operateController.LeftStickButton.and(operateController.climbUp).whenActive(new InstantCommand(
+
+m_elevator::moveElevatorUp,
 
 m_elevator
 
 ));
 
-operateController.climbDown.whileHeld(new StartEndCommand(
-  
-()-> new ElevatorCmd(m_elevator).moveElevatorDown(), 
+operateController.LeftStickButton.and(operateController.climbDown).whenActive(new InstantCommand(
 
-() -> new ElevatorCmd(m_elevator).stopElevator(), 
+m_elevator::moveElevatorDown,
 
 m_elevator
 
 ));
 
-operateController.pivotForward.whileHeld(new StartEndCommand(
-  
-()-> new ClimbCmd(m_climber).moveArmUp(), 
+operateController.LeftStickButton.whenReleased(new InstantCommand(
 
-()-> new ClimbCmd(m_climber).stopArm(), 
+m_elevator::stopElevator,
+
+m_elevator
+
+));
+operateController.TriangleButton.whileHeld(new StartEndCommand(
+
+m_climber::moveLeftUp,
+
+m_climber::stopClimb,
+
+m_elevator
+
+));
+
+//Pivot, Climb, idk whatever we're calling it
+
+operateController.pivotForward.and(operateController.SquareButton).whenActive(new ClimbCmd(
+  
+m_climber, 
+
+Constants.ClimbConstants.setpointForward
+
+));
+
+operateController.pivotBack.and(operateController.SquareButton).whenActive(new ClimbCmd(
+
+m_climber, 
+
+Constants.ClimbConstants.setpointBack
+
+));
+
+
+operateController.RightStickButton.and(operateController.pivotForward).whenActive(new InstantCommand(
+
+m_climber::moveClimbForward,
 
 m_climber
 
 ));
 
-operateController.pivotBack.whileHeld(new StartEndCommand(
-  
-()-> new ClimbCmd(m_climber).moveArmDown(), 
+operateController.RightStickButton.and(operateController.pivotBack).whenActive(new InstantCommand(
 
-()-> new ClimbCmd(m_climber).stopArm(), 
+m_climber::moveClimbBack,
 
 m_climber
 
 ));
 
+operateController.RightStickButton.whenReleased(new InstantCommand(
 
+m_climber::stopClimb,
+
+m_climber
+
+));
 
 readyShoot.whileHeld(new StartEndCommand(
   // Start a flywheel spinning at 50% power
