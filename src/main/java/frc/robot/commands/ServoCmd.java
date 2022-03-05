@@ -37,7 +37,7 @@ public class ServoCmd extends CommandBase {
     
   }
 
-  public void runServoFull(){
+  public void openServo(){
     servo.turnAngle(90);;
   }
   

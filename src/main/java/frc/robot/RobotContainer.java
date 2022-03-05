@@ -330,6 +330,22 @@ operateController.RFaceButton.whenPressed(new InstantCommand(
   AAPowerDistribution::ringLightOff
 
 ));
+
+operateController.L1Button.whileHeld(new RunCommand(
+    () -> new ServoCmd(m_servo).openServo(),
+
+    m_servo
+
+
+));
+
+operateController.R1Button.whileHeld(new RunCommand(
+    () -> new ServoCmd(m_servo).resetServo(),
+    
+    m_servo
+
+
+));
   
 
   
