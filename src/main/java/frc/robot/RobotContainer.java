@@ -250,6 +250,7 @@ readyShoot.whileHeld(new StartEndCommand(
   () -> operateController.stopShake(),
   // Requires the feeder subsystem
   m_feeder
+
 ));
 
 
@@ -260,6 +261,7 @@ operateController.RTriggerButton.whileHeld(new StartEndCommand(
   () -> feedControl.stopFeeder(),
   // Requires the feeder subsystem
   m_feeder
+
 ));
 
 operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
@@ -269,6 +271,7 @@ operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
   () -> feedControl.stopFeeder(),
   // Requires the feeder subsystem
   m_feeder
+
 ));
 
 
@@ -281,6 +284,7 @@ operateController.POVUpish.whileActiveContinuous(new StartEndCommand(
   () -> new IntakeCmd(m_intake).stopIntake(),
 
   m_intake
+
 ));
 
 
@@ -291,6 +295,7 @@ intakeButton.whileHeld(new StartEndCommand(
   () -> new IntakeCmd(m_intake).stopIntake(),
 
   m_intake
+  
 ));
 
 operateController.POVDownish.whileActiveContinuous(new StartEndCommand(
@@ -300,32 +305,30 @@ operateController.POVDownish.whileActiveContinuous(new StartEndCommand(
   () -> new IntakeCmd(m_intake).stopIntake(),
 
   m_intake
+
 ));
 
 operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
+
   () -> new SetShootCmd(m_shooter).reverseShooter(), 
 
   () -> new SetShootCmd(m_shooter).stopShoot(), 
   
   m_shooter
   
-  ));
+));
 
-
-
-
-
-  operateController.LFaceButton.whenPressed(new InstantCommand(
-    
-  AAPowerDistribution::ringLightOn
+operateController.LFaceButton.whenPressed(new InstantCommand(
   
-  ));
+  AAPowerDistribution::ringLightOn
 
-  operateController.RFaceButton.whenPressed(new InstantCommand(
+));
+
+operateController.RFaceButton.whenPressed(new InstantCommand(
     
-    AAPowerDistribution::ringLightOff
-    
-    ));
+  AAPowerDistribution::ringLightOff
+
+));
   
 
   

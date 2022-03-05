@@ -23,12 +23,15 @@ public class ShooterSubsystem extends SubsystemBase {
         shooter.setSelectedSensorPosition(0);
     }
 
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("RPM", getMeasurement());
+        SmartDashboard.putNumber("Setpoint", setpoint());
+        SmartDashboard.putNumber("Error", setpoint()-getMeasurement());
+    }
+
     public double setpoint() {
         double setpointVal = ((stick.getRawAxis(3) + 1) / 2) * 7500;
-        //System.out.println("Setpoint " + setpointVal);
-        // SmartDashboard.putNumber("setpoint", ((stick.getRawAxis(3) + 1) / 2) * 7500);
-        // SmartDashboard.putNumber("setpointGraph", ((stick.getRawAxis(3) + 1) / 2) * 7500);
-
         return (setpointVal);
     }
 
@@ -46,12 +49,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public double getMeasurement() {
         double rpmVal = toRPM(shooter.getSelectedSensorVelocity());
-        System.out.println("RPM Val:   " + rpmVal);
-        SmartDashboard.putNumber("RPM", rpmVal);
-        // SmartDashboard.putNumber("RPM_graph", rpmVal);
-        // SmartDashboard.putNumber("RPM", toRPM(shooter.getSelectedSensorVelocity()));
-        // SmartDashboard.putNumber("RPMGraph", toRPM(shooter.getSelectedSensorVelocity()));
-
         return (rpmVal);
     }
 

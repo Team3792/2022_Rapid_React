@@ -105,8 +105,8 @@ public final class Constants {
     public static final double shooterkD = 0;
 
     //FF constants
-    public static final double shooterKs = 0.0015;
-    public static final double shooterKv = 0.00325;
+    public static final double shooterKs = 0.092;
+    public static final double shooterKv = 0.0031;
     public static final double shooterKa = 0.003;
 
   }
