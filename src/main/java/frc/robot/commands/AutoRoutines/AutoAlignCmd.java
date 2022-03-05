@@ -1,10 +1,12 @@
 package frc.robot.commands.AutoRoutines;
 
+import frc.robot.AAPowerDistribution;
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
 import frc.robot.commands.LightsCmd;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
 import java.util.function.Supplier;
@@ -43,8 +45,7 @@ public class AutoAlignCmd extends CommandBase{
     @Override
     public void initialize() 
     {
-      // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOn(), m_PDH);
-    
+      new InstantCommand(AAPowerDistribution::ringLightOn);    
     }
 
 
@@ -69,7 +70,7 @@ public class AutoAlignCmd extends CommandBase{
     @Override
     public boolean isFinished() 
     {
-      // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
+      new InstantCommand(AAPowerDistribution::ringLightOff);    
       return complete;
     } 
 

@@ -25,10 +25,6 @@ public class AutoShootCmd extends CommandBase{
   private double output;
   private ShooterCmd shootCmd;
 
-  @Override
-  public boolean isFinished() {
-    return complete;
-  }
  
   /**
    * Creates a new default drive.
@@ -60,4 +56,10 @@ public class AutoShootCmd extends CommandBase{
       }
 
     }
+
+
+  @Override
+  public boolean isFinished() {
+    return complete;
+  }
 }
