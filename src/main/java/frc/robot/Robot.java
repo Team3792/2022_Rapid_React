@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.LightsCmd;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Sim.PhysicsSim;
 import frc.robot.commands.DefaultDriveCmd;
@@ -61,7 +62,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    
+
     m_robotContainer = new RobotContainer();
     new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
     AAPowerDistribution.ringLightOff();

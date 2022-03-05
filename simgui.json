@@ -46,6 +46,7 @@
       "/LiveWindow/ElevatorSubsystem": "Subsystem",
       "/LiveWindow/FeedSubsystem": "Subsystem",
       "/LiveWindow/IntakeSubsystem": "Subsystem",
+      "/LiveWindow/ServoSubsystem": "Subsystem",
       "/LiveWindow/ShooterSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",

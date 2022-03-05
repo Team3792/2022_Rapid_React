@@ -14,8 +14,8 @@ public class ClimbCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ClimbSubsystem climber;
 
-  public int kErrThreshold = 10; // how many sensor units until its close-enough
-	public int kLoopsToSettle = 10; // how many loops sensor must be close-enough
+  public int kErrThreshold = 50; // how many sensor units until its close-enough
+	public int kLoopsToSettle = 100; // how many loops sensor must be close-enough
 	public int _withinThresholdLoops = 0;
 
   private Double setpoint;
