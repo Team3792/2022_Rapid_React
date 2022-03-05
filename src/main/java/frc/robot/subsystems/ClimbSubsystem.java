@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.Joystick.PS5Mapping;
+import frc.robot.Joystick.PS5Mapping;
 
 /** Add your docs here. */
 public class ClimbSubsystem extends SubsystemBase {

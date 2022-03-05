@@ -11,7 +11,7 @@ import frc.robot.Constants;
 import frc.robot.Joystick.CombinedButton.*;
 import frc.robot.Joystick.SingleButton.CircleOnly;
 import frc.robot.Joystick.SingleButton.SquareOnly;
-import frc.robot.Joystick.SingleButton.TriangeOnly;
+import frc.robot.Joystick.SingleButton.TriangleOnly;
 import frc.robot.Joystick.SingleButton.XOnly;
 import frc.robot.Joystick.ThresholdTrigger.*;
 import edu.wpi.first.wpilibj.XboxController;
@@ -57,7 +57,7 @@ public class PS5Mapping extends CommandBase {
 
 
 
-    public final TriangeOnly TriangeOnlyButton;
+    public final TriangleOnly TriangleOnlyButton;
     public final CircleOnly CircleOnlyButton;
     public final SquareOnly SquareOnlyButton;
     public final XOnly XOnlyButton;
@@ -88,7 +88,7 @@ public class PS5Mapping extends CommandBase {
     XOnlyButton = new XOnly(operateController);
     CircleOnlyButton = new CircleOnly(operateController);
     SquareOnlyButton = new SquareOnly(operateController);
-    TriangeOnlyButton = new TriangeOnly(operateController);
+    TriangleOnlyButton = new TriangleOnly(operateController);
 
     L1Button = new JoystickButton(operateController, Constants.ButtonConstant.kL1Button);
     R1Button = new JoystickButton(operateController, Constants.ButtonConstant.kR1Button);

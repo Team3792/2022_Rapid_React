@@ -99,14 +99,8 @@ public class Robot extends TimedRobot {
     leftLead.setNeutralMode(NeutralMode.Coast);
     leftFollow.setNeutralMode(NeutralMode.Coast);
     feedMotor.setNeutralMode(NeutralMode.Brake);
-<<<<<<< HEAD
-
-    // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
-
-=======
     elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
     elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
->>>>>>> Climb
   }
 
   @Override

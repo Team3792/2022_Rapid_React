@@ -12,7 +12,7 @@ import frc.robot.Constants;
 
 
 /** An example command that uses an example subsystem. */
-public class TriangeOnly extends Button {
+public class TriangleOnly extends Button {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private XboxController stick;
 
@@ -21,7 +21,7 @@ public class TriangeOnly extends Button {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public TriangeOnly(XboxController stick) 
+  public TriangleOnly(XboxController stick) 
   {
       this.stick = stick;
 
