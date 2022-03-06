@@ -188,7 +188,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
     /* Check if we're inverted */
     //america explain
-    if (masterInvertType == TalonFXInvertType.CounterClockwise){
+    if (masterInvertType == TalonFXInvertType.Clockwise){
       /* 
         If master is inverted, that means the integrated sensor
         will be negative in the forward direction.
