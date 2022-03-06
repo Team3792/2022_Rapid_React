@@ -16,15 +16,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Add your docs here. */
 public class ServoSubsystem extends SubsystemBase {
   
-  Servo testServo = new Servo(0);
+  Servo LArmServo = new Servo(1);
+  Servo RArmServo = new Servo(0);
+
   
   public ServoSubsystem() 
   {
   }
 
-  public void turnAngle(double v)
+  public void turnLServoAngle(double v)
   {
-    testServo.setAngle(v);
+    LArmServo.setAngle(v);
+  }
+
+  public void turnRServoAngle(double v)
+  {
+    RArmServo.setAngle(v);
   }
 
 }

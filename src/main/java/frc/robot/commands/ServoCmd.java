@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ServoSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -38,37 +37,32 @@ public class ServoCmd extends CommandBase {
     
   }
 
-  public void openLServo()
-  {
-    servo.turnAngle(90);;
-    // SmartDashboard.putBoolean("Servo", true);
-  }
-
   
   
-
-  public void resetServo()
-  {
-    servo.turnAngle(-10);
-    // SmartDashboard.putBoolean("Servo", false);
-
-  }
-
   public void openServo()
   {
-    servo.turnAngle(10);;
+
+    servo.turnRServoAngle(5);
+    servo.turnLServoAngle(90);
+
+
+
     // SmartDashboard.putBoolean("Servo", true);
   }
-
   
-  
-
-  public void resetLServo()
+  public void closeServo()
   {
-    servo.turnAngle(-10);
+
+    servo.turnRServoAngle(85);
+    servo.turnLServoAngle(-10);
+
+
     // SmartDashboard.putBoolean("Servo", false);
 
   }
+
+ 
+
 
 
 

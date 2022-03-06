@@ -340,7 +340,7 @@ operateController.L1Button.whileHeld(new RunCommand(
 ));
 
 operateController.R1Button.whileHeld(new RunCommand(
-    () -> new ServoCmd(m_servo).resetServo(),
+    () -> new ServoCmd(m_servo).closeServo(),
     
     m_servo
 

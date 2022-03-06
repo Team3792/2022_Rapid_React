@@ -14,10 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.LightsCmd;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.Sim.PhysicsSim;
-import frc.robot.commands.DefaultDriveCmd;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /**

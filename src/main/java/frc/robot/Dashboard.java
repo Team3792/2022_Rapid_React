@@ -4,11 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.subsystems.*;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import edu.wpi.first.cameraserver.CameraServer;
 
 
 
