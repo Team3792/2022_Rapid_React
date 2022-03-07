@@ -21,13 +21,18 @@ public class AAPowerDistribution extends SubsystemBase {
   public static void ringLightOn()
   {
     aaPDH.setSwitchableChannel(false);
+    System.out.println("turning on");
   }
+
+
 
   
 
   public static void ringLightOff()
   {
     aaPDH.setSwitchableChannel(false);
+    System.out.println("turning off");
+
   }
 
   // public static void toggleLight()

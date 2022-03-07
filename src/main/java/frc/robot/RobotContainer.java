@@ -362,7 +362,7 @@ operateController.RFaceButton.whenPressed(new InstantCommand(
 
 ));
 
-operateController.L1Button.whileHeld(new RunCommand(
+operateController.RFaceButton.whileHeld(new RunCommand(
     () -> new ServoCmd(m_servo).openServo(),
 
     m_servo
@@ -371,7 +371,9 @@ operateController.L1Button.whileHeld(new RunCommand(
 
 ));
 
-operateController.R1Button.whileHeld(new RunCommand(
+
+
+operateController.LFaceButton.whileHeld(new RunCommand(
     () -> new ServoCmd(m_servo).closeServo(),
     
     m_servo
