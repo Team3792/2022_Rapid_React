@@ -58,6 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
     leftFollow.follow(leftLead);
     rightFollow.follow(rightLead);
     rightMotors.setInverted(true);
+    rightLead.setSelectedSensorPosition(0);
+    leftLead.setSelectedSensorPosition(0);
   }
 
   public void drive(double fwd, double rot){

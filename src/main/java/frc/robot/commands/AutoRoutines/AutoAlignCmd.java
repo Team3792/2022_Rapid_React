@@ -52,7 +52,7 @@ public class AutoAlignCmd extends CommandBase{
     @Override
     public void execute() {
 
-      if(Math.abs(SmartDashboard.getNumber("targetAngle", 0)) > 0.07){
+      if((Math.abs(SmartDashboard.getNumber("targetAngle", 0)) > 0.07) && (Math.abs((driveTrain.leftLead.getSelectedSensorPosition() + driveTrain.rightLead.getSelectedSensorPosition()) / 2) >  FeetToEncoder(5))){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
         driveTrain.drive(-0.3, (SmartDashboard.getNumber("targetAngle", 0))/1);
         System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));  
@@ -67,6 +67,16 @@ public class AutoAlignCmd extends CommandBase{
       }
       
     }
+
+    public double FeetToEncoder(double feet) {
+      double inches = 12 * feet;
+      double wheelRots = inches / 12.566;
+      double encoderRots = wheelRots * 7.44;
+      double encoderClicks = encoderRots * 2048;
+      return encoderClicks;
+  
+    }
+
     @Override
     public boolean isFinished() 
     {
