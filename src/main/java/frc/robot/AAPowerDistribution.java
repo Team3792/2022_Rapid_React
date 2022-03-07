@@ -30,5 +30,20 @@ public class AAPowerDistribution extends SubsystemBase {
     aaPDH.setSwitchableChannel(false);
   }
 
+  // public static void toggleLight()
+  // {
+  //   if (Constants.GlobalStateConstants.kRingLightState == false)
+  //   {
+  //     aaPDH.setSwitchableChannel(true);
+  //     Constants.GlobalStateConstants.kRingLightState = true;
+
+  //   }
+  //   else if (Constants.GlobalStateConstants.kRingLightState == true)
+  //   {
+  //     aaPDH.setSwitchableChannel(false);
+  //     Constants.GlobalStateConstants.kRingLightState = false;
+  //   }
+  // }
+
 }
 

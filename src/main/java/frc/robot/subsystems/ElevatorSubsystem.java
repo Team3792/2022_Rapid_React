@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
@@ -110,6 +111,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 	rightConfig.motionAcceleration = Constants.ElevatorConstants.kElevatorAccel; //(distance units per 100 ms) per second
 	rightConfig.motionCruiseVelocity = Constants.ElevatorConstants.kElevatorMaxV; // distance units per 100 ms
 
+	/* Zero Encoders On Limit Close */
+	rightConfig.clearPositionOnLimitR = true;
+	leftConfig.clearPositionOnLimitR= true;
+
 	/* APPLY the config settings */
 	leftElevatorMotor.configAllSettings(leftConfig);
 	rightElevatorMotor.configAllSettings(rightConfig);
@@ -129,26 +134,24 @@ public class ElevatorSubsystem extends SubsystemBase {
 	}
 
 	public void moveElevatorMM(double Setpoint){
-		rightElevatorMotor.set(TalonFXControlMode.MotionMagic, Setpoint);
+		rightElevatorMotor.set(TalonFXControlMode.MotionMagic, Setpoint, DemandType.ArbitraryFeedForward, .25);
 		// , DemandType.AuxPID, 0);
 		leftElevatorMotor.follow(rightElevatorMotor);
 		// , FollowerType.AuxOutput1);
 	  }
 
 	public void moveElevatorUp(){
-		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0.25);
-		// , DemandType.AuxPID, 0);
-		leftElevatorMotor.follow(rightElevatorMotor);
-		// , FollowerType.AuxOutput1);
+		rightElevatorMotor.set(1);
+		leftElevatorMotor.set(1);
 	}
 
 	public void moveLeftUp(){
-		leftElevatorMotor.set(TalonFXControlMode.PercentOutput, 0.25);
+		leftElevatorMotor.set(0.25);
 	}
 
 	public void moveElevatorDown(){
-		rightElevatorMotor.set(TalonFXControlMode.PercentOutput, -0.25);
-		leftElevatorMotor.follow(rightElevatorMotor);
+		rightElevatorMotor.set(-.25);
+		leftElevatorMotor.set(-.25);
 	}
 
 	public void stopElevator(){
@@ -298,8 +301,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("Left Pos", leftElevatorMotor.getSelectedSensorPosition());
 		SmartDashboard.putNumber("Right V", (rightElevatorMotor.getSelectedSensorVelocity()));
 		SmartDashboard.putNumber("Left V", (leftElevatorMotor.getSelectedSensorVelocity()));
-		SmartDashboard.putNumber("Right Error", (rightElevatorMotor.getClosedLoopError(0)));
-		SmartDashboard.putNumber("Left Error", (leftElevatorMotor.getClosedLoopError(0)));
+		// SmartDashboard.putNumber("Right Error", (rightElevatorMotor.getClosedLoopError(0)));
+		// SmartDashboard.putNumber("Left Error", (leftElevatorMotor.getClosedLoopError(0)));
 	}
 }
 

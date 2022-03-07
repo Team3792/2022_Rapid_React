@@ -117,8 +117,10 @@ public class RobotContainer {
     
 
 
-    operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
-    () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
+    // operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    // () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
+
+    operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 5000, false));
 
 
 
@@ -337,6 +339,7 @@ operateController.L1Button.whileHeld(new RunCommand(
     m_servo
 
 
+
 ));
 
 operateController.R1Button.whileHeld(new RunCommand(
@@ -346,16 +349,6 @@ operateController.R1Button.whileHeld(new RunCommand(
 
 
 ));
-  
-
-  
-
-
-
- 
-
-  
-
 
 
 

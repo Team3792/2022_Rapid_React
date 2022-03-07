@@ -15,9 +15,13 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import java.util.function.Supplier;
 
@@ -54,16 +58,27 @@ public class Auto2Ball extends SequentialCommandGroup {
 
     addCommands(
 
-      new AutoAlignCmd(driveTrain),
+      new SequentialCommandGroup(
+        
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          
+          new AutoAlignCmd(driveTrain),
+          new WaitCommand(3)
 
-      new ParallelCommandGroup(
-        new AutoFeedCmd(feeder),
 
-        new SetShootCmd(shooter)
+  
+        ),
+  
+        new ParallelCommandGroup(
+          new AutoFeedCmd(feeder),
+  
+          new ShooterCmd(shooter, SmartDashboard.getNumber("targetRPM", 0.0), false)
+                )
+  
+  
       )
-
-
-    );
+            );
     
   }
 

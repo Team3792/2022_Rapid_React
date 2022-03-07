@@ -6,7 +6,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.motorcontrol.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -58,11 +60,6 @@ public class DriveSubsystem extends SubsystemBase {
     rightMotors.setInverted(true);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
   public void drive(double fwd, double rot){
     //deadband + calculate speeds
 
@@ -97,8 +94,6 @@ public class DriveSubsystem extends SubsystemBase {
     final double leftOutput = m_leftPIDController.calculate(toMeters(leftLead.getSelectedSensorVelocity()), speeds.leftMetersPerSecond);
     final double rightOutput = m_rightPIDController.calculate(toMeters(-rightLead.getSelectedSensorVelocity()), speeds.rightMetersPerSecond);
 
-
-
     leftMotors.setVoltage(leftOutput + leftFeedforward);
     rightMotors.setVoltage(rightOutput + rightFeedforward);
   }
@@ -107,12 +102,12 @@ public class DriveSubsystem extends SubsystemBase {
   public static double toMeters(double sensorCounts){
     double motorRotations = (double)sensorCounts / 2048;
     double wheelRotations = motorRotations / 7.44;
-    double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(3));
+    double positionMeters = wheelRotations * (Math.PI * Units.inchesToMeters(4));
     return positionMeters;
   }
 
   @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+  public void periodic() {
+    // This method will be called once per scheduler run
   }
 }

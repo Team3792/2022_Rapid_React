@@ -135,17 +135,14 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public void moveClimbForward(){
-		rightClimbMotor.set(TalonFXControlMode.PercentOutput, 0.05);
-    // , DemandType.AuxPID, 0
-		leftClimbMotor.follow(rightClimbMotor);
-    // , FollowerType.AuxOutput1
+		rightClimbMotor.set(0.05);
+    leftClimbMotor.set(0.05);
+
 	}
 
   public void moveClimbBack(){
-		rightClimbMotor.set(TalonFXControlMode.PercentOutput, -0.05);
-    // , DemandType.AuxPID, 0
-		leftClimbMotor.follow(rightClimbMotor);
-    // , FollowerType.AuxOutput1
+		rightClimbMotor.set(-0.05);
+    leftClimbMotor.set(-0.05);
 	}
 
   public void moveLeftUp(){

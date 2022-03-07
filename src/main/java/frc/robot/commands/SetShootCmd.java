@@ -43,7 +43,7 @@ public class SetShootCmd extends CommandBase {
   public void execute() {
     if(timer.get() >= 5.0){
       complete = true;
-      shooter.zero(0);
+      shooter.zero();
     }
     else{
       shooter.setValue(0.3);

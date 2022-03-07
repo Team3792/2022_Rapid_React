@@ -53,7 +53,7 @@ public class ServoCmd extends CommandBase {
   public void closeServo()
   {
 
-    servo.turnRServoAngle(85);
+    servo.turnRServoAngle(90);
     servo.turnLServoAngle(-10);
 
 

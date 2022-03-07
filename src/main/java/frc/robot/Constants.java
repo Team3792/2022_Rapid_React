@@ -84,7 +84,7 @@ public final class Constants {
   public static final class DriveConstants
   {
     //Drive Kinematics
-    public static final double kDriveTrainWidthMeters = 0.6216331403;
+    public static final double kDriveTrainWidthMeters = 0.655;
 
     //Drivetrain PID Vars
     public static final double kDrivekP = 0.00691;
@@ -114,19 +114,19 @@ public final class Constants {
   public static final class ElevatorConstants
   {
     //Elevator PID constants
-    public static final double kElevatorP = 0.0122;
-    public static final double kElevatorI = 0.0001;
+    public static final double kElevatorP = 0.05;
+    public static final double kElevatorI = 0.0005;
     public static final double kElevatorD = 0;
-    public static final double kElevatorF = 0.050;
-    public static final double kElevatorIzone = 2000;
-    public static final double kElevatorPeakOutput = 0.8;
+    public static final double kElevatorF = 0.06;
+    public static final double kElevatorIzone = 3000;
+    public static final double kElevatorPeakOutput = 1;
 
-    public static final double setpointUp = 400000;
+    public static final double setpointUp = 300000;
     public static final double setpointDown = 0;
 
     //Motion Magic Constants
-    public static final double kElevatorMaxV = 16504; // u/100ms
-    public static final double kElevatorAccel = 16504; // u/100ms/s
+    public static final double kElevatorMaxV = 21000; // u/100ms
+    public static final double kElevatorAccel = 150000; // u/100ms/s
   }
 
   public static final class ElevatorAuxConstants
@@ -137,7 +137,7 @@ public final class Constants {
     public static final double kElevatorAuxD = 0;
     public static final double kElevatorAuxF = 0;
     public static final double kElevatorAuxIzone = 0;
-    public static final double kElevatorAuxPeakOutput = 0.75;
+    public static final double kElevatorAuxPeakOutput = 0.8;
   }
 
   public static final class ClimbConstants
@@ -167,6 +167,12 @@ public final class Constants {
     public static final double kClimbAuxF = 0;
     public static final double kClimbAuxIzone = 0;
     public static final double kClimbAuxPeakOutput = 0.75;
+  }
+
+  public static class GlobalStateConstants
+  {
+    public static boolean kRingLightState = false;
+    
   }
 
 }

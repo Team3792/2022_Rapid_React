@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -61,8 +62,10 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     m_robotContainer = new RobotContainer();
+    LiveWindow.disableAllTelemetry();
     new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
     AAPowerDistribution.ringLightOff();
+    
     // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
 
   }
@@ -102,12 +105,18 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() 
+  {
+
+
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    AAPowerDistribution.ringLightOn();
+
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
