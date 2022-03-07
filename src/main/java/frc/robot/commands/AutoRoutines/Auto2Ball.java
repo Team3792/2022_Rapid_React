@@ -58,23 +58,21 @@ public class Auto2Ball extends SequentialCommandGroup {
 
       new SequentialCommandGroup(
         
-        new ParallelRaceGroup(
+        new ParallelCommandGroup(
         
 
         //new InstantCommand(() -> new SetDriveCmd(driveTrain).setDriveAuto(-0.3,0.0)),
         new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
 
-        new AutoAlignCmd(driveTrain))
-
-
-  
+        new AutoAlignCmd(driveTrain))  
         ),
   
         new ParallelCommandGroup(
           new AutoFeedCmd(feeder),
           new ShooterCmd(shooter, () -> SmartDashboard.getNumber("targetRPM", 0), false))
+
+       
       );
-    
   }
 
 }

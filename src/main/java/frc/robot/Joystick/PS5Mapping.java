@@ -36,6 +36,7 @@ public class PS5Mapping extends CommandBase {
     public final Trigger POVDown;
     public final Trigger POVLeft;
     public final Trigger POVRight;
+    
 
     
 
@@ -124,6 +125,7 @@ public class PS5Mapping extends CommandBase {
   {
     operateController.setRumble(RumbleType.kLeftRumble, 0.5);
     operateController.setRumble(RumbleType.kRightRumble, 0.5);
+    
 
 
   }

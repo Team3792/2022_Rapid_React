@@ -160,7 +160,16 @@ new InstantCommand(m_climber::zeroSensors, m_climber)
 
 ));
 
-operateController.climbUp.and(operateController.SquareOnlyButton).whenActive(new ElevatorCmd(
+// operateController.climbUp.and(operateController.SquareOnlyButton).whenActive(new ElevatorCmd(
+  
+// m_elevator, 
+
+// Constants.ElevatorConstants.setpointUp
+
+// ));
+
+
+operateController.R1Button.whenActive(new ElevatorCmd(
   
 m_elevator, 
 
@@ -168,7 +177,9 @@ Constants.ElevatorConstants.setpointUp
 
 ));
 
-operateController.climbDown.and(operateController.SquareOnlyButton).whenActive(new ElevatorCmd(
+
+
+operateController.L1Button.whenActive(new ElevatorCmd(
   
 m_elevator, 
 
@@ -177,7 +188,7 @@ Constants.ElevatorConstants.setpointDown
 ));
 
 
-operateController.LStickButton.and(operateController.climbUp).whenActive(new InstantCommand(
+operateController.climbUp.whenActive(new InstantCommand(
 
 m_elevator::moveElevatorUp,
 
@@ -185,7 +196,7 @@ m_elevator
 
 ));
 
-operateController.LStickButton.and(operateController.climbDown).whenActive(new InstantCommand(
+operateController.climbDown.whenActive(new InstantCommand(
 
 m_elevator::moveElevatorDown,
 
@@ -193,7 +204,15 @@ m_elevator
 
 ));
 
-operateController.LStickButton.whenReleased(new InstantCommand(
+operateController.climbUp.whenReleased(new InstantCommand(
+
+m_elevator::stopElevator,
+
+m_elevator
+
+));
+
+operateController.climbDown.whenReleased(new InstantCommand(
 
 m_elevator::stopElevator,
 
@@ -253,6 +272,8 @@ m_climber::stopClimb,
 m_climber
 
 ));
+
+
 
 readyShoot.whileHeld(new StartEndCommand(
   // Start a flywheel spinning at 50% power
