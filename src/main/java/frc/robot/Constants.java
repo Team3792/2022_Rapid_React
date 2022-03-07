@@ -100,14 +100,18 @@ public final class Constants {
   public static final class ShooterConstants
   {
     //Shooter PID constants
-    public static final double shooterkP = 0.002;
+    public static final double shooterkP = 0.001;
     public static final double shooterkI = 0;
     public static final double shooterkD = 0;
 
     //FF constants
-    public static final double shooterKs = 0.092;
-    public static final double shooterKv = 0.0031;
-    public static final double shooterKa = 0.003;
+    // public static final double shooterKs = 0.092;
+    // public static final double shooterKv = 0.0031;
+    // public static final double shooterKa = 0.003;
+
+    public static final double shooterKs = 0.05;
+    public static final double shooterKv = 0.001;
+    public static final double shooterKa = 0.001;
 
   }
 

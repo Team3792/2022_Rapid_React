@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,8 +39,10 @@ public class Robot extends TimedRobot {
   public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
   private final WPI_VictorSPX feedMotor = new WPI_VictorSPX(Constants.MotorID.kFeedMotor);
+  
 
   ElevatorSubsystem elevator = new ElevatorSubsystem();
+
 
   // @Override
 	// public void simulationInit() {
@@ -115,7 +118,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    AAPowerDistribution.ringLightOn();
+    //AAPowerDistribution.ringLightOn();
 
 
     // schedule the autonomous command (example)
@@ -145,6 +148,7 @@ public class Robot extends TimedRobot {
     rightFollow.setNeutralMode(NeutralMode.Brake);
     leftLead.setNeutralMode(NeutralMode.Brake);
     leftFollow.setNeutralMode(NeutralMode.Brake);
+
   }
 
   /** This function is called periodically during operator control. */

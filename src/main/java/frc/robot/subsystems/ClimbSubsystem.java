@@ -299,6 +299,8 @@ public class ClimbSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("Left Climb V", (leftClimbMotor.getSelectedSensorVelocity()));
 		SmartDashboard.putNumber("Right Climb Error", (rightClimbMotor.getSelectedSensorPosition()));
 		SmartDashboard.putNumber("Left Climb Error", (leftClimbMotor.getSelectedSensorPosition()));
+
+
 	}
 
 }

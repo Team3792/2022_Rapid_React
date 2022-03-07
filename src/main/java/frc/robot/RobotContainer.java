@@ -120,8 +120,16 @@ public class RobotContainer {
     // operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     // () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
 
-    operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 5000, false));
+    operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    () -> SmartDashboard.getNumber("targetRPM", 0), false));
 
+    operateController.TriangleOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    () -> SmartDashboard.getNumber("5000", 5000), false));
+
+    operateController.SquareOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    () -> SmartDashboard.getNumber("2500", 2500), false));
+
+    SmartDashboard.putNumber("yeah", (((driveJoystick.getRawAxis(3) + 1) / 2) * 0.000000001) + 5000);
 
 
     targetAlign.whileHeld(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 0));
@@ -193,15 +201,15 @@ m_elevator
 
 ));
 
-operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
+// operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
 
-m_climber::moveLeftUp,
+// m_climber::moveLeftUp,
 
-m_climber::stopClimb,
+// m_climber::stopClimb,
 
-m_elevator
+// m_elevator
 
-));
+// ));
 
 //Pivot, Climb, idk whatever we're calling it
 

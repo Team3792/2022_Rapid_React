@@ -20,7 +20,7 @@ public class AAPowerDistribution extends SubsystemBase {
 
   public static void ringLightOn()
   {
-    aaPDH.setSwitchableChannel(true);
+    aaPDH.setSwitchableChannel(false);
   }
 
   

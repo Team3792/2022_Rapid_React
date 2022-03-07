@@ -5,11 +5,7 @@
 package frc.robot.commands.AutoRoutines;
 
 import frc.robot.Constants;
-import frc.robot.commands.ClimbCmd;
-import frc.robot.commands.DefaultDriveCmd;
 import frc.robot.commands.*;
-import frc.robot.commands.IntakeCmd;
-import frc.robot.commands.ShooterCmd;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
@@ -19,10 +15,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
+import java.time.Instant;
 import java.util.function.Supplier;
 
 
@@ -60,11 +58,13 @@ public class Auto2Ball extends SequentialCommandGroup {
 
       new SequentialCommandGroup(
         
-        new SequentialCommandGroup(
-          new WaitCommand(1),
-          
-          new AutoAlignCmd(driveTrain),
-          new WaitCommand(3)
+        new ParallelRaceGroup(
+        
+
+        //new InstantCommand(() -> new SetDriveCmd(driveTrain).setDriveAuto(-0.3,0.0)),
+        new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
+
+        new AutoAlignCmd(driveTrain))
 
 
   
@@ -72,13 +72,8 @@ public class Auto2Ball extends SequentialCommandGroup {
   
         new ParallelCommandGroup(
           new AutoFeedCmd(feeder),
-  
-          new ShooterCmd(shooter, SmartDashboard.getNumber("targetRPM", 0.0), false)
-                )
-  
-  
-      )
-            );
+          new ShooterCmd(shooter, () -> SmartDashboard.getNumber("targetRPM", 0), false))
+      );
     
   }
 

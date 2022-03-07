@@ -6,30 +6,22 @@ package frc.robot.commands;
 
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
-
-import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.DriveSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class SetShootCmd extends CommandBase {
+public class SetDriveCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final ShooterSubsystem shooter;
-    private final Timer timer;
-    private boolean complete;
-
+    private final DriveSubsystem drive;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public SetShootCmd(ShooterSubsystem shooter) {
-     this.shooter = shooter;
+  public SetDriveCmd(DriveSubsystem drive) {
+     this.drive = drive;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
-
-      timer = new Timer();
-      timer.start();
+    addRequirements(drive);
     }
 
   // Called when the command is initially scheduled.
@@ -39,34 +31,16 @@ public class SetShootCmd extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // @Override
-  // public void execute() {
-  //   if(timer.get() >= 5.0){
-  //     complete = true;
-  //     shooter.zero();
-  //   }
-  //   else{
-  //     shooter.setValue(0.3);
-  //   }
-  // }
-
-  public void reverseShooter()
-  {
-    shooter.setValue(-0.2);
+  @Override
+  public void execute() {
+    
   }
 
-  public void stopShoot()
+  public void setDriveAuto(double fwd, double rot)
   {
-    shooter.setValue(0);
-  }
-  
-  public void forwardShoot()
-  {
-    shooter.setValue(0.3);
-  }
+    drive.drive(fwd, rot);
 
-
- 
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -75,6 +49,6 @@ public class SetShootCmd extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return complete;
+    return false;
   }
 }

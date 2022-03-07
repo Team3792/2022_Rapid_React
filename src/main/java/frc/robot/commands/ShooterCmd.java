@@ -4,15 +4,17 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.function.Supplier;
 
 
 public class ShooterCmd extends PIDCommand {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ShooterSubsystem shooter; 
-    private double setpoint;
+    private Supplier<Double> inputFunction;
 
     //timer for auto init
     private final Timer timer;
@@ -20,44 +22,41 @@ public class ShooterCmd extends PIDCommand {
     //bool for auto or not + cutoff
     private boolean autoStatus;
     private boolean complete;
+    Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
-  public ShooterCmd(ShooterSubsystem shooter, double setpoint, boolean autoStatus) {
+
+  public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> stickInput, boolean autoStatus) {
       super(
       new PIDController(Constants.ShooterConstants.shooterkP, Constants.ShooterConstants.shooterkI, Constants.ShooterConstants.shooterkD),
        // Close the loop on the turn rate
        shooter::getMeasurement,
        // Setpoint is in subsystem
-        setpoint,
+        stickInput.get(),
        // Pipe the output to the feedforward control
-       output -> shooter.useOutput(output, setpoint),
+       output -> shooter.useOutput(output, stickInput.get()),
        // Require the shooter
         shooter
       // Use addRequirements() here to declare subsystem dependencies. 
       );
+      inputFunction = stickInput;
       this.shooter = shooter;
-      this.setpoint = setpoint;
       addRequirements(shooter);
       
       timer = new Timer();
       timer.start();
+      
+
 
       this.autoStatus = autoStatus;
 
       complete = false;
-
-      SmartDashboard.putNumber("Setpoint", setpoint());
     }
  // Called once the command ends or is interrupted.
  @Override
  public void end(boolean interrupted) {
-   shooter.zero();
+   shooter.zero(inputFunction.get());
  }
 
- 
- public double setpoint() {
-  double setpointVal = setpoint;
-  return (setpointVal);
-}
  
  @Override
  public void execute() {
@@ -75,9 +74,6 @@ public class ShooterCmd extends PIDCommand {
     public boolean isFinished() {
       return complete;
   } 
-
-
-
  /** no overrides needed of reg PID command 
   // Called when the command is initially scheduled.
   @Override
