@@ -26,7 +26,7 @@ public final class Constants {
     public static final int kAlertShoot = 5;
 
     public static final int targetAlignButton = 3;
-    public static final int ballAlignButton = 4;
+    public static final int krevIntakeButton = 4;
     
 
     //Operator Controller
@@ -109,7 +109,7 @@ public final class Constants {
     // public static final double shooterKv = 0.0031;
     // public static final double shooterKa = 0.003;
 
-    public static final double shooterKs = 0.05;
+    public static final double shooterKs = 0.0501;
     public static final double shooterKv = 0.001;
     public static final double shooterKa = 0.001;
 

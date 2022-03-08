@@ -74,18 +74,5 @@ public class ShooterCmd extends PIDCommand {
     public boolean isFinished() {
       return complete;
   } 
- /** no overrides needed of reg PID command 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-  **/
 
 }

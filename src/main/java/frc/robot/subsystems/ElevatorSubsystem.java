@@ -145,13 +145,19 @@ public class ElevatorSubsystem extends SubsystemBase {
 		leftElevatorMotor.set(0.8);
 	}
 
-	public void moveLeftUp(){
-		leftElevatorMotor.set(0.25);
+	public void moveElevatorUpSlow(){
+		rightElevatorMotor.set(0.3);
+		leftElevatorMotor.set(0.3);
 	}
 
 	public void moveElevatorDown(){
 		rightElevatorMotor.set(-0.8);
 		leftElevatorMotor.set(-0.8);
+	}
+
+	public void moveElevatorDownSlow(){
+		rightElevatorMotor.set(-0.3);
+		leftElevatorMotor.set(-0.3);
 	}
 
 	public void stopElevator(){

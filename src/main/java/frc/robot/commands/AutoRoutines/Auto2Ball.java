@@ -69,7 +69,7 @@ public class Auto2Ball extends SequentialCommandGroup {
   
         new ParallelCommandGroup(
           new AutoFeedCmd(feeder),
-          new ShooterCmd(shooter, () -> SmartDashboard.getNumber("targetRPM", 0), false))
+          new ShooterCmd(shooter, () -> SmartDashboard.getNumber("5000", 0), false))
 
        
       );

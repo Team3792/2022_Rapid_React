@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 /** Add your docs here. */
 public class AAPowerDistribution extends SubsystemBase {
 
-  static PowerDistribution aaPDH = new PowerDistribution(1, ModuleType.kRev);
+  static PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
 
   public AAPowerDistribution() {}
 
   public static void ringLightOn()
   {
-    aaPDH.setSwitchableChannel(false);
+    pdh.setSwitchableChannel(true);
     System.out.println("turning on");
   }
 
@@ -30,7 +30,7 @@ public class AAPowerDistribution extends SubsystemBase {
 
   public static void ringLightOff()
   {
-    aaPDH.setSwitchableChannel(false);
+    pdh.setSwitchableChannel(false);
     System.out.println("turning off");
 
   }

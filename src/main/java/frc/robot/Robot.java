@@ -18,7 +18,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -66,6 +67,11 @@ public class Robot extends TimedRobot {
 
     m_robotContainer = new RobotContainer();
     LiveWindow.disableAllTelemetry();
+    UsbCamera cs = CameraServer.startAutomaticCapture();
+    //cs.setResolution(300, 180);
+    //cs.setFPS(18);
+
+
     new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
     AAPowerDistribution.ringLightOff();
     
@@ -117,6 +123,15 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+
+    rightLead.setSelectedSensorPosition(0);
+    leftLead.setSelectedSensorPosition(0);
+    rightLead.setNeutralMode(NeutralMode.Brake);
+    rightFollow.setNeutralMode(NeutralMode.Brake);
+    leftLead.setNeutralMode(NeutralMode.Brake);
+    leftFollow.setNeutralMode(NeutralMode.Brake);
+    AAPowerDistribution.ringLightOn();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     //AAPowerDistribution.ringLightOn();
 

@@ -43,6 +43,8 @@ public class ShooterSubsystem extends SubsystemBase {
         System.out.println("setpoint: " + setpoint);
         SmartDashboard.putNumber("setpoint idk", setpoint);
         shooter.setVoltage(output + shooterFF.calculate(setpoint));
+        SmartDashboard.putNumber("Error", getMeasurement() - setpoint);
+
         // SmartDashboard.putNumber("voltage", output + shooterFF.calculate(setpoint));
     }
 

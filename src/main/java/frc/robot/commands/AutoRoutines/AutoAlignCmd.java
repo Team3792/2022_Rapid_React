@@ -51,17 +51,41 @@ public class AutoAlignCmd extends CommandBase{
 
     @Override
     public void execute() {
-
-      if((Math.abs(SmartDashboard.getNumber("targetAngle", 0)) > 0.07) && (Math.abs((driveTrain.leftLead.getSelectedSensorPosition() + driveTrain.rightLead.getSelectedSensorPosition()) / 2) >  FeetToEncoder(5))){
+      if((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(1))){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
-        driveTrain.drive(-0.3, (SmartDashboard.getNumber("targetAngle", 0))/1);
-        System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));  
+        SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Combine", Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2));
+        SmartDashboard.putNumber("Correct Val", FeetToEncoder(5));
+
+
+        System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
+        driveTrain.drive(-1.0, 0);
+
+
+      }
+
+      else if(((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) >=  FeetToEncoder(1))) && ((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(6)){
+        //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
+        SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Combine", Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2));
+        SmartDashboard.putNumber("Correct Val", FeetToEncoder(4));
+
+
+        System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
+        driveTrain.drive(-0.1, 0);
+
+
       }
       else
       {
         Constants.stateCounter = 1;
         System.out.println("In da else");
         System.out.println(Constants.stateCounter);
+        driveTrain.drive(-0.0, 0.0);
+
+
 
         complete = true;
       }

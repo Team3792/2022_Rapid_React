@@ -69,6 +69,8 @@ public class PS5Mapping extends CommandBase {
     public final LTriggerX LTriggerXButton;
 
     public final RTrigger RTriggerButton;
+    public final LTrigger LTriggerButton;
+
 
 
     
@@ -106,6 +108,7 @@ public class PS5Mapping extends CommandBase {
 
     RTriggerButton = new RTrigger(operateController);
 
+    LTriggerButton = new LTrigger(operateController);
 
 
 

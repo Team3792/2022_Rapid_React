@@ -46,7 +46,7 @@ public class RobotContainer {
   JoystickButton intakeButton = new JoystickButton(driveJoystick, 1);
   JoystickButton readyShoot = new JoystickButton(driveJoystick, 5);
   JoystickButton targetAlign = new JoystickButton(driveJoystick, Constants.ButtonConstant.targetAlignButton);
-  JoystickButton ballAlign = new JoystickButton(driveJoystick, Constants.ButtonConstant.ballAlignButton);
+  JoystickButton revIntake = new JoystickButton(driveJoystick, Constants.ButtonConstant.krevIntakeButton);
 
 
 
@@ -143,7 +143,6 @@ public class RobotContainer {
     
     // m_PDH));
 
-    ballAlign.whileHeld(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 1));
 
     
 
@@ -190,6 +189,14 @@ Constants.ElevatorConstants.setpointDown
 
 operateController.climbUp.whenActive(new InstantCommand(
 
+m_elevator::moveElevatorUpSlow,
+
+m_elevator
+
+));
+
+operateController.climbUp.and(operateController.LTriggerButton).whenActive(new InstantCommand(
+
 m_elevator::moveElevatorUp,
 
 m_elevator
@@ -197,6 +204,14 @@ m_elevator
 ));
 
 operateController.climbDown.whenActive(new InstantCommand(
+
+m_elevator::moveElevatorDownSlow,
+
+m_elevator
+
+));
+
+operateController.climbDown.and(operateController.LTriggerButton).whenActive(new InstantCommand(
 
 m_elevator::moveElevatorDown,
 
@@ -330,6 +345,16 @@ intakeButton.whileHeld(new StartEndCommand(
   
 ));
 
+revIntake.whileActiveContinuous(new StartEndCommand(
+  
+  () -> new IntakeCmd(m_intake).runIntakeBackward(),
+
+  () -> new IntakeCmd(m_intake).stopIntake(),
+
+  m_intake
+
+));
+
 operateController.POVDownish.whileActiveContinuous(new StartEndCommand(
   
   () -> new IntakeCmd(m_intake).runIntakeBackward(),
@@ -350,13 +375,13 @@ operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
   
 ));
 
-operateController.LFaceButton.whenPressed(new InstantCommand(
+operateController.LTriggerSquareButton.whenPressed(new InstantCommand(
   
   AAPowerDistribution::ringLightOn
 
 ));
 
-operateController.RFaceButton.whenPressed(new InstantCommand(
+operateController.LTriggerCircleButton.whenPressed(new InstantCommand(
     
   AAPowerDistribution::ringLightOff
 
