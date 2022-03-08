@@ -25,6 +25,7 @@ public class AutoAlignCmd extends CommandBase{
   // private PDHSubsystem m_PDH = new PDHSubsystem();
 
   private boolean complete = false;
+  private boolean stageOneComplete = false;
 
   
   /**
@@ -65,12 +66,12 @@ public class AutoAlignCmd extends CommandBase{
 
       }
 
+
       else if(((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) >=  FeetToEncoder(1))) && ((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(6)){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
         SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
         SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());
         SmartDashboard.putNumber("Combine", Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2));
-        SmartDashboard.putNumber("Correct Val", FeetToEncoder(4));
 
 
         System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));

@@ -120,8 +120,18 @@ public class RobotContainer {
     // operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     // () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
 
-    operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    operateController.XOnlyButton.whileHeld(
+      
+    new ShooterCmd(m_shooter, 
     () -> SmartDashboard.getNumber("targetRPM", 0), false));
+
+
+    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+      
+    AAPowerDistribution::ringLightOn, 
+    AAPowerDistribution::ringLightOff
+
+    ));
 
     operateController.TriangleOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> SmartDashboard.getNumber("5000", 5000), false));
@@ -132,7 +142,18 @@ public class RobotContainer {
     SmartDashboard.putNumber("yeah", (((driveJoystick.getRawAxis(3) + 1) / 2) * 0.000000001) + 5000);
 
 
-    targetAlign.whileHeld(new semiAutoAlignCmd(m_drive, () -> driveJoystick.getY(), 0));
+    targetAlign.whileHeld(new semiAutoAlignCmd(
+      m_drive, 
+      () -> driveJoystick.getY(), 0
+      
+      ));
+
+    targetAlign.whileHeld(new StartEndCommand(
+      
+    AAPowerDistribution::ringLightOn, 
+    AAPowerDistribution::ringLightOff
+    
+    ));
 
 
     // targetAlign.whileHeld(new StartEndCommand(
@@ -247,24 +268,25 @@ m_elevator
 
 //Pivot, Climb, idk whatever we're calling it
 
-operateController.pivotForward.and(operateController.SquareOnlyButton).whenActive(new ClimbCmd(
+// operateController.pivotForward.and(operateController.SquareOnlyButton).whenActive(new ClimbCmd(
   
-m_climber, 
+// m_climber, 
 
-Constants.ClimbConstants.setpointForward
+// Constants.ClimbConstants.setpointForward
 
-));
+// ));
 
-operateController.pivotBack.and(operateController.SquareOnlyButton).whenActive(new ClimbCmd(
+// operateController.pivotBack.and(operateController.SquareOnlyButton).whenActive(new ClimbCmd(
 
-m_climber, 
+// m_climber, 
 
-Constants.ClimbConstants.setpointBack
+// Constants.ClimbConstants.setpointBack
 
-));
+// ));
 
 
-operateController.RStickButton.and(operateController.pivotForward).whenActive(new InstantCommand(
+
+operateController.pivotForward.whenActive(new InstantCommand(
 
 m_climber::moveClimbForward,
 
@@ -272,7 +294,7 @@ m_climber
 
 ));
 
-operateController.RStickButton.and(operateController.pivotBack).whenActive(new InstantCommand(
+operateController.pivotBack.whenActive(new InstantCommand(
 
 m_climber::moveClimbBack,
 
@@ -280,13 +302,25 @@ m_climber
 
 ));
 
-operateController.RStickButton.whenReleased(new InstantCommand(
+operateController.pivotForward.whenReleased(new InstantCommand(
 
-m_climber::stopClimb,
+  m_climber::stopClimb,
 
-m_climber
+  m_climber
 
 ));
+
+
+operateController.pivotBack.whenReleased(new InstantCommand(
+
+  m_climber::stopClimb,
+
+  m_climber
+
+));
+
+
+
 
 
 
@@ -311,28 +345,7 @@ operateController.RTriggerButton.whileHeld(new StartEndCommand(
 
 ));
 
-operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
-  // Start a flywheel spinning at 50% power
-  () -> feedControl.runFeederBackwards(),
-  // Stop the flywheel at the end of the command
-  () -> feedControl.stopFeeder(),
-  // Requires the feeder subsystem
-  m_feeder
 
-));
-
-
-
-
-operateController.POVUpish.whileActiveContinuous(new StartEndCommand(
-  
-  () -> new IntakeCmd(m_intake).runIntakeForwardSlow(),
-
-  () -> new IntakeCmd(m_intake).stopIntake(),
-
-  m_intake
-
-));
 
 
 intakeButton.whileHeld(new StartEndCommand(
@@ -374,36 +387,34 @@ operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
   m_shooter
   
 ));
-
-operateController.LTriggerSquareButton.whenPressed(new InstantCommand(
-  
-  AAPowerDistribution::ringLightOn
+operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
+  // Start a flywheel spinning at 50% power
+  () -> feedControl.runFeederBackwards(),
+  // Stop the flywheel at the end of the command
+  () -> feedControl.stopFeeder(),
+  // Requires the feeder subsystem
+  m_feeder
 
 ));
 
-operateController.LTriggerCircleButton.whenPressed(new InstantCommand(
-    
-  AAPowerDistribution::ringLightOff
+operateController.POVUpish.whileActiveContinuous(new StartEndCommand(
+  
+  () -> new IntakeCmd(m_intake).runIntakeForwardSlow(),
 
+  () -> new IntakeCmd(m_intake).stopIntake(),
+
+  m_intake
+
+));
+
+operateController.LFaceButton.whileHeld(new InstantCommand(
+    AAPowerDistribution::toggleLight
 ));
 
 operateController.RFaceButton.whileHeld(new RunCommand(
-    () -> new ServoCmd(m_servo).openServo(),
+    () -> new ServoCmd(m_servo).toggleServo(),
 
     m_servo
-
-
-
-));
-
-
-
-operateController.LFaceButton.whileHeld(new RunCommand(
-    () -> new ServoCmd(m_servo).closeServo(),
-    
-    m_servo
-
-
 ));
 
 

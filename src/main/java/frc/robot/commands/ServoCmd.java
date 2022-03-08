@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ServoSubsystem;
 
 /** An example command that uses an example subsystem. */
@@ -60,6 +61,27 @@ public class ServoCmd extends CommandBase {
 
 
     // SmartDashboard.putBoolean("Servo", false);
+
+  }
+  
+  public void toggleServo()
+  {
+
+    if (Constants.GlobalStateConstants.kServoState)   //Close Servo
+    {
+      servo.turnRServoAngle(90);
+      servo.turnLServoAngle(-10);
+      Constants.GlobalStateConstants.kServoState = false;
+      SmartDashboard.putBoolean("Servo", false);
+    }
+
+    else if (!Constants.GlobalStateConstants.kServoState)   //Open Servo
+    {
+      servo.turnRServoAngle(5);
+      servo.turnLServoAngle(90);
+      Constants.GlobalStateConstants.kServoState = true;
+      SmartDashboard.putBoolean("Servo", true);
+    }
 
   }
 

@@ -8,20 +8,25 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 /** Add your docs here. */
 public class AAPowerDistribution extends SubsystemBase {
 
-  static PowerDistribution pdh = new PowerDistribution(1, ModuleType.kRev);
+  static PowerDistribution aaPDH = new PowerDistribution(1, ModuleType.kRev);
 
   public AAPowerDistribution() {}
 
   public static void ringLightOn()
   {
-    pdh.setSwitchableChannel(true);
+    aaPDH.setSwitchableChannel(true);
     System.out.println("turning on");
+    Constants.GlobalStateConstants.kRingLightState = true;
+    SmartDashboard.putBoolean("RingLED", true);
+
   }
 
 
@@ -30,25 +35,30 @@ public class AAPowerDistribution extends SubsystemBase {
 
   public static void ringLightOff()
   {
-    pdh.setSwitchableChannel(false);
+    aaPDH.setSwitchableChannel(false);
     System.out.println("turning off");
-
+    Constants.GlobalStateConstants.kRingLightState = false;
+    SmartDashboard.putBoolean("RingLED", false);
   }
 
-  // public static void toggleLight()
-  // {
-  //   if (Constants.GlobalStateConstants.kRingLightState == false)
-  //   {
-  //     aaPDH.setSwitchableChannel(true);
-  //     Constants.GlobalStateConstants.kRingLightState = true;
+  
 
-  //   }
-  //   else if (Constants.GlobalStateConstants.kRingLightState == true)
-  //   {
-  //     aaPDH.setSwitchableChannel(false);
-  //     Constants.GlobalStateConstants.kRingLightState = false;
-  //   }
-  // }
+  public static void toggleLight()
+  {
+    if (!Constants.GlobalStateConstants.kRingLightState)
+    {
+      aaPDH.setSwitchableChannel(true);
+      Constants.GlobalStateConstants.kRingLightState = true;
+      SmartDashboard.putBoolean("RingLED", true);
+
+    }
+    else if (Constants.GlobalStateConstants.kRingLightState)
+    {
+      aaPDH.setSwitchableChannel(false);
+      Constants.GlobalStateConstants.kRingLightState = false;
+      SmartDashboard.putBoolean("RingLED", false);
+    }
+  }
 
 }
 

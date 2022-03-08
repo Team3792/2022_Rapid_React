@@ -175,7 +175,8 @@ public final class Constants {
 
   public static class GlobalStateConstants
   {
-    public static boolean kRingLightState = false;
+    public static boolean kRingLightState = false;  //Default False
+    public static boolean kServoState = true; //Default True
     
   }
 

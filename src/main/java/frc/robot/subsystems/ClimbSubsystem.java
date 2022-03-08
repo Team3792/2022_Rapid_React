@@ -145,6 +145,8 @@ public class ClimbSubsystem extends SubsystemBase {
     leftClimbMotor.set(-0.05);
 	}
 
+  
+
   public void moveLeftUp(){
 		leftClimbMotor.set(TalonFXControlMode.PercentOutput, 0.05);
 	}
