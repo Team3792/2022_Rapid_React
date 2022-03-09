@@ -11,9 +11,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.FeederCmd;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -74,6 +76,8 @@ public class Robot extends TimedRobot {
 
     new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
     AAPowerDistribution.ringLightOff();
+    SmartDashboard.putBoolean("Shoot Ready", false);
+
     
     // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
 
@@ -159,7 +163,11 @@ public class Robot extends TimedRobot {
 
     elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
     elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
+
+
+
     }
+    new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
 
     rightLead.setNeutralMode(NeutralMode.Brake);
     rightFollow.setNeutralMode(NeutralMode.Brake);

@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -38,17 +39,24 @@ public class IntakeCmd extends CommandBase {
 
   public void runIntakeForward(){
     intake.setValue(.8);
+    SmartDashboard.putBoolean("Intake", true);
   }
   public void runIntakeForwardSlow(){
     intake.setValue(.4);
+    SmartDashboard.putBoolean("Intake", true);
+
   }
 
   public void runIntakeBackward(){
     intake.setValue(-0.5);
+    SmartDashboard.putBoolean("Intake", true);
+
   }
 
   public void stopIntake(){
     intake.setValue(0);
+    SmartDashboard.putBoolean("Intake", false);
+
   }
 
   // Called once the command ends or is interrupted.

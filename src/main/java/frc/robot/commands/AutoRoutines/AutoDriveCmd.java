@@ -51,7 +51,7 @@ public class AutoDriveCmd extends CommandBase{
       // SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
       if(SmartDashboard.getNumber(Constants.ballType + "BallArea",0)<4500 && SmartDashboard.getNumber(Constants.ballType + "BallArea",0)!=0)
       {
-        driveTrain.drive(-0.3, (SmartDashboard.getNumber(Constants.ballType + "BallAngle", 0))/3);
+        driveTrain.drive(-0.3, (SmartDashboard.getNumber(Constants.ballType + "BallAngle", 0))/3, false);
         System.out.println("Angle here: " + SmartDashboard.getNumber(Constants.ballType + "BallAngle", 0));   
       }
       else{

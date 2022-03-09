@@ -95,6 +95,9 @@ public final class Constants {
     public static final double kMaxDriveSpeed = 4.0;           // meters per second
     public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
+    public static final double kMaxFastDriveSpeed = 6.0;           // meters per second
+    public static final double kMaxFastAngularSpeed = 3 * Math.PI; // one rotation per second
+
 
   }
   public static final class ShooterConstants
@@ -111,7 +114,7 @@ public final class Constants {
 
     public static final double shooterKs = 0.0501;
     public static final double shooterKv = 0.001;
-    public static final double shooterKa = 0.001;
+    public static final double shooterKa = 0;
 
   }
 

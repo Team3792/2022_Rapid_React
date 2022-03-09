@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FeedSubsystem;
@@ -39,14 +40,20 @@ public class FeederCmd extends CommandBase {
 
   public void runFeederForward(){
     feeder.setValue(.5);
+    SmartDashboard.putBoolean("Feeder", true);
+
   }
 
   public void runFeederBackwards(){
     feeder.setValue(-0.4);
+    SmartDashboard.putBoolean("Feeder", true);
+
   }
 
   public void stopFeeder(){
     feeder.setValue(0);
+    SmartDashboard.putBoolean("Feeder", false);
+
   }
 
 

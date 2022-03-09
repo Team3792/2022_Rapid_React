@@ -137,23 +137,31 @@ public class ClimbSubsystem extends SubsystemBase {
   public void moveClimbForward(){
 		rightClimbMotor.set(0.05);
     leftClimbMotor.set(0.05);
+    SmartDashboard.putBoolean("Pivot", true);
+
 
 	}
 
   public void moveClimbBack(){
 		rightClimbMotor.set(-0.05);
     leftClimbMotor.set(-0.05);
+    SmartDashboard.putBoolean("Pivot", true);
+
 	}
 
   
 
   public void moveLeftUp(){
 		leftClimbMotor.set(TalonFXControlMode.PercentOutput, 0.05);
+    SmartDashboard.putBoolean("Pivot", true);
+
 	}
 
 	public void stopClimb(){
 		rightClimbMotor.set(0);
 		leftClimbMotor.set(0);
+    SmartDashboard.putBoolean("Pivot", false);
+
 	}
 
   //can add something for smoothing: rightClimbMotor.gMotionSCurveStrength(smoothing);
@@ -295,12 +303,12 @@ public class ClimbSubsystem extends SubsystemBase {
 
   @Override
 	public void periodic() {
-		SmartDashboard.putNumber("Right Climb Pos", rightClimbMotor.getSelectedSensorPosition());
-		SmartDashboard.putNumber("Left Climb Pos", leftClimbMotor.getSelectedSensorPosition());
-		SmartDashboard.putNumber("Right Climb V", (rightClimbMotor.getSelectedSensorVelocity()));
-		SmartDashboard.putNumber("Left Climb V", (leftClimbMotor.getSelectedSensorVelocity()));
-		SmartDashboard.putNumber("Right Climb Error", (rightClimbMotor.getSelectedSensorPosition()));
-		SmartDashboard.putNumber("Left Climb Error", (leftClimbMotor.getSelectedSensorPosition()));
+		SmartDashboard.putNumber("R Pivot", rightClimbMotor.getSelectedSensorPosition());
+		SmartDashboard.putNumber("L Pivot", leftClimbMotor.getSelectedSensorPosition());
+		// SmartDashboard.putNumber("Right Climb V", (rightClimbMotor.getSelectedSensorVelocity()));
+		// SmartDashboard.putNumber("Left Climb V", (leftClimbMotor.getSelectedSensorVelocity()));
+		// SmartDashboard.putNumber("Right Climb Error", (rightClimbMotor.getSelectedSensorPosition()));
+		// SmartDashboard.putNumber("Left Climb Error", (leftClimbMotor.getSelectedSensorPosition()));
 
 
 	}

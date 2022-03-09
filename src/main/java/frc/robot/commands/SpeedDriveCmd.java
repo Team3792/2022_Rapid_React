@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 
 /** default drive using the DriveSubystem. */
-public class DefaultDriveCmd extends CommandBase {
+public class SpeedDriveCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //drivesubsystem declaration
@@ -30,7 +30,7 @@ public class DefaultDriveCmd extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DefaultDriveCmd(DriveSubsystem subsystem, Supplier<Double> speedFunction, Supplier<Double> turnFunction) {
+  public SpeedDriveCmd(DriveSubsystem subsystem, Supplier<Double> speedFunction, Supplier<Double> turnFunction) {
     driveTrain = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
@@ -50,6 +50,7 @@ public class DefaultDriveCmd extends CommandBase {
   public void execute() {
     //regular drive with inputted joystick values
     driveTrain.drive(speedFunction.get(), turnFunction.get(), true);
+    // System.out.println("Reached here");
   }
 
   // Called once the command ends or is interrupted.

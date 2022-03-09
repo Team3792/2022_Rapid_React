@@ -137,32 +137,44 @@ public class ElevatorSubsystem extends SubsystemBase {
 		rightElevatorMotor.set(TalonFXControlMode.MotionMagic, Setpoint, DemandType.ArbitraryFeedForward, .25);
 		// , DemandType.AuxPID, 0);
 		leftElevatorMotor.follow(rightElevatorMotor);
+		SmartDashboard.putBoolean("Elevator", true);
+
 		// , FollowerType.AuxOutput1);
 	  }
 
 	public void moveElevatorUp(){
 		rightElevatorMotor.set(0.8);
 		leftElevatorMotor.set(0.8);
+		SmartDashboard.putBoolean("Elevator", true);
+
 	}
 
 	public void moveElevatorUpSlow(){
 		rightElevatorMotor.set(0.3);
 		leftElevatorMotor.set(0.3);
+		SmartDashboard.putBoolean("Elevator", true);
+
 	}
 
 	public void moveElevatorDown(){
 		rightElevatorMotor.set(-0.8);
 		leftElevatorMotor.set(-0.8);
+		SmartDashboard.putBoolean("Elevator", true);
+
 	}
 
 	public void moveElevatorDownSlow(){
 		rightElevatorMotor.set(-0.3);
 		leftElevatorMotor.set(-0.3);
+		SmartDashboard.putBoolean("Elevator", true);
+
 	}
 
 	public void stopElevator(){
 		rightElevatorMotor.set(0);
 		leftElevatorMotor.set(0);
+		SmartDashboard.putBoolean("Elevator", false);
+
 	}
 
 	//can add something for smoothing: rightElevatorMotor.gMotionSCurveStrength(smoothing);
@@ -303,10 +315,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("Right Pos", rightElevatorMotor.getSelectedSensorPosition());
-		SmartDashboard.putNumber("Left Pos", leftElevatorMotor.getSelectedSensorPosition());
-		SmartDashboard.putNumber("Right V", (rightElevatorMotor.getSelectedSensorVelocity()));
-		SmartDashboard.putNumber("Left V", (leftElevatorMotor.getSelectedSensorVelocity()));
+		SmartDashboard.putNumber("R Elevator", rightElevatorMotor.getSelectedSensorPosition());
+		SmartDashboard.putNumber("L Elevator", leftElevatorMotor.getSelectedSensorPosition());
+		SmartDashboard.putNumber("R Velocity", (rightElevatorMotor.getSelectedSensorVelocity()));
+		SmartDashboard.putNumber("L Velocity", (leftElevatorMotor.getSelectedSensorVelocity()));
 		// SmartDashboard.putNumber("Right Error", (rightElevatorMotor.getClosedLoopError(0)));
 		// SmartDashboard.putNumber("Left Error", (leftElevatorMotor.getClosedLoopError(0)));
 	}

@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -14,7 +13,6 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
     private final WPI_TalonFX shooter = new WPI_TalonFX(Constants.MotorID.kShootMotor);
     private final SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(Constants.ShooterConstants.shooterKs, Constants.ShooterConstants.shooterKv, Constants.ShooterConstants.shooterKa);
-    private final static Joystick stick = new Joystick(0);
     
 
 
@@ -29,9 +27,10 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("RPM", getMeasurement());
+        SmartDashboard.putNumber("stupidRPM", 2 * SmartDashboard.getNumber("targetRPM", 0));
     }
 
-    public void zero(double output) {
+    public void zero() {
         shooter.set(0);
     }
 
@@ -40,12 +39,9 @@ public class ShooterSubsystem extends SubsystemBase {
       }
 
     public void useOutput(double output, double setpoint) {
-        System.out.println("setpoint: " + setpoint);
-        SmartDashboard.putNumber("setpoint idk", setpoint);
+        // System.out.println("setpoint: " + setpoint);
         shooter.setVoltage(output + shooterFF.calculate(setpoint));
-        SmartDashboard.putNumber("Error", getMeasurement() - setpoint);
-
-        // SmartDashboard.putNumber("voltage", output + shooterFF.calculate(setpoint));
+        // SmartDashboard.putNumber("Error", getMeasurement() - setpoint);
     }
 
     public double getMeasurement() {

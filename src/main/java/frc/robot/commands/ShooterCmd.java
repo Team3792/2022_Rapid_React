@@ -24,7 +24,6 @@ public class ShooterCmd extends PIDCommand {
     private boolean complete;
     Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
-
   public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> stickInput, boolean autoStatus) {
       super(
       new PIDController(Constants.ShooterConstants.shooterkP, Constants.ShooterConstants.shooterkI, Constants.ShooterConstants.shooterkD),
@@ -51,10 +50,11 @@ public class ShooterCmd extends PIDCommand {
 
       complete = false;
     }
+
  // Called once the command ends or is interrupted.
  @Override
  public void end(boolean interrupted) {
-   shooter.zero(inputFunction.get());
+   shooter.zero();
  }
 
  
@@ -62,11 +62,11 @@ public class ShooterCmd extends PIDCommand {
  public void execute() {
    if(autoStatus && timer.hasElapsed(5.0)){
     complete = true;
-    System.out.println("done");
+    // System.out.println("done");
    }
    else{
     super.execute();
-    System.out.println("in progress");
+    // System.out.println("in progress");
    }
  }
 

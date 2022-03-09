@@ -47,8 +47,7 @@ public class RobotContainer {
   JoystickButton readyShoot = new JoystickButton(driveJoystick, 5);
   JoystickButton targetAlign = new JoystickButton(driveJoystick, Constants.ButtonConstant.targetAlignButton);
   JoystickButton revIntake = new JoystickButton(driveJoystick, Constants.ButtonConstant.krevIntakeButton);
-
-
+  JoystickButton speedDriveButton = new JoystickButton(driveJoystick, 2);
 
   PS5Mapping operateController = new PS5Mapping();
 
@@ -115,7 +114,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
     
-
+    speedDriveButton.whileHeld((new SpeedDriveCmd(m_drive, 
+    () -> driveJoystick.getRawAxis(1)*1.5, 
+    () -> driveJoystick.getRawAxis(2)*1.5)
+));
 
     // operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     // () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
@@ -123,10 +125,10 @@ public class RobotContainer {
     operateController.XOnlyButton.whileHeld(
       
     new ShooterCmd(m_shooter, 
-    () -> SmartDashboard.getNumber("targetRPM", 0), false));
 
+    () -> SmartDashboard.getNumber("stupidRPM", 0), false));
 
-    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+    operateController.XOnlyButton.or(operateController.TriangleOnlyButton).or(operateController.SquareOnlyButton).whileActiveContinuous(new StartEndCommand(
       
     AAPowerDistribution::ringLightOn, 
     AAPowerDistribution::ringLightOff
@@ -138,8 +140,6 @@ public class RobotContainer {
 
     operateController.SquareOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> SmartDashboard.getNumber("2500", 2500), false));
-
-    SmartDashboard.putNumber("yeah", (((driveJoystick.getRawAxis(3) + 1) / 2) * 0.000000001) + 5000);
 
 
     targetAlign.whileHeld(new semiAutoAlignCmd(
@@ -407,11 +407,11 @@ operateController.POVUpish.whileActiveContinuous(new StartEndCommand(
 
 ));
 
-operateController.LFaceButton.whileHeld(new InstantCommand(
+operateController.LFaceButton.whenPressed(new InstantCommand(
     AAPowerDistribution::toggleLight
 ));
 
-operateController.RFaceButton.whileHeld(new RunCommand(
+operateController.RFaceButton.whenPressed(new InstantCommand(
     () -> new ServoCmd(m_servo).toggleServo(),
 
     m_servo

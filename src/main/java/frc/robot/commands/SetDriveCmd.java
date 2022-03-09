@@ -40,7 +40,7 @@ public class SetDriveCmd extends CommandBase {
 
   public void setDriveAuto(double fwd, double rot)
   {
-    drive.drive(fwd, rot);
+    drive.drive(fwd, rot, false);
 
   }
 

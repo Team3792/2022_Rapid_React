@@ -76,7 +76,7 @@ public class semiAutoAlignCmd extends CommandBase{
     public void align(String camera){
       if(Math.abs(SmartDashboard.getNumber(camera, 0)) > 0.03){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
-        driveTrain.drive(input.get(), (SmartDashboard.getNumber(camera, 0))/2);
+        driveTrain.drive(input.get(), (SmartDashboard.getNumber(camera, 0))/2, false);
         System.out.println("Angle here: " + SmartDashboard.getNumber(camera, 0));  
       }
       else

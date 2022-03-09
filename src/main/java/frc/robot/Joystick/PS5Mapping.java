@@ -16,6 +16,7 @@ import frc.robot.Joystick.SingleButton.XOnly;
 import frc.robot.Joystick.ThresholdTrigger.*;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -128,6 +129,7 @@ public class PS5Mapping extends CommandBase {
   {
     operateController.setRumble(RumbleType.kLeftRumble, 0.5);
     operateController.setRumble(RumbleType.kRightRumble, 0.5);
+    SmartDashboard.putBoolean("Shoot Ready", true);
     
 
 
@@ -137,6 +139,8 @@ public class PS5Mapping extends CommandBase {
   {
     operateController.setRumble(RumbleType.kLeftRumble, 0);
     operateController.setRumble(RumbleType.kRightRumble, 0);
+    SmartDashboard.putBoolean("Shoot Ready", false);
+
   }
 
 

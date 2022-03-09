@@ -62,23 +62,47 @@ public class DriveSubsystem extends SubsystemBase {
     leftLead.setSelectedSensorPosition(0);
   }
 
-  public void drive(double fwd, double rot){
+  public void drive(double fwd, double rot, boolean speedDriveStat){
     //deadband + calculate speeds
 
     //Drive forward
-    if(Math.abs(fwd) < 0.1){ //In deadband
-      xSpeed = 0;
-    }
-    else{ //Outside of deadband
-      xSpeed = -speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
-    }
+    if (speedDriveStat)
+    {
+      if(Math.abs(fwd) < 0.1){ //In deadband
+        xSpeed = 0;
+      }
+      else{ //Outside of deadband
+        xSpeed = -speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxFastDriveSpeed;
+      }
+  
+      //Drive twist
+      if(Math.abs(rot) < 0.1){ //In deadband
+        rotSpeed = 0;
+      }
+      else{ //Outside of deadband
+         rotSpeed = -rotLimiter.calculate(rot) * Constants.DriveConstants.kMaxFastAngularSpeed;
+      }
 
-    //Drive twist
-    if(Math.abs(rot) < 0.1){ //In deadband
-      rotSpeed = 0;
+      // SmartDashboard.putBoolean("Speed Drive", true);
     }
-    else{ //Outside of deadband
-       rotSpeed = -rotLimiter.calculate(rot) * Constants.DriveConstants.kMaxAngularSpeed;
+    else if(!speedDriveStat)
+    {
+      if(Math.abs(fwd) < 0.1){ //In deadband
+        xSpeed = 0;
+      }
+      else{ //Outside of deadband
+        xSpeed = -speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
+      }
+  
+      //Drive twist
+      if(Math.abs(rot) < 0.1){ //In deadband
+        rotSpeed = 0;
+      }
+      else{ //Outside of deadband
+         rotSpeed = -rotLimiter.calculate(rot) * Constants.DriveConstants.kMaxAngularSpeed;
+      }
+      // SmartDashboard.putBoolean("Speed Drive", true);
+
     }
 
 
@@ -111,5 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("R Drive", -(rightLead.getSelectedSensorVelocity()));
+		SmartDashboard.putNumber("L Drive", (leftLead.getSelectedSensorVelocity()));
   }
 }
