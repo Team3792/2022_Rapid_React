@@ -48,7 +48,7 @@ public class AutoFeedCmd extends CommandBase{
       if(timer.hasElapsed(3.0)){
         feeder.setValue(0.8);
       }
-      if(timer.hasElapsed(7.0)){
+      if(timer.hasElapsed(8.0)){
           feeder.setValue(0);
           complete = true;
       }

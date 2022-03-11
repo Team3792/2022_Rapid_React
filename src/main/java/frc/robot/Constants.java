@@ -129,6 +129,7 @@ public final class Constants {
     public static final double kElevatorPeakOutput = 1;
 
     public static final double setpointUp = 300000;
+    
     public static final double setpointDown = 0;
 
     //Motion Magic Constants

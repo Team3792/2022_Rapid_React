@@ -92,7 +92,7 @@ public class RobotContainer {
 
     m_drive.setDefaultCommand(new DefaultDriveCmd(m_drive, 
             () -> driveJoystick.getRawAxis(1), 
-            () -> driveJoystick.getRawAxis(2))
+            () -> driveJoystick.getRawAxis(2)*0.8)
     );
 
     autoChooser.setDefaultOption("2 Ball Auto", auto2ball);
@@ -196,6 +196,11 @@ m_elevator,
 Constants.ElevatorConstants.setpointUp
 
 ));
+
+operateController.R1Button.whenActive(new InstantCommand(
+  () -> new ServoCmd(m_servo).openServo(),
+
+  m_servo));
 
 
 

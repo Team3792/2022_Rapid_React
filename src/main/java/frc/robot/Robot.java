@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +21,7 @@ import frc.robot.commands.IntakeCmd;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.cscore.UsbCamera;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -68,10 +70,12 @@ public class Robot extends TimedRobot {
 
     m_robotContainer = new RobotContainer();
     LiveWindow.disableAllTelemetry();
-    CameraServer.startAutomaticCapture();
-    // UsbCamera cs = CameraServer.startAutomaticCapture();
-    //cs.setResolution(300, 180);
-    //cs.setFPS(18);
+    // CameraServer.startAutomaticCapture();
+    UsbCamera cs = CameraServer.startAutomaticCapture();
+    cs.setResolution(200, 130);
+    cs.setFPS(15);
+
+    SmartDashboard.putBoolean("CLIMB NOW", true);
 
 
     new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
@@ -132,6 +136,7 @@ public class Robot extends TimedRobot {
 
     rightLead.setSelectedSensorPosition(0);
     leftLead.setSelectedSensorPosition(0);
+    
     rightLead.setNeutralMode(NeutralMode.Brake);
     rightFollow.setNeutralMode(NeutralMode.Brake);
     leftLead.setNeutralMode(NeutralMode.Brake);
@@ -178,7 +183,13 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (DriverStation.getMatchTime() <= 45)
+    {
+      SmartDashboard.putBoolean("CLIMB NOW", false);
+    }
+
+  }
 
   @Override
   public void testInit() {
