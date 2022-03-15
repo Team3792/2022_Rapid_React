@@ -150,8 +150,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 	}
 
 	public void moveElevatorUpSlow(){
-		rightElevatorMotor.set(0.3);
-		leftElevatorMotor.set(0.3);
+		rightElevatorMotor.set(0.35);
+		leftElevatorMotor.set(0.35);
 		SmartDashboard.putBoolean("Elevator", true);
 
 	}
@@ -164,8 +164,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 	}
 
 	public void moveElevatorDownSlow(){
-		rightElevatorMotor.set(-0.3);
-		leftElevatorMotor.set(-0.3);
+		rightElevatorMotor.set(-0.35);
+		leftElevatorMotor.set(-0.35);
 		SmartDashboard.putBoolean("Elevator", true);
 
 	}

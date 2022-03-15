@@ -20,6 +20,7 @@ import frc.robot.commands.FeederCmd;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.FeedSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 // import edu.wpi.first.cscore.UsbCamera;
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
 
   // private PDHSubsystem m_PDH = new PDHSubsystem();
   private IntakeSubsystem m_intake = new IntakeSubsystem();
+  private FeedSubsystem m_feeder = new FeedSubsystem();
 
 
   public final WPI_TalonFX rightLead = new WPI_TalonFX(Constants.MotorID.kRightDriveLead);
@@ -159,6 +161,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+
+    // new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
+    // new RunCommand(() -> new FeederCmd(m_feeder).stopFeeder(), m_feeder);
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -172,7 +178,6 @@ public class Robot extends TimedRobot {
 
 
     }
-    new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
 
     rightLead.setNeutralMode(NeutralMode.Brake);
     rightFollow.setNeutralMode(NeutralMode.Brake);
