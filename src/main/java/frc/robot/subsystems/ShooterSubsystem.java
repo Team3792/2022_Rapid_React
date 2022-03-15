@@ -21,6 +21,8 @@ public class ShooterSubsystem extends SubsystemBase {
         shooter.setSelectedSensorPosition(0);
         SmartDashboard.putNumber("5000", 5000);
         SmartDashboard.putNumber("2500", 2500);
+        SmartDashboard.putNumber("6050", 6050);
+
 
     }
 

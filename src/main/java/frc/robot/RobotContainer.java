@@ -92,7 +92,7 @@ public class RobotContainer {
 
     m_drive.setDefaultCommand(new DefaultDriveCmd(m_drive, 
             () -> driveJoystick.getRawAxis(1), 
-            () -> driveJoystick.getRawAxis(2))
+            () -> driveJoystick.getRawAxis(2)*0.8)
     );
 
     autoChooser.setDefaultOption("2 Ball Auto", auto2ball);
@@ -128,18 +128,24 @@ public class RobotContainer {
 
     () -> SmartDashboard.getNumber("stupidRPM", 0), false));
 
-    operateController.XOnlyButton.or(operateController.TriangleOnlyButton).or(operateController.SquareOnlyButton).whileActiveContinuous(new StartEndCommand(
+    operateController.XOnlyButton.or(operateController.CircleOnlyButton).or(operateController.TriangleOnlyButton).or(operateController.SquareOnlyButton).whileActiveContinuous(new StartEndCommand(
       
     AAPowerDistribution::ringLightOn, 
     AAPowerDistribution::ringLightOff
 
     ));
 
-    operateController.TriangleOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> SmartDashboard.getNumber("5000", 5000), false));
 
-    operateController.SquareOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    operateController.TriangleOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> SmartDashboard.getNumber("2500", 2500), false));
+
+    operateController.SquareOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    () -> SmartDashboard.getNumber("6050", 6050), false));
+
+    operateController.CircleOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
+    () -> SmartDashboard.getNumber("stupidRPM", 0), false));
 
 
     targetAlign.whileHeld(new semiAutoAlignCmd(
@@ -172,7 +178,7 @@ public class RobotContainer {
 
 //Elevator
 
-operateController.CircleOnlyButton.whenPressed(new ParallelCommandGroup(
+operateController.CircleButton.and(operateController.LTriggerButton).whenActive(new ParallelCommandGroup(
 
 new InstantCommand(m_elevator::zeroSensors, m_elevator),
 
@@ -189,7 +195,7 @@ new InstantCommand(m_climber::zeroSensors, m_climber)
 // ));
 
 
-operateController.R1Button.whenActive(new ElevatorCmd(
+operateController.R1Button.and(operateController.LTriggerButton).whenActive(new ElevatorCmd(
   
 m_elevator, 
 
@@ -197,9 +203,14 @@ Constants.ElevatorConstants.setpointUp
 
 ));
 
+operateController.R1Button.whenActive(new InstantCommand(
+  () -> new ServoCmd(m_servo).openServo(),
+
+  m_servo));
 
 
-operateController.L1Button.whenActive(new ElevatorCmd(
+
+operateController.L1Button.and(operateController.LTriggerButton).whenActive(new ElevatorCmd(
   
 m_elevator, 
 
@@ -294,9 +305,26 @@ m_climber
 
 ));
 
+
 operateController.pivotBack.whenActive(new InstantCommand(
 
 m_climber::moveClimbBack,
+
+m_climber
+
+));
+
+operateController.pivotForward.and(operateController.RStickButton).whenActive(new InstantCommand(
+
+m_climber::moveClimberForwardFast,
+
+m_climber
+
+));
+
+operateController.pivotBack.and(operateController.RStickButton).whenActive(new InstantCommand(
+
+m_climber::moveClimberBackFast,
 
 m_climber
 

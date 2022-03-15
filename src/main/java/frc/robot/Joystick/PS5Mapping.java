@@ -44,6 +44,8 @@ public class PS5Mapping extends CommandBase {
     public final JoystickButton L1Button;
     public final JoystickButton R1Button;
 
+    public final JoystickButton CircleButton;
+
 
     public final JoystickButton LFaceButton;
     public final JoystickButton RFaceButton;
@@ -110,6 +112,7 @@ public class PS5Mapping extends CommandBase {
     RTriggerButton = new RTrigger(operateController);
 
     LTriggerButton = new LTrigger(operateController);
+    CircleButton = new JoystickButton(operateController, 2);
 
 
 

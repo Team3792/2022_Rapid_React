@@ -142,6 +142,20 @@ public class ClimbSubsystem extends SubsystemBase {
 
 	}
 
+  public void moveClimberForwardFast()
+  {
+    rightClimbMotor.set(0.15);
+    leftClimbMotor.set(0.15);
+    SmartDashboard.putBoolean("Pivot", true);
+  }
+
+  public void moveClimberBackFast()
+  {
+    rightClimbMotor.set(-0.15);
+    leftClimbMotor.set(-0.15);
+    SmartDashboard.putBoolean("Pivot", true);
+  }
+
   public void moveClimbBack(){
 		rightClimbMotor.set(-0.05);
     leftClimbMotor.set(-0.05);

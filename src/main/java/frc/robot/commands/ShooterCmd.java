@@ -60,7 +60,7 @@ public class ShooterCmd extends PIDCommand {
  
  @Override
  public void execute() {
-   if(autoStatus && timer.hasElapsed(5.0)){
+   if(autoStatus && timer.hasElapsed(8.0)){
     complete = true;
     // System.out.println("done");
    }

@@ -123,6 +123,13 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotors.setVoltage(leftOutput + leftFeedforward);
     rightMotors.setVoltage(rightOutput + rightFeedforward);
   }
+  
+  public void zeroSensors() {
+    rightLead.setSelectedSensorPosition(0);
+    leftLead.setSelectedSensorPosition(0);
+    rightFollow.setSelectedSensorPosition(0);
+    leftFollow.setSelectedSensorPosition(0);
+}
 
   //convert sensorVelocity to meters
   public static double toMeters(double sensorCounts){
