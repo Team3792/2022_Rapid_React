@@ -99,6 +99,13 @@ public final class Constants {
     public static final double kMaxFastAngularSpeed = 3 * Math.PI; // one rotation per second
 
 
+    public static final double kDriveKS = 0.6;
+    public static final double kDriveKV = 1.7;
+
+    public static final double kDriveKA = 0.3;
+
+
+
   }
   public static final class ShooterConstants
   {
@@ -175,6 +182,10 @@ public final class Constants {
     public static final double kClimbAuxF = 0;
     public static final double kClimbAuxIzone = 0;
     public static final double kClimbAuxPeakOutput = 0.75;
+  }
+
+  public static final class PathConstants
+  {
   }
 
   public static class GlobalStateConstants

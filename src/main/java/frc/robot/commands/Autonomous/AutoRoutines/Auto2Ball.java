@@ -2,10 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.AutoRoutines;
+package frc.robot.commands.Autonomous.AutoRoutines;
 
 import frc.robot.Constants;
 import frc.robot.commands.*;
+import frc.robot.commands.Autonomous.AutoCommands.AutoAlignCmd;
+import frc.robot.commands.Autonomous.AutoCommands.AutoDriveBackMore;
+import frc.robot.commands.Autonomous.AutoCommands.AutoFeedCmd;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeedSubsystem;

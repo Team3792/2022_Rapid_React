@@ -11,11 +11,15 @@ import edu.wpi.first.wpilibj.motorcontrol.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import com.ctre.phoenix.motorcontrol.can.*;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 
+import com.ctre.phoenix.motorcontrol.can.*;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -28,6 +32,9 @@ public class DriveSubsystem extends SubsystemBase {
   public final WPI_TalonFX rightFollow = new WPI_TalonFX(Constants.MotorID.kRightDriveFollow);
   public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
+
+  public final WPI_Pigeon2 pigeon2 = new WPI_Pigeon2(0);
+  public final DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
 
 
   public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftLead, leftFollow);
@@ -49,7 +56,8 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   //feedforward init
-  private static final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.6, 1.7, 0.3);
+  private static final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.DriveConstants.kDriveKS, Constants.DriveConstants.kDriveKV, Constants.DriveConstants.kDriveKA);
+
 
 
 
@@ -60,6 +68,10 @@ public class DriveSubsystem extends SubsystemBase {
     rightMotors.setInverted(true);
     rightLead.setSelectedSensorPosition(0);
     leftLead.setSelectedSensorPosition(0);
+  }
+
+  public double getHeading() {
+    return pigeon2.getRotation2d().getDegrees();
   }
 
   public void drive(double fwd, double rot, boolean speedDriveStat){
@@ -123,6 +135,12 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotors.setVoltage(leftOutput + leftFeedforward);
     rightMotors.setVoltage(rightOutput + rightFeedforward);
   }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotors.setVoltage(leftVolts);
+    rightMotors.setVoltage(rightVolts);
+
+  }
   
   public void zeroSensors() {
     rightLead.setSelectedSensorPosition(0);
@@ -144,5 +162,21 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("R Drive", -(rightLead.getSelectedSensorVelocity()));
 		SmartDashboard.putNumber("L Drive", (leftLead.getSelectedSensorVelocity()));
+    m_odometry.update(pigeon2.getRotation2d(), toMeters(leftLead.getSelectedSensorPosition()), toMeters(rightLead.getSelectedSensorPosition()));
+
+
+  }
+
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds()
+  {
+    double lMeterPerSecond = toMeters(leftLead.getSelectedSensorVelocity()) * 10;
+
+    double rMeterPerSecond = toMeters(rightLead.getSelectedSensorVelocity()) * 10;
+    
+    return new DifferentialDriveWheelSpeeds(lMeterPerSecond, rMeterPerSecond);
   }
 }

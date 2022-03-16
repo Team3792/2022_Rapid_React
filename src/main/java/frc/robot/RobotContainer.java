@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Joystick.*;
 import frc.robot.commands.*;
-import frc.robot.commands.AutoRoutines.*;
-
-
+import frc.robot.commands.Autonomous.AutoRoutines.*;
+import frc.robot.commands.Autonomous.SemiAuto.semiAutoAlignCmd;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -26,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.SemiAuto.semiAutoAlignCmd;
 import frc.robot.Joystick.PS5Mapping;
 
 
@@ -82,6 +80,9 @@ public class RobotContainer {
   private final Auto2Ball auto2ball = new Auto2Ball(m_drive, 
   m_intake, m_feeder, m_shooter);
 
+  private final Auto4BallCenter auto4ball = new Auto4BallCenter(m_drive, 
+  m_intake, m_feeder, m_shooter);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -95,7 +96,7 @@ public class RobotContainer {
             () -> driveJoystick.getRawAxis(2)*0.8)
     );
 
-    autoChooser.setDefaultOption("2 Ball Auto", auto2ball);
+    autoChooser.setDefaultOption("2 Ball Auto", auto4ball);
 
 
 
