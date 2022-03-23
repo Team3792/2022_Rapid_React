@@ -1,4 +1,4 @@
-  package frc.robot.commands.SemiAuto;
+  package frc.robot.commands.Autonomous.SemiAuto;
   import frc.robot.Constants;
 import frc.robot.commands.LightsCmd;
 import frc.robot.subsystems.*;

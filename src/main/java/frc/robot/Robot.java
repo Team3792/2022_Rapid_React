@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -23,6 +26,8 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 // import edu.wpi.first.cscore.UsbCamera;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -50,6 +55,13 @@ public class Robot extends TimedRobot {
   ElevatorSubsystem elevator = new ElevatorSubsystem();
 
 
+
+
+
+  //Path weaver stuff
+
+
+
   // @Override
 	// public void simulationInit() {
 	// 	PhysicsSim.getInstance().addTalonFX(elevator.leftElevatorMotor, 5, 15596);
@@ -70,12 +82,18 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
+    
+
+
+
+
+
     m_robotContainer = new RobotContainer();
-    LiveWindow.disableAllTelemetry();
+    // LiveWindow.disableAllTelemetry();
     // CameraServer.startAutomaticCapture();
-    UsbCamera cs = CameraServer.startAutomaticCapture();
-    cs.setResolution(200, 130);
-    cs.setFPS(15);
+    // UsbCamera cs = CameraServer.startAutomaticCapture();
+    // cs.setResolution(200, 130);
+    // cs.setFPS(15);
 
     SmartDashboard.putBoolean("CLIMB NOW", true);
 

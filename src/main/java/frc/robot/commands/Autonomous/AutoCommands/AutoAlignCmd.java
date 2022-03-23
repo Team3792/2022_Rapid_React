@@ -1,4 +1,4 @@
-package frc.robot.commands.AutoRoutines;
+package frc.robot.commands.Autonomous.AutoCommands;
 
 import frc.robot.AAPowerDistribution;
 import frc.robot.Constants;
@@ -17,7 +17,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 
 
-public class AutoDriveBackMore extends CommandBase{
+public class AutoAlignCmd extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //subsystem declarations
@@ -33,7 +33,7 @@ public class AutoDriveBackMore extends CommandBase{
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoDriveBackMore(DriveSubsystem driveTrain) {
+  public AutoAlignCmd(DriveSubsystem driveTrain) {
     this.driveTrain = driveTrain;
 
      
@@ -53,7 +53,7 @@ public class AutoDriveBackMore extends CommandBase{
 
     @Override
     public void execute() {
-      if((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(9))){
+      if((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(1))){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
         SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
         SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());
@@ -62,11 +62,25 @@ public class AutoDriveBackMore extends CommandBase{
 
 
         // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
-        driveTrain.drive(-0.3, 0, false);
+        driveTrain.drive(-1.0, 0, false);
 
 
       }
 
+
+      else if(((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) >=  FeetToEncoder(1))) && ((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(5)){
+        //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
+        SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Combine", Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2));
+
+
+        // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
+        // driveTrain.drive(-0.1, SmartDashboard.getNumber("targetAngle", 0), false);
+        driveTrain.drive(-0.1, 0, false);
+
+
+      }
       else
       {
         Constants.stateCounter = 1;
@@ -90,7 +104,22 @@ public class AutoDriveBackMore extends CommandBase{
   
     }
 
-    
+    public void lastAutoDrive()
+    {
+      while((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(7))){
+        //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
+        SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Combine", Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2));
+        SmartDashboard.putNumber("Correct Val", FeetToEncoder(5));
+
+
+        // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
+        driveTrain.drive(-0.2, 0, false);
+
+
+      }
+    }
 
     @Override
     public boolean isFinished() 
