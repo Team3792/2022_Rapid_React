@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Joystick.*;
 import frc.robot.commands.*;
 import frc.robot.commands.Autonomous.AutoRoutines.*;
+import frc.robot.commands.Autonomous.SemiAuto.TurnToAngleCmd;
 import frc.robot.commands.Autonomous.SemiAuto.semiAutoAlignCmd;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -66,6 +67,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   //private final ShooterCmd shooterControl = new ShooterCmd(m_shooter, () -> (((driveJoystick.getRawAxis(3) + 1) / 2) * 7500));
 
+  private final RollerSubsystem m_roller = new RollerSubsystem();
 
   //feeder command stuff
   private final FeedSubsystem m_feeder = new FeedSubsystem();
@@ -139,6 +141,15 @@ public class RobotContainer {
     operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> SmartDashboard.getNumber("5000", 5000), false));
 
+    operateController.XOnlyButton.whileHeld(
+      new StartEndCommand(
+        m_roller::setRoller,
+        m_roller::stopRoller
+      )
+
+
+    );
+
     operateController.TriangleOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
     () -> SmartDashboard.getNumber("2500", 2500), false));
 
@@ -149,11 +160,11 @@ public class RobotContainer {
     () -> SmartDashboard.getNumber("stupidRPM", 0), false));
 
 
-    targetAlign.whileHeld(new semiAutoAlignCmd(
+    targetAlign.whileHeld(new TurnToAngleCmd(
       m_drive, 
-      () -> driveJoystick.getY(), 0
+      () -> driveJoystick.getY()
       
-      ));
+    ));
 
     targetAlign.whileHeld(new StartEndCommand(
       
@@ -464,6 +475,6 @@ operateController.RFaceButton.whenPressed(new InstantCommand(
   //}
   public Command getAutonomousCommand(){
     //filler for rn- change later when we actually have an auto command group
-    return new Auto2Ball(m_drive, m_intake, m_feeder, m_shooter);
+    return new Auto4BallCenter(m_drive, m_intake, m_feeder, m_shooter);
   }
 }

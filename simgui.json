@@ -81,6 +81,9 @@
     }
   },
   "NetworkTables": {
+    "FMSInfo": {
+      "open": true
+    },
     "LiveWindow": {
       "ClimbSubsystem": {
         "open": true
@@ -134,7 +137,7 @@
     "Plot <1>": {
       "plots": [
         {
-          "height": -9,
+          "height": 148,
           "series": [
             {
               "color": [

@@ -57,6 +57,10 @@ public class ShooterCmd extends PIDCommand {
    shooter.zero();
  }
 
+ public void runRoller()
+ {
+   
+ }
  
  @Override
  public void execute() {

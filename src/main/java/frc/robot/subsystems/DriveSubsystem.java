@@ -33,7 +33,7 @@ public class DriveSubsystem extends SubsystemBase {
   public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
 
-  public final WPI_Pigeon2 pigeon2 = new WPI_Pigeon2(0);
+  public final WPI_Pigeon2 pigeon2 = new WPI_Pigeon2(4);
   public final DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
 
 
@@ -149,7 +149,7 @@ public class DriveSubsystem extends SubsystemBase {
     leftFollow.setSelectedSensorPosition(0);
 }
 
-  //convert sensorVelocity to meters
+  //convert sensorPosition to meters
   public static double toMeters(double sensorCounts){
     double motorRotations = (double)sensorCounts / 2048;
     double wheelRotations = motorRotations / 7.44;
@@ -160,11 +160,9 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("R Drive", -(rightLead.getSelectedSensorVelocity()));
-		SmartDashboard.putNumber("L Drive", (leftLead.getSelectedSensorVelocity()));
+    SmartDashboard.putNumber("R Drive", -(toMeters(rightLead.getSelectedSensorVelocity()) * 10));
+		SmartDashboard.putNumber("L Drive", (toMeters(leftLead.getSelectedSensorVelocity()) * 10));
     m_odometry.update(pigeon2.getRotation2d(), toMeters(leftLead.getSelectedSensorPosition()), toMeters(rightLead.getSelectedSensorPosition()));
-
-
   }
 
   public Pose2d getPose() {

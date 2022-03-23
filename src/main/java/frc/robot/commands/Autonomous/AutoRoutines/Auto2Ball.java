@@ -70,7 +70,7 @@ public class Auto2Ball extends SequentialCommandGroup {
         new AutoAlignCmd(driveTrain))  
         ),
   
-        new ParallelRaceGroup(
+        new ParallelCommandGroup(
           new AutoFeedCmd(feeder),
           new ShooterCmd(shooter, () -> SmartDashboard.getNumber("5000", 0), true)),
 

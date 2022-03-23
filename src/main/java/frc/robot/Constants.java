@@ -68,6 +68,10 @@ public final class Constants {
     //Feeder Motor (Victor SPX)
     public static final int kFeedMotor = 11;
 
+    //Back Roller (Talon SRX)
+    public static final int kRollerMotor = 12;
+
+
     //Intake Motor (Victor SPX)
     public static final int kIntakeMotor = 20;
 
@@ -84,7 +88,7 @@ public final class Constants {
   public static final class DriveConstants
   {
     //Drive Kinematics
-    public static final double kDriveTrainWidthMeters = 0.655;
+    public static final double kDriveTrainWidthMeters = 0.71;
 
     //Drivetrain PID Vars
     public static final double kDrivekP = 0.00691;
@@ -92,7 +96,7 @@ public final class Constants {
     public static final double kDrivekD = 0;
 
     //Drive Speed Constants
-    public static final double kMaxDriveSpeed = 4.0;           // meters per second
+    public static final double kMaxDriveSpeed = 3.5;           // meters per second
     public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
 
     public static final double kMaxFastDriveSpeed = 6.0;           // meters per second
@@ -100,9 +104,13 @@ public final class Constants {
 
 
     public static final double kDriveKS = 0.6;
-    public static final double kDriveKV = 1.7;
+    public static final double kDriveKV = 1.5;
 
     public static final double kDriveKA = 0.3;
+
+
+    public static final double kTurnRateToleranceDeg = 2;
+    public static final double kTurnRateToleranceDegPerS = 0.5;
 
 
 

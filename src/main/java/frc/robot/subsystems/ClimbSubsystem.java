@@ -44,17 +44,17 @@ public class ClimbSubsystem extends SubsystemBase {
 	rightClimbMotor.setNeutralMode(NeutralMode.Brake);
 
 	/* Configure output */
-	// rightClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
-	// leftClimbMotor.setInverted(TalonFXInvertType.Clockwise);
+	rightClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
+	leftClimbMotor.setInverted(TalonFXInvertType.Clockwise);
 	
-	// TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
-	// TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
+	TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
 
-	rightClimbMotor.setInverted(TalonFXInvertType.Clockwise);
-	leftClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
+	// rightClimbMotor.setInverted(TalonFXInvertType.Clockwise);
+	// leftClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
 	
-	TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
-	TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
+	// TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	// TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
 	
 	/** Feedback Sensor Configuration */
 

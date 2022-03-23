@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
 
 
     m_robotContainer = new RobotContainer();
-    LiveWindow.disableAllTelemetry();
+    // LiveWindow.disableAllTelemetry();
     // CameraServer.startAutomaticCapture();
     // UsbCamera cs = CameraServer.startAutomaticCapture();
     // cs.setResolution(200, 130);
