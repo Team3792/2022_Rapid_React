@@ -111,26 +111,69 @@ public final class Constants {
 
     public static final double kTurnRateToleranceDeg = 2;
     public static final double kTurnRateToleranceDegPerS = 0.5;
-
-
-
   }
+
   public static final class ShooterConstants
   {
     //Shooter PID constants
-    public static final double shooterkP = 0.001;
-    public static final double shooterkI = 0;
-    public static final double shooterkD = 0;
 
-    //FF constants
-    // public static final double shooterKs = 0.092;
-    // public static final double shooterKv = 0.0031;
-    // public static final double shooterKa = 0.003;
+    /**
+     * Which PID slot to pull gains from.
+     */
+    public static final int kSlotIdx = 0;
 
-    public static final double shooterKs = 0.0501;
-    public static final double shooterKv = 0.001;
-    public static final double shooterKa = 0;
+    /**
+     * Talon FX supports multiple (cascaded) PID loops, we just want the primary one.
+     */
+    public static final int kPIDLoopIdx = 0;
 
+    /**
+     * Set to zero to skip waiting for confirmation, set to nonzero to wait and
+     * report to DS if action fails.
+     */
+    public static final int kTimeoutMs = 30;
+
+    /**
+     * kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
+     * 
+     */
+    public static final double kshooterP = 0.1;
+    public static final double kshooterI = 0.001;
+    public static final double kshooterD = 5;
+    public static final double kshooterF = 1023.0/20660.0;
+    public static final double kshooterIz = 300;
+    public static final double kshooterPeakOut = 1.00;
+  }
+
+  public static final class RollerConstants
+  {
+    /**
+     * Which PID slot to pull gains from.
+     */
+    public static final int kSlotIdx = 0;
+
+    /**
+     * Talon SRX/ Victor SPX supports multiple PID loops, we just want the primary one.
+     */
+    public static final int kPIDLoopIdx = 0;
+
+    /**
+     * Set to zero to skip waiting for confirmation, set to nonzero to wait and
+     * report to DS if action fails.
+     */
+    public static final int kTimeoutMs = 30;
+
+    /**
+     * PID Gains
+     * 
+    */
+    // Feedforward = 869.55/124552.0, 85% (given 100% = 1023) power goes 124552 u/100ms
+    public static final double krollerP = 0.001;
+    public static final double krollerI = 0.00001;
+    public static final double krollerD = 0.01;
+    public static final double krollerF = 0.007;
+    public static final double krollerIz = 5000;
+    public static final double krollerPeakOut = 1.00;
   }
 
   public static final class ElevatorConstants

@@ -4,27 +4,19 @@
 
 package frc.robot.commands.Autonomous.AutoRoutines;
 
-import frc.robot.Constants;
-import frc.robot.commands.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.Autonomous.AutoCommands.AutoAlignCmd;
 import frc.robot.commands.Autonomous.AutoCommands.AutoDriveBackMore;
 import frc.robot.commands.Autonomous.AutoCommands.AutoFeedCmd;
-import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-
-import java.time.Instant;
-import java.util.function.Supplier;
 
 
 
@@ -72,7 +64,7 @@ public class Auto2Ball extends SequentialCommandGroup {
   
         new ParallelCommandGroup(
           new AutoFeedCmd(feeder),
-          new ShooterCmd(shooter, () -> SmartDashboard.getNumber("5000", 0), true)),
+          new ShooterCmd(shooter, () -> SmartDashboard.getNumber("targetRPM", 0), true)),
 
           new AutoDriveBackMore(driveTrain)
 

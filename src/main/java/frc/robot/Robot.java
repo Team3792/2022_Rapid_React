@@ -4,30 +4,20 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.FeederCmd;
 import frc.robot.commands.IntakeCmd;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.AAPowerDistribution;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.FeedSubsystem;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import frc.robot.subsystems.IntakeSubsystem;
 // import edu.wpi.first.cscore.UsbCamera;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -42,15 +32,12 @@ public class Robot extends TimedRobot {
 
   // private PDHSubsystem m_PDH = new PDHSubsystem();
   private IntakeSubsystem m_intake = new IntakeSubsystem();
-  private FeedSubsystem m_feeder = new FeedSubsystem();
-
 
   public final WPI_TalonFX rightLead = new WPI_TalonFX(Constants.MotorID.kRightDriveLead);
   public final WPI_TalonFX rightFollow = new WPI_TalonFX(Constants.MotorID.kRightDriveFollow);
   public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
-  private final WPI_VictorSPX feedMotor = new WPI_VictorSPX(Constants.MotorID.kFeedMotor);
-  
+  public final WPI_TalonFX shooter = new WPI_TalonFX(Constants.MotorID.kShootMotor);
 
   ElevatorSubsystem elevator = new ElevatorSubsystem();
 
@@ -136,7 +123,6 @@ public class Robot extends TimedRobot {
     rightFollow.setNeutralMode(NeutralMode.Coast);
     leftLead.setNeutralMode(NeutralMode.Coast);
     leftFollow.setNeutralMode(NeutralMode.Coast);
-    feedMotor.setNeutralMode(NeutralMode.Brake);
     elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
     elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
     AAPowerDistribution.ringLightOff();
@@ -156,6 +142,7 @@ public class Robot extends TimedRobot {
 
     rightLead.setSelectedSensorPosition(0);
     leftLead.setSelectedSensorPosition(0);
+    shooter.setSelectedSensorPosition(0);
     
     rightLead.setNeutralMode(NeutralMode.Brake);
     rightFollow.setNeutralMode(NeutralMode.Brake);
@@ -189,13 +176,10 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+    }
 
     elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
     elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
-
-
-
-    }
 
     rightLead.setNeutralMode(NeutralMode.Brake);
     rightFollow.setNeutralMode(NeutralMode.Brake);

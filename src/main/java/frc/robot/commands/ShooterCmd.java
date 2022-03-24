@@ -1,20 +1,18 @@
 package frc.robot.commands;
 
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.Constants;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.util.function.Supplier;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShooterCmd extends PIDCommand {
+
+public class ShooterCmd extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ShooterSubsystem shooter; 
-    private Supplier<Double> inputFunction;
+    private Supplier<Double> input;
 
     //timer for auto init
     private final Timer timer;
@@ -24,59 +22,43 @@ public class ShooterCmd extends PIDCommand {
     private boolean complete;
     Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
-  public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> stickInput, boolean autoStatus) {
-      super(
-      new PIDController(Constants.ShooterConstants.shooterkP, Constants.ShooterConstants.shooterkI, Constants.ShooterConstants.shooterkD),
-       // Close the loop on the turn rate
-       shooter::getMeasurement,
-       // Setpoint is in subsystem
-        stickInput.get(),
-       // Pipe the output to the feedforward control
-       output -> shooter.useOutput(output, stickInput.get()),
-       // Require the shooter
-        shooter
-      // Use addRequirements() here to declare subsystem dependencies. 
-      );
-      inputFunction = stickInput;
+  public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> input, boolean autoStatus) {
       this.shooter = shooter;
-      addRequirements(shooter);
-      
+
       timer = new Timer();
       timer.start();
       
-
-
       this.autoStatus = autoStatus;
 
       complete = false;
     }
 
- // Called once the command ends or is interrupted.
- @Override
- public void end(boolean interrupted) {
-   shooter.zero();
- }
+  @Override
+  public void initialize() {
+    shooter.setShooter(input.get());
+  }
 
- public void runRoller()
- {
-   
- }
- 
- @Override
- public void execute() {
+  @Override
+  public void execute() {
    if(autoStatus && timer.hasElapsed(8.0)){
     complete = true;
     // System.out.println("done");
    }
    else{
-    super.execute();
+
     // System.out.println("in progress");
    }
  }
 
- @Override
-    public boolean isFinished() {
-      return complete;
+ // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    shooter.stopShooter();
+ }
+
+  @Override
+  public boolean isFinished() {
+    return complete;
   } 
 
 }

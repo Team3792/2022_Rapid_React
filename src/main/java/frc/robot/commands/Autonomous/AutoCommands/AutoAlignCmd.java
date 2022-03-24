@@ -1,20 +1,11 @@
 package frc.robot.commands.Autonomous.AutoCommands;
 
-import frc.robot.AAPowerDistribution;
-import frc.robot.Constants;
-import frc.robot.subsystems.*;
-import frc.robot.commands.LightsCmd;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-
-import java.util.function.Supplier;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Constants;
+import frc.robot.subsystems.AAPowerDistribution;
+import frc.robot.subsystems.DriveSubsystem;
 
 
 public class AutoAlignCmd extends CommandBase{

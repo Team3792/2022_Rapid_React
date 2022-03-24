@@ -50,7 +50,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 	leftElevatorMotor.setInverted(TalonFXInvertType.Clockwise);
 	
 	TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
-	TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	// TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
 
 	// rightElevatorMotor.setInverted(TalonFXInvertType.Clockwise);
 	// leftElevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);

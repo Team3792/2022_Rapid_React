@@ -1,20 +1,11 @@
 package frc.robot.commands.Autonomous.AutoCommands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import java.util.function.Supplier;
-
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.commands.IntakeCmd;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.Constants;
-
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.commands.IntakeCmd;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 
 public class AutoDriveCmd extends CommandBase{

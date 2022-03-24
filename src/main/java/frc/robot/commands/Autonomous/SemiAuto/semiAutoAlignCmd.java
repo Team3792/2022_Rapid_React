@@ -1,16 +1,10 @@
   package frc.robot.commands.Autonomous.SemiAuto;
-  import frc.robot.Constants;
-import frc.robot.commands.LightsCmd;
-import frc.robot.subsystems.*;
-  import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.RunCommand;
+  import java.util.function.Supplier;
 
-import java.util.function.Supplier;
-  import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-  import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-  import edu.wpi.first.networktables.NetworkTable;
-  import edu.wpi.first.networktables.NetworkTableInstance;
-  import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class semiAutoAlignCmd extends CommandBase{
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})

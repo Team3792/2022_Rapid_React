@@ -4,29 +4,36 @@
 
 package frc.robot;
 
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.Joystick.*;
-import frc.robot.commands.*;
-import frc.robot.commands.Autonomous.AutoRoutines.*;
-import frc.robot.commands.Autonomous.SemiAuto.TurnToAngleCmd;
-import frc.robot.commands.Autonomous.SemiAuto.semiAutoAlignCmd;
-import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj.Joystick;
-import java.util.function.Supplier;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Joystick.PS5Mapping;
+import frc.robot.commands.DefaultDriveCmd;
+import frc.robot.commands.ElevatorCmd;
+import frc.robot.commands.FeederCmd;
+import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.ServoCmd;
+import frc.robot.commands.ShooterCmd;
+import frc.robot.commands.SpeedDriveCmd;
+import frc.robot.commands.Autonomous.AutoRoutines.Auto2Ball;
+import frc.robot.commands.Autonomous.AutoRoutines.Auto4BallCenter;
+import frc.robot.commands.Autonomous.SemiAuto.TurnToAngleCmd;
+import frc.robot.subsystems.AAPowerDistribution;
+import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.FeedSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.RollerSubsystem;
+import frc.robot.subsystems.ServoSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 
 
@@ -116,51 +123,62 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    
-    speedDriveButton.whileHeld((new SpeedDriveCmd(m_drive, 
-    () -> driveJoystick.getRawAxis(1)*1.5, 
-    () -> driveJoystick.getRawAxis(2)*1.5)
-));
-
-    // operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
-    // () -> ((driveJoystick.getRawAxis(3) + 1) / 2) * 7500, false));
-
-    operateController.XOnlyButton.whileHeld(
+    speedDriveButton.whileHeld((new SpeedDriveCmd(
       
-    new ShooterCmd(m_shooter, 
-
-    () -> SmartDashboard.getNumber("stupidRPM", 0), false));
-
-    operateController.XOnlyButton.or(operateController.CircleOnlyButton).or(operateController.TriangleOnlyButton).or(operateController.SquareOnlyButton).whileActiveContinuous(new StartEndCommand(
-      
-    AAPowerDistribution::ringLightOn, 
-    AAPowerDistribution::ringLightOff
+      m_drive, 
+      () -> driveJoystick.getRawAxis(1)*1.5, 
+      () -> driveJoystick.getRawAxis(2)*1.5)
 
     ));
 
-    operateController.XOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
-    () -> SmartDashboard.getNumber("5000", 5000), false));
+    operateController.XOnlyButton.or(operateController.CircleOnlyButton).or(operateController.TriangleOnlyButton).or(operateController.SquareOnlyButton).whileActiveContinuous(new StartEndCommand(
+      
+      AAPowerDistribution::ringLightOn, 
+      AAPowerDistribution::ringLightOff
 
-    operateController.XOnlyButton.whileHeld(
-      new StartEndCommand(
-        m_roller::setRoller,
+    ));
+
+    operateController.XOnlyButton.whileHeld(new ShooterCmd(
+
+      m_shooter, 
+      () -> SmartDashboard.getNumber("targetRPM", 0),
+      false
+
+    ));
+
+    operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
+      
+      m_shooter::lowPort,
+      m_shooter::stopShooter,
+      m_shooter
+
+    ));
+    
+    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+
+      m_shooter::initiation,
+      m_shooter::stopShooter,
+      m_shooter
+
+    ));
+    
+    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+
+      m_shooter::leBron,
+      m_shooter::stopShooter,
+      m_shooter
+
+    ));
+    
+    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+
+        m_roller::fiveKRPMidk,
         m_roller::stopRoller
-      )
 
-
-    );
-
-    operateController.TriangleOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
-    () -> SmartDashboard.getNumber("2500", 2500), false));
-
-    operateController.SquareOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
-    () -> SmartDashboard.getNumber("6050", 6050), false));
-
-    operateController.CircleOnlyButton.whileHeld(new ShooterCmd(m_shooter, 
-    () -> SmartDashboard.getNumber("stupidRPM", 0), false));
-
+    ));
 
     targetAlign.whileHeld(new TurnToAngleCmd(
+
       m_drive, 
       () -> driveJoystick.getY()
       
@@ -168,8 +186,8 @@ public class RobotContainer {
 
     targetAlign.whileHeld(new StartEndCommand(
       
-    AAPowerDistribution::ringLightOn, 
-    AAPowerDistribution::ringLightOff
+      AAPowerDistribution::ringLightOn, 
+      AAPowerDistribution::ringLightOff
     
     ));
 
@@ -192,9 +210,13 @@ public class RobotContainer {
 
 operateController.CircleButton.and(operateController.LTriggerButton).whenActive(new ParallelCommandGroup(
 
-new InstantCommand(m_elevator::zeroSensors, m_elevator),
+new InstantCommand(
+  m_elevator::zeroSensors,
+  m_elevator),
 
-new InstantCommand(m_climber::zeroSensors, m_climber)
+new InstantCommand(
+  m_climber::zeroSensors,
+  m_climber)
 
 ));
 
@@ -210,72 +232,66 @@ new InstantCommand(m_climber::zeroSensors, m_climber)
 operateController.R1Button.and(operateController.LTriggerButton).whenActive(new ElevatorCmd(
   
 m_elevator, 
-
 Constants.ElevatorConstants.setpointUp
 
 ));
 
 operateController.R1Button.whenActive(new InstantCommand(
-  () -> new ServoCmd(m_servo).openServo(),
 
-  m_servo));
+  () -> new ServoCmd(m_servo).openServo(),
+  m_servo
+  
+));
 
 
 
 operateController.L1Button.and(operateController.LTriggerButton).whenActive(new ElevatorCmd(
   
-m_elevator, 
-
-Constants.ElevatorConstants.setpointDown
+  m_elevator, 
+  Constants.ElevatorConstants.setpointDown
 
 ));
 
 
 operateController.climbUp.whenActive(new InstantCommand(
 
-m_elevator::moveElevatorUpSlow,
-
-m_elevator
+  m_elevator::moveElevatorUpSlow,
+  m_elevator
 
 ));
 
 operateController.climbUp.and(operateController.LTriggerButton).whenActive(new InstantCommand(
 
-m_elevator::moveElevatorUp,
-
-m_elevator
+  m_elevator::moveElevatorUp,
+  m_elevator
 
 ));
 
 operateController.climbDown.whenActive(new InstantCommand(
 
-m_elevator::moveElevatorDownSlow,
-
-m_elevator
+  m_elevator::moveElevatorDownSlow,
+  m_elevator
 
 ));
 
 operateController.climbDown.and(operateController.LTriggerButton).whenActive(new InstantCommand(
 
-m_elevator::moveElevatorDown,
-
-m_elevator
+  m_elevator::moveElevatorDown,
+  m_elevator
 
 ));
 
 operateController.climbUp.whenReleased(new InstantCommand(
 
-m_elevator::stopElevator,
-
-m_elevator
+  m_elevator::stopElevator,
+  m_elevator
 
 ));
 
 operateController.climbDown.whenReleased(new InstantCommand(
 
-m_elevator::stopElevator,
-
-m_elevator
+  m_elevator::stopElevator,
+  m_elevator
 
 ));
 
@@ -305,47 +321,42 @@ m_elevator
 
 // Constants.ClimbConstants.setpointBack
 
-// ));
+// ));  
 
 
 
 operateController.pivotForward.whenActive(new InstantCommand(
 
-m_climber::moveClimbForward,
-
-m_climber
+  m_climber::moveClimbForward,
+  m_climber
 
 ));
 
 
 operateController.pivotBack.whenActive(new InstantCommand(
 
-m_climber::moveClimbBack,
-
-m_climber
+  m_climber::moveClimbBack,
+  m_climber
 
 ));
 
 operateController.pivotForward.and(operateController.RStickButton).whenActive(new InstantCommand(
 
-m_climber::moveClimberForwardFast,
-
-m_climber
+  m_climber::moveClimberForwardFast,
+  m_climber
 
 ));
 
 operateController.pivotBack.and(operateController.RStickButton).whenActive(new InstantCommand(
 
-m_climber::moveClimberBackFast,
-
-m_climber
+  m_climber::moveClimberBackFast,
+  m_climber
 
 ));
 
 operateController.pivotForward.whenReleased(new InstantCommand(
 
   m_climber::stopClimb,
-
   m_climber
 
 ));
@@ -354,7 +365,6 @@ operateController.pivotForward.whenReleased(new InstantCommand(
 operateController.pivotBack.whenReleased(new InstantCommand(
 
   m_climber::stopClimb,
-
   m_climber
 
 ));
@@ -365,6 +375,7 @@ operateController.pivotBack.whenReleased(new InstantCommand(
 
 
 readyShoot.whileHeld(new StartEndCommand(
+    
   // Start a flywheel spinning at 50% power
   () -> operateController.startShake(),
   // Stop the flywheel at the end of the command
@@ -376,6 +387,7 @@ readyShoot.whileHeld(new StartEndCommand(
 
 
 operateController.RTriggerButton.whileHeld(new StartEndCommand(
+
   // Start a flywheel spinning at 50% power
   () -> feedControl.runFeederForward(),
   // Stop the flywheel at the end of the command
@@ -391,9 +403,7 @@ operateController.RTriggerButton.whileHeld(new StartEndCommand(
 intakeButton.whileHeld(new StartEndCommand(
   
   () -> new IntakeCmd(m_intake).runIntakeForward(),
-
   () -> new IntakeCmd(m_intake).stopIntake(),
-
   m_intake
   
 ));
@@ -401,9 +411,7 @@ intakeButton.whileHeld(new StartEndCommand(
 revIntake.whileActiveContinuous(new StartEndCommand(
   
   () -> new IntakeCmd(m_intake).runIntakeBackward(),
-
   () -> new IntakeCmd(m_intake).stopIntake(),
-
   m_intake
 
 ));
@@ -411,23 +419,20 @@ revIntake.whileActiveContinuous(new StartEndCommand(
 operateController.POVDownish.whileActiveContinuous(new StartEndCommand(
   
   () -> new IntakeCmd(m_intake).runIntakeBackward(),
-
   () -> new IntakeCmd(m_intake).stopIntake(),
-
   m_intake
 
 ));
 
 operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
 
-  () -> new SetShootCmd(m_shooter).reverseShooter(), 
-
-  () -> new SetShootCmd(m_shooter).stopShoot(), 
-  
+  m_shooter::reverse, 
+  m_shooter::stopShooter, 
   m_shooter
   
 ));
 operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
+
   // Start a flywheel spinning at 50% power
   () -> feedControl.runFeederBackwards(),
   // Stop the flywheel at the end of the command
@@ -440,21 +445,22 @@ operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
 operateController.POVUpish.whileActiveContinuous(new StartEndCommand(
   
   () -> new IntakeCmd(m_intake).runIntakeForwardSlow(),
-
   () -> new IntakeCmd(m_intake).stopIntake(),
-
   m_intake
 
 ));
 
 operateController.LFaceButton.whenPressed(new InstantCommand(
+
     AAPowerDistribution::toggleLight
+
 ));
 
 operateController.RFaceButton.whenPressed(new InstantCommand(
+  
     () -> new ServoCmd(m_servo).toggleServo(),
-
     m_servo
+
 ));
 
 

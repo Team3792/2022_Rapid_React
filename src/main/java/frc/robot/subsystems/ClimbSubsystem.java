@@ -48,7 +48,7 @@ public class ClimbSubsystem extends SubsystemBase {
 	leftClimbMotor.setInverted(TalonFXInvertType.Clockwise);
 	
 	TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; //Same as invert = "false"
-	TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
+	// TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; //Same as invert = "true"
 
 	// rightClimbMotor.setInverted(TalonFXInvertType.Clockwise);
 	// leftClimbMotor.setInverted(TalonFXInvertType.CounterClockwise);
