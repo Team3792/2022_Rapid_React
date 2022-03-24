@@ -23,12 +23,13 @@ public class TurnToAngleCmd extends PIDCommand {
    * @param drive The drive subsystem to use
    */
   public TurnToAngleCmd( DriveSubsystem drive, Supplier<Double> input) {
+
     super(
-        new PIDController(Constants.DriveConstants.kDrivekP, DriveConstants.kDrivekI, DriveConstants.kDrivekD),
+        new PIDController(.01, 0, 0),
         // Close loop on heading
         drive::getHeading,
         // Set reference to target
-        SmartDashboard.getNumber("targetAngle", 0),
+        -SmartDashboard.getNumber("targetAngle", 0) + drive.getHeading(),
         // Pipe output to turn robot
         output -> drive.drive(input.get(), output, false),
         // Require the drive
