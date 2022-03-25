@@ -19,8 +19,8 @@ public class ShooterSubsystem extends SubsystemBase {
         shooter.setInverted(false);
         shooter.setSelectedSensorPosition(0);
         
-        /* Factory Default all hardware to prevent unexpected behaviour */
-		shooter.configFactoryDefault();
+        // /* Factory Default all hardware to prevent unexpected behaviour */
+		// shooter.configFactoryDefault();
 		
 		/* Config neutral deadband to be the smallest possible */
 		shooter.configNeutralDeadband(0.001);
@@ -81,7 +81,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void stopShooter() {
-        shooter.set(ControlMode.Velocity, 0);
+        shooter.set(0);
     }
 
     public double getRPM() {

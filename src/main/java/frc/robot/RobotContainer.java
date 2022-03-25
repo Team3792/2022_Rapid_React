@@ -138,7 +138,7 @@ public class RobotContainer {
 
     ));
 
-    operateController.XOnlyButton.whileHeld(new ShooterCmd(
+    operateController.CircleOnlyButton.whileHeld(new ShooterCmd(
 
       m_shooter, 
       () -> SmartDashboard.getNumber("targetRPM", 0),
@@ -162,7 +162,7 @@ public class RobotContainer {
 
     ));
     
-    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+    operateController.SquareOnlyButton.whileHeld(new StartEndCommand(
 
       m_shooter::leBron,
       m_shooter::stopShooter,

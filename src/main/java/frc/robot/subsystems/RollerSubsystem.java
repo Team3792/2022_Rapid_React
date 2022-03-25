@@ -25,18 +25,19 @@ public class RollerSubsystem extends SubsystemBase {
   
   public RollerSubsystem() 
   {
-    /* Factory Default all hardware to prevent unexpected behaviour */
-    roller.configFactoryDefault();
+    // /* Factory Default all hardware to prevent unexpected behaviour */
+    // roller.configFactoryDefault();
+
+    /* Config neutral deadband to be the smallest possible */
+		roller.configNeutralDeadband(0.001);
 
 		/* Config sensor used for Primary PID [Velocity] */
-        roller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
-                                            Constants.RollerConstants.kPIDLoopIdx, 
-                                            Constants.RollerConstants.kTimeoutMs);
+        roller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.kTimeoutMs);
 
-        /**
-		 * Phase sensor accordingly. 
-         * Positive Sensor Reading should match Green (blinking) Leds on Talon
-         */
+    /**
+ * Phase sensor accordingly. 
+     * Positive Sensor Reading should match Green (blinking) Leds on Talon
+     */
 		roller.setSensorPhase(true);
 
 		/* Config the peak and nominal outputs */

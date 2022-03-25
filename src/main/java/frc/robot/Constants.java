@@ -137,9 +137,9 @@ public final class Constants {
      * kF: 1023 represents output value to Talon at 100%, 20660 represents Velocity units at 100% output
      * 
      */
-    public static final double kshooterP = 0.1;
-    public static final double kshooterI = 0.001;
-    public static final double kshooterD = 5;
+    public static final double kshooterP = 0.2;
+    public static final double kshooterI = 0;
+    public static final double kshooterD = 2;
     public static final double kshooterF = 1023.0/20660.0;
     public static final double kshooterIz = 300;
     public static final double kshooterPeakOut = 1.00;
