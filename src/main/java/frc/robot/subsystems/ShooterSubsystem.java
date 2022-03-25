@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void initiation() {
-        setShooter(5000);
+        setShooter(2700);
     }
 
     public void leBron() {

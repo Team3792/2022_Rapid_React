@@ -60,7 +60,8 @@ public class RollerSubsystem extends SubsystemBase {
 
   public void fiveKRPMidk()
     {
-      setRoller(5000);
+      setRoller(10000);
+      // setRoller(SmartDashboard.getNumber("Roller", 10000));
     }
     
   public void stopRoller()

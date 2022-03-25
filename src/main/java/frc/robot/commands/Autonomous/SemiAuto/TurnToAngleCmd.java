@@ -41,7 +41,7 @@ public class TurnToAngleCmd extends CommandBase {
   @Override
   public void execute(){
 
-        double kP = 0.05;
+        double kP = 0.0225;
         // Find the heading error; setpoint is given all the time
         double error = SmartDashboard.getNumber("targetAngle", 0);
     
