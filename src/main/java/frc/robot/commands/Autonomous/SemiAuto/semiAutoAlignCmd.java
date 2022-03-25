@@ -1,92 +1,64 @@
-  package frc.robot.commands.Autonomous.SemiAuto;
-  import java.util.function.Supplier;
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+package frc.robot.commands.Autonomous.SemiAuto;
+
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import java.util.function.Supplier;
 
-public class semiAutoAlignCmd extends CommandBase{
+
+
+
+/** default drive using the DriveSubystem. */
+public class semiAutoAlignCmd extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-
-   
-
-  //subsystem declarations
+  //drivesubsystem declaration
   private final DriveSubsystem driveTrain;
-  private boolean complete = false;
-  // private PDHSubsystem m_PDH = new PDHSubsystem();
 
+  //supplier lambda's declaration
+  Supplier<Double> speedFunction, turnFunction;
 
-
-  //which camera: 0 is target and 1 is ball
-  private final int camera;
+  //linear and angular speed
+  double xSpeed;
+  double rotSpeed;
+ 
   /**
    * Creates a new default drive.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public semiAutoAlignCmd(DriveSubsystem m_drive, Supplier<Double> input,int camera) {
-    driveTrain = m_drive;
-
-    this.camera = camera;
-
-    this.input = input;
-     
+  public semiAutoAlignCmd(DriveSubsystem subsystem, Supplier<Double> speedFunction) {
+    driveTrain = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
+    //double suppliers init
+    this.speedFunction = speedFunction;
+    this.turnFunction = turnFunction;
+  }
 
-    
-    }
-
-  //joystick input to make sure the driver can still drive forward/back
-  private final Supplier<Double> input;
-
+  // Called when the command is initially scheduled.
   @Override
-    public void initialize() 
-    {
-      // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOn(), m_PDH);
-    
-    }
-  
-  
-  
+  public void initialize() {}
 
 
-    @Override
-    public void execute() {
-      if(camera == 0){
-        align("targetAngle");
-      }
-      else{
-        align(Constants.ballType + "BallAngle");
-        System.out.print(Constants.ballType + "BallAngle");
-      }
-      
-    }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    //regular drive with inputted joystick values
+    driveTrain.drive(speedFunction.get(), turnFunction.get(), true);
+  }
 
-    
-    public void align(String camera){
-      if(Math.abs(SmartDashboard.getNumber(camera, 0)) > 0.03){
-        //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
-        driveTrain.drive(input.get(), (SmartDashboard.getNumber(camera, 0))/2, false);
-        System.out.println("Angle here: " + SmartDashboard.getNumber(camera, 0));  
-      }
-      else
-      {
-        complete = true;
-      }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
 
-    }
-
-    @Override
-    public boolean isFinished() 
-    {
-      // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
-      return complete;
-    } 
-
-
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }
-

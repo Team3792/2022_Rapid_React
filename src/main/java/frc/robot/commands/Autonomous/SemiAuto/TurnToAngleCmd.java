@@ -12,39 +12,50 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 /** A command that will turn the robot to the specified angle. */
-public class TurnToAngleCmd extends PIDCommand {
+public class TurnToAngleCmd extends CommandBase {
   /**
    * Turns to robot to the specified angle.
    *
    * @param targetAngleDegrees The angle to turn to
    * @param drive The drive subsystem to use
    */
-  public TurnToAngleCmd( DriveSubsystem drive, Supplier<Double> input) {
-    super(
-        new PIDController(Constants.DriveConstants.kDrivekP, DriveConstants.kDrivekI, DriveConstants.kDrivekD),
-        // Close loop on heading
-        drive::getHeading,
-        // Set reference to target
-        SmartDashboard.getNumber("targetAngle", 0),
-        // Pipe output to turn robot
-        output -> drive.drive(input.get(), output, false),
-        // Require the drive
-        drive);
+  private final DriveSubsystem driveTrain;
+  private final Supplier<Double> speedFunction;
+  private double targetHeading;
 
-    // Set the controller to be continuous (because it is an angle controller)
-    getController().enableContinuousInput(-180, 180);
-    // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
-    // setpoint before it is considered as having reached the reference
-    getController()
-        .setTolerance(Constants.DriveConstants.kTurnRateToleranceDeg, DriveConstants.kTurnRateToleranceDegPerS);
+
+  public TurnToAngleCmd(DriveSubsystem drive, Supplier<Double> input) {
+    driveTrain = drive;
+
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(driveTrain);
+
+    //double suppliers init
+    this.speedFunction = input;
   }
+  
+  @Override
+  public void execute(){
 
+        double kP = 0.05;
+        // Find the heading error; setpoint is given all the time
+        double error = SmartDashboard.getNumber("targetAngle", 0);
+    
+        // Turns the robot to face the desired direction
+        driveTrain.drive(speedFunction.get(), (kP * error), false);
+        System.out.println((kP * error) + "speed be at");
+        System.out.println("error is:" + error);
+        System.out.println("gyro heading:" + driveTrain.getHeading());
+    }
+
+  
   @Override
   public boolean isFinished() {
     // End when the controller is at the reference.
-    return getController().atSetpoint();
+    return false;
   }
 }
