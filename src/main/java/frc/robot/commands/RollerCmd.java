@@ -23,16 +23,14 @@ public class RollerCmd extends CommandBase{
     private boolean complete;
     Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
-  public RollerCmd(RollerSubsystem roller, Supplier<Double> input, boolean autoStatus) {
+  public RollerCmd(RollerSubsystem roller) {
       this.roller = roller;
 
       System.out.println("Reached roller Cmd");
 
       timer = new Timer();
       timer.start();
-      
-      this.autoStatus = autoStatus;
-
+    
 
 
       complete = false;
@@ -40,9 +38,9 @@ public class RollerCmd extends CommandBase{
 
   @Override
   public void initialize() {
-    roller.setRoller(input.get());
-    SmartDashboard.putNumber("input.get", input.get());
-    System.out.println("Input: " + input.get());
+    // roller.setRoller(input.get());
+    // SmartDashboard.putNumber("input.get", input.get());
+    // System.out.println("Input: " + input.get());
   }
 
   @Override
@@ -52,7 +50,7 @@ public class RollerCmd extends CommandBase{
     // System.out.println("done");
    }
    else{
-
+    roller.setRoller(8000);
     // System.out.println("in progress");
    }
  }
@@ -61,6 +59,7 @@ public class RollerCmd extends CommandBase{
   @Override
   public void end(boolean interrupted) {
     roller.stopRoller();
+
  }
 
   @Override

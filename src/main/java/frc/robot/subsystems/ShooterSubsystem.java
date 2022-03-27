@@ -44,6 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
 		shooter.config_kP(Constants.ShooterConstants.kPIDLoopIdx, Constants.ShooterConstants.kshooterP, Constants.ShooterConstants.kTimeoutMs);
 		shooter.config_kI(Constants.ShooterConstants.kPIDLoopIdx, Constants.ShooterConstants.kshooterI, Constants.ShooterConstants.kTimeoutMs);
 		shooter.config_kD(Constants.ShooterConstants.kPIDLoopIdx, Constants.ShooterConstants.kshooterD, Constants.ShooterConstants.kTimeoutMs);
+        shooter.config_IntegralZone(Constants.ShooterConstants.kPIDLoopIdx, Constants.ShooterConstants.kshooterIz, Constants.ShooterConstants.kTimeoutMs);
 		/*
 		 * Talon FX does not need sensor phase set for its integrated sensor
 		 * This is because it will always be correct if the selected feedback device is integrated sensor (default value)
@@ -74,17 +75,33 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void initiation() {
         // setShooter((((joystick.getRawAxis(3) + 1) / 4) * 7500));
-        setShooter(SmartDashboard.getNumber("BRUH", 3000));
+        setShooter(getShooterRPM());
+        System.out.println("ShooterLMAO " + getShooterRPM());
     }
 
     public void leBron() {
-        System.out.println(getShooterRPM());
-        setShooter(getShooterRPM());
     }
 
     public double getShooterRPM() {
-        double currentDist = 100;
-        return (2*Math.pow(10, -7))*Math.pow(currentDist, 6) - (Math.pow(10, -4))*Math.pow(currentDist, 5) + (0.0251 * Math.pow(currentDist, 4)) - (3.2537 * Math.pow(currentDist, 3)) + (229.32 * Math.pow(currentDist, 2)) - 8302.2 * currentDist + 123583;
+        double xVal = SmartDashboard.getNumber("targetDist", 50);
+        System.out.println("XVAL " + xVal);
+        if (xVal <= 93) {
+            System.out.println("PART 1");
+            return 0.0000414414259424234 * Math.pow(xVal, 5) 
+                    - 0.0149920706919886  * Math.pow(xVal, 4)  
+                    + 2.13797087428725  * Math.pow(xVal, 3)  
+                    - 150.151797625819  * Math.pow(xVal, 2)  
+                    + 5202.12230744896  * Math.pow(xVal, 1)  
+                    - 68255.4031903005;
+        } else {
+            System.out.println("PART 2");
+
+            return 0.00105705403208844 * Math.pow(xVal, 4) 
+                    - 0.473451255106056 * Math.pow(xVal, 3) 
+                    + 78.9367234383612  * Math.pow(xVal, 2) 
+                    - 5795.36686845961  * Math.pow(xVal, 1) 
+                    + 160476.696335883;
+        }
     }
 
     public void reverse() {

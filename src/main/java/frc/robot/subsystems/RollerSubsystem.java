@@ -38,8 +38,8 @@ public class RollerSubsystem extends SubsystemBase {
 
     /* Config current limiting */
     roller.enableCurrentLimit(true);
-    roller.configPeakCurrentDuration(1, 30);
-    roller.configPeakCurrentLimit(100, 30);
+    roller.configPeakCurrentDuration(5, 30);
+    roller.configPeakCurrentLimit(60, 30);
 
 		/* Config sensor used for Primary PID [Velocity] */
     roller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.kTimeoutMs);
@@ -61,6 +61,7 @@ public class RollerSubsystem extends SubsystemBase {
 		roller.config_kP(Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.krollerP, Constants.RollerConstants.kTimeoutMs);
 		roller.config_kI(Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.krollerI, Constants.RollerConstants.kTimeoutMs);
 		roller.config_kD(Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.krollerD, Constants.RollerConstants.kTimeoutMs);
+    roller.config_IntegralZone(Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.krollerIz, Constants.RollerConstants.kTimeoutMs);
   }
 
   public void setRoller(double rpm)
@@ -68,22 +69,41 @@ public class RollerSubsystem extends SubsystemBase {
       roller.set(ControlMode.Velocity, toRaw(rpm));
     }
 
+    public void reverse()
+    {
+      setRoller(-3000);
+    }
+
   public void fiveKRPMidk()
     {
       // setRoller((((joystick.getRawAxis(3) + 1) / 4) * 7500) * 3.7);
       // setRoller(SmartDashboard.getNumber("BRUH", 3000)* SmartDashboard.getNumber("Ratio", 3.7));
-      setRoller(SmartDashboard.getNumber("Roller", 1000));
+      setRoller(getRollerRPM());
     }
     
   public double getRollerRPM() {
-    double currentDist = SmartDashboard.getNumber("targetDist", 0);
-    double kShootVal = (2*Math.pow(10, -7))*Math.pow(currentDist, 6) - (Math.pow(10, -4))*Math.pow(currentDist, 5) + (0.0251 * Math.pow(currentDist, 4)) - (3.2537 * Math.pow(currentDist, 3)) + (229.32 * Math.pow(currentDist, 2)) - 8302.2 * currentDist + 123583;
+    double xVal = SmartDashboard.getNumber("targetDist", 50);
+    double kShootVal;
+    if (xVal <= 93) {
+        kShootVal = 0.0000414414259424234 * Math.pow(xVal, 5) 
+                - 0.0149920706919886  * Math.pow(xVal, 4)  
+                + 2.13797087428725  * Math.pow(xVal, 3)  
+                - 150.151797625819  * Math.pow(xVal, 2)  
+                + 5202.12230744896  * Math.pow(xVal, 1)  
+                - 68255.4031903005;
+    } else {
+        kShootVal = 0.00105705403208844 * Math.pow(xVal, 4) 
+                - 0.473451255106056 * Math.pow(xVal, 3) 
+                + 78.9367234383612  * Math.pow(xVal, 2) 
+                - 5795.36686845961  * Math.pow(xVal, 1) 
+                + 160476.696335883;
+    }
     double friction = 0.45;
-    double xVal = currentDist;
     double OmegaT;
     double vVal;
     double OmegaB;
-    double RPM;
+    double RPM; 
+    xVal += 47;
 
     OmegaB = (kShootVal*(2*Math.PI)/60); 
     vVal = (xVal)/(0.3907311285*Math.sqrt((-81.5+2.36*xVal)/192)); 

@@ -148,6 +148,9 @@ public class DriveSubsystem extends SubsystemBase {
     leftLead.setSelectedSensorPosition(0);
     rightFollow.setSelectedSensorPosition(0);
     leftFollow.setSelectedSensorPosition(0);
+
+    pigeon2.reset();
+    
 }
 
   //convert sensorPosition to meters

@@ -23,7 +23,7 @@ public class ShooterCmd extends CommandBase{
     private boolean complete;
     Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
-  public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> input, boolean autoStatus) {
+  public ShooterCmd(ShooterSubsystem shooter) {
       this.shooter = shooter;
 
       System.out.println("Reached Shooter Cmd");
@@ -31,27 +31,32 @@ public class ShooterCmd extends CommandBase{
       timer = new Timer();
       timer.start();
       
-      this.autoStatus = autoStatus;
 
 
 
       complete = false;
     }
 
+
+
   @Override
   public void initialize() {
-    shooter.setShooter(input.get());
-    SmartDashboard.putNumber("input.get", input.get());
-    System.out.println("Input: " + input.get());
+    // shooter.setShooter(input.get());
+    // SmartDashboard.putNumber("input.get", input.get());
+    // System.out.println("Input: " + input.get());
+
+
   }
 
   @Override
   public void execute() {
-   if(autoStatus && timer.hasElapsed(8.0)){
+   if(timer.hasElapsed(8.0)){
     complete = true;
     // System.out.println("done");
    }
    else{
+    shooter.setShooter(2000);
+
 
     // System.out.println("in progress");
    }
@@ -61,6 +66,11 @@ public class ShooterCmd extends CommandBase{
   @Override
   public void end(boolean interrupted) {
     shooter.stopShooter();
+ }
+
+ public void runShooter(double rpm)
+ {
+   shooter.setShooter(rpm);
  }
 
   @Override

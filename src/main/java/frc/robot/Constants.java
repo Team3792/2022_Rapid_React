@@ -168,11 +168,11 @@ public final class Constants {
      * 
     */
     // Feedforward = 869.55/124552.0, 85% (given 100% = 1023) power goes 124552 u/100ms
-    public static final double krollerP = 0.02;
-    public static final double krollerI = 0.0001;
-    public static final double krollerD = 1;
-    public static final double krollerF = 0.0075;
-    public static final double krollerIz = 10000;
+    public static final double krollerP = 0.001;
+    public static final double krollerI = 0.00001;
+    public static final double krollerD = 0;
+    public static final double krollerF = 0.005;
+    public static final double krollerIz = 20000;
     public static final double krollerPeakOut = 1.00;
   }
 

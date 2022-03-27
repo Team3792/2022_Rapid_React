@@ -20,7 +20,6 @@ import frc.robot.commands.ElevatorCmd;
 import frc.robot.commands.FeederCmd;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.RollerCmd;
-import frc.robot.commands.ServoCmd;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.SpeedDriveCmd;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto2Ball;
@@ -33,7 +32,6 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.RollerSubsystem;
-import frc.robot.subsystems.ServoSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
@@ -83,7 +81,6 @@ public class RobotContainer {
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ElevatorSubsystem m_elevator = new ElevatorSubsystem();
   private final ClimbSubsystem m_climber = new ClimbSubsystem();
-  private final ServoSubsystem m_servo = new ServoSubsystem();
 
 
   //Auto Declarators
@@ -91,7 +88,7 @@ public class RobotContainer {
   m_intake, m_feeder, m_shooter);
 
   private final Auto4BallCenter auto4ball = new Auto4BallCenter(m_drive, 
-  m_intake, m_feeder, m_shooter);
+  m_intake, m_feeder, m_shooter, m_roller);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -139,13 +136,13 @@ public class RobotContainer {
 
     ));
 
-    operateController.CircleOnlyButton.whileHeld(new ShooterCmd(
+    // operateController.CircleOnlyButton.whileHeld(new ShooterCmd(
 
-      m_shooter, 
-      () -> SmartDashboard.getNumber("targetRPM", 0),
-      false
+    //   m_shooter, 
+    //   () -> SmartDashboard.getNumber("targetRPM", 0),
+    //   false
 
-    ));
+    // ));
 
     operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
       
@@ -155,13 +152,16 @@ public class RobotContainer {
 
     ));
     
-    operateController.XOnlyButton.whileHeld(new ShooterCmd(
+   
+    
+    
+    // ShooterCmd(
 
-      m_shooter,
-      () -> m_shooter.getShooterRPM(),
-      false
+    //   m_shooter,
+    //   () -> m_shooter.getShooterRPM(),
+    //   false
 
-    ));
+    // ));
     
     operateController.SquareOnlyButton.whileHeld(new StartEndCommand(
 
@@ -171,17 +171,32 @@ public class RobotContainer {
 
     ));
 
-    
-    
-    operateController.XOnlyButton.whileHeld(new RollerCmd(
-
-      m_roller,
-      () -> m_roller.getRollerRPM(),
-      false
+    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+      
+      m_shooter::initiation,
+      m_shooter::stopShooter,
+      m_shooter
       
     ));
+    
+    operateController.XOnlyButton.whileHeld(new StartEndCommand(
 
-    targetAlign.whileHeld(new TurnToAngleCmd(
+      m_roller::fiveKRPMidk,
+      m_roller::stopRoller,
+      m_roller
+
+    ));
+    
+    
+    // RollerCmd(
+
+    //   m_roller,
+    //   () -> m_roller.getRollerRPM(),
+    //   false
+      
+    // ));
+
+    targetAlign.whenHeld(new TurnToAngleCmd(
 
       m_drive, 
       () -> driveJoystick.getY()
@@ -240,12 +255,7 @@ Constants.ElevatorConstants.setpointUp
 
 ));
 
-operateController.R1Button.whenActive(new InstantCommand(
 
-  () -> new ServoCmd(m_servo).openServo(),
-  m_servo
-  
-));
 
 
 
@@ -435,6 +445,13 @@ operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
   m_shooter
   
 ));
+operateController.POVRightish.whileActiveContinuous(new StartEndCommand(
+
+  m_roller::reverse, 
+  m_roller::stopRoller, 
+  m_roller
+  
+));
 operateController.POVLeftish.whileActiveContinuous(new StartEndCommand(
 
   // Start a flywheel spinning at 50% power
@@ -460,13 +477,6 @@ operateController.LFaceButton.whenPressed(new InstantCommand(
 
 ));
 
-operateController.RFaceButton.whenPressed(new InstantCommand(
-  
-    () -> new ServoCmd(m_servo).toggleServo(),
-    m_servo
-
-));
-
 
 
 
@@ -485,6 +495,6 @@ operateController.RFaceButton.whenPressed(new InstantCommand(
   //}
   public Command getAutonomousCommand(){
     //filler for rn- change later when we actually have an auto command group
-    return new Auto4BallCenter(m_drive, m_intake, m_feeder, m_shooter);
+    return new Auto4BallCenter(m_drive, m_intake, m_feeder, m_shooter, m_roller);
   }
 }

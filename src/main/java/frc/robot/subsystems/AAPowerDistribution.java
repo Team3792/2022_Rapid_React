@@ -35,7 +35,7 @@ public class AAPowerDistribution extends SubsystemBase {
 
   public static void ringLightOff()
   {
-    aaPDH.setSwitchableChannel(false);
+    aaPDH.setSwitchableChannel(true); //this is scuffed
     System.out.println("turning off");
     Constants.GlobalStateConstants.kRingLightState = false;
     SmartDashboard.putBoolean("RingLED", false);
@@ -54,7 +54,7 @@ public class AAPowerDistribution extends SubsystemBase {
     }
     else if (Constants.GlobalStateConstants.kRingLightState)
     {
-      aaPDH.setSwitchableChannel(false);
+      aaPDH.setSwitchableChannel(true); //this is scuffed
       Constants.GlobalStateConstants.kRingLightState = false;
       SmartDashboard.putBoolean("RingLED", false);
     }
