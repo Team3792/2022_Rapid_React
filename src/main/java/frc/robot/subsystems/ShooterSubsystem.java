@@ -8,12 +8,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
     private final WPI_TalonFX shooter = new WPI_TalonFX(Constants.MotorID.kShootMotor);
+    private Joystick joystick = new Joystick(0);
 
     public ShooterSubsystem() {
         shooter.setInverted(false);
@@ -57,6 +59,8 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("RPM", getRPM());
+        SmartDashboard.putNumber("RPMGraph", getRPM());
+
         SmartDashboard.putNumber("targetRPM", SmartDashboard.getNumber("targetRPM", 0));
     }
 
@@ -69,11 +73,18 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void initiation() {
-        setShooter(2700);
+        // setShooter((((joystick.getRawAxis(3) + 1) / 4) * 7500));
+        setShooter(SmartDashboard.getNumber("BRUH", 3000));
     }
 
     public void leBron() {
-        setShooter(6050);
+        System.out.println(getShooterRPM());
+        setShooter(getShooterRPM());
+    }
+
+    public double getShooterRPM() {
+        double currentDist = 100;
+        return (2*Math.pow(10, -7))*Math.pow(currentDist, 6) - (Math.pow(10, -4))*Math.pow(currentDist, 5) + (0.0251 * Math.pow(currentDist, 4)) - (3.2537 * Math.pow(currentDist, 3)) + (229.32 * Math.pow(currentDist, 2)) - 8302.2 * currentDist + 123583;
     }
 
     public void reverse() {

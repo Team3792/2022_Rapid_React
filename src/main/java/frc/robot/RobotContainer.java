@@ -19,6 +19,7 @@ import frc.robot.commands.DefaultDriveCmd;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.commands.FeederCmd;
 import frc.robot.commands.IntakeCmd;
+import frc.robot.commands.RollerCmd;
 import frc.robot.commands.ServoCmd;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.SpeedDriveCmd;
@@ -154,11 +155,11 @@ public class RobotContainer {
 
     ));
     
-    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+    operateController.XOnlyButton.whileHeld(new ShooterCmd(
 
-      m_shooter::initiation,
-      m_shooter::stopShooter,
-      m_shooter
+      m_shooter,
+      () -> m_shooter.getShooterRPM(),
+      false
 
     ));
     
@@ -169,12 +170,15 @@ public class RobotContainer {
       m_shooter
 
     ));
+
     
-    operateController.XOnlyButton.whileHeld(new StartEndCommand(
+    
+    operateController.XOnlyButton.whileHeld(new RollerCmd(
 
-        m_roller::fiveKRPMidk,
-        m_roller::stopRoller
-
+      m_roller,
+      () -> m_roller.getRollerRPM(),
+      false
+      
     ));
 
     targetAlign.whileHeld(new TurnToAngleCmd(

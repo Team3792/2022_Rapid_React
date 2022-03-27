@@ -88,6 +88,11 @@ public class Robot extends TimedRobot {
     new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
     AAPowerDistribution.ringLightOff();
     SmartDashboard.putBoolean("Shoot Ready", false);
+    SmartDashboard.putNumber("BRUH", 3000);
+    SmartDashboard.putNumber("Roller", 1000);
+
+    SmartDashboard.putNumber("Ratio", 3.7);
+
 
     
     // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
@@ -107,6 +112,9 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+
+    
+
     CommandScheduler.getInstance().run();
 
     //Initalize Dashboard

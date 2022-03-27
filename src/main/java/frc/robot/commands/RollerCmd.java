@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.RollerSubsystem;
 
 
-public class ShooterCmd extends CommandBase{
+public class RollerCmd extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-    private final ShooterSubsystem shooter; 
+    private final RollerSubsystem roller; 
     private Supplier<Double> input;
 
     //timer for auto init
@@ -23,10 +23,10 @@ public class ShooterCmd extends CommandBase{
     private boolean complete;
     Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
-  public ShooterCmd(ShooterSubsystem shooter, Supplier<Double> input, boolean autoStatus) {
-      this.shooter = shooter;
+  public RollerCmd(RollerSubsystem roller, Supplier<Double> input, boolean autoStatus) {
+      this.roller = roller;
 
-      System.out.println("Reached Shooter Cmd");
+      System.out.println("Reached roller Cmd");
 
       timer = new Timer();
       timer.start();
@@ -40,7 +40,7 @@ public class ShooterCmd extends CommandBase{
 
   @Override
   public void initialize() {
-    shooter.setShooter(input.get());
+    roller.setRoller(input.get());
     SmartDashboard.putNumber("input.get", input.get());
     System.out.println("Input: " + input.get());
   }
@@ -60,7 +60,7 @@ public class ShooterCmd extends CommandBase{
  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.stopShooter();
+    roller.stopRoller();
  }
 
   @Override

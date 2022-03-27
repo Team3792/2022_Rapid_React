@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,6 +27,8 @@ import frc.robot.Constants;
 public class DriveSubsystem extends SubsystemBase {
 
   //motor init
+  private final Field2d m_field = new Field2d();
+
   public final WPI_TalonFX rightLead = new WPI_TalonFX(Constants.MotorID.kRightDriveLead);
   public final WPI_TalonFX rightFollow = new WPI_TalonFX(Constants.MotorID.kRightDriveFollow);
   public final WPI_TalonFX leftLead = new WPI_TalonFX(Constants.MotorID.kLeftDriveLead);
@@ -160,6 +163,12 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("R Drive", -(toMeters(rightLead.getSelectedSensorVelocity()) * 10));
 		SmartDashboard.putNumber("L Drive", (toMeters(leftLead.getSelectedSensorVelocity()) * 10));
+
+    m_field.setRobotPose(m_odometry.getPoseMeters());
+
+    SmartDashboard.putData("Field", m_field);
+    //m_odometry.update(pigeon2.getRotation2d(), leftLead.getSelectedSensorPosition(), (rightLead.getSelectedSensorPosition()));
+
     m_odometry.update(pigeon2.getRotation2d(), toMeters(leftLead.getSelectedSensorPosition()), toMeters(rightLead.getSelectedSensorPosition()));
   }
 
