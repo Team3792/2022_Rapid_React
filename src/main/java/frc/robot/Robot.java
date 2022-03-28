@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.subsystems.AAPowerDistribution;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 // import edu.wpi.first.cscore.UsbCamera;
@@ -40,6 +41,8 @@ public class Robot extends TimedRobot {
   public final WPI_TalonFX shooter = new WPI_TalonFX(Constants.MotorID.kShootMotor);
 
   ElevatorSubsystem elevator = new ElevatorSubsystem();
+
+  DriveSubsystem drive = new DriveSubsystem();
 
 
 
@@ -93,6 +96,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Ratio", 3.7);
 
+    drive.zeroSensors();
+
 
     
     // new RunCommand(() -> new LightsCmd(m_PDH).ringLightOff(), m_PDH);
@@ -127,10 +132,10 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    rightLead.setNeutralMode(NeutralMode.Coast);
-    rightFollow.setNeutralMode(NeutralMode.Coast);
-    leftLead.setNeutralMode(NeutralMode.Coast);
-    leftFollow.setNeutralMode(NeutralMode.Coast);
+    // rightLead.setNeutralMode(NeutralMode.Coast);
+    // rightFollow.setNeutralMode(NeutralMode.Coast);
+    // leftLead.setNeutralMode(NeutralMode.Coast);
+    // leftFollow.setNeutralMode(NeutralMode.Coast);
     elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
     elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
     AAPowerDistribution.ringLightOff();
@@ -148,8 +153,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    rightLead.setSelectedSensorPosition(0);
-    leftLead.setSelectedSensorPosition(0);
+    drive.zeroSensors();
+    
     shooter.setSelectedSensorPosition(0);
     
     rightLead.setNeutralMode(NeutralMode.Brake);

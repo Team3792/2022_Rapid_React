@@ -99,8 +99,8 @@ public class RobotContainer {
 
 
     m_drive.setDefaultCommand(new DefaultDriveCmd(m_drive, 
-            () -> driveJoystick.getRawAxis(1), 
-            () -> driveJoystick.getRawAxis(2)*0.8)
+            () -> -driveJoystick.getRawAxis(1),
+            () -> driveJoystick.getRawAxis(2))
     );
 
     autoChooser.setDefaultOption("2 Ball Auto", auto4ball);
@@ -124,8 +124,8 @@ public class RobotContainer {
     speedDriveButton.whileHeld((new SpeedDriveCmd(
       
       m_drive, 
-      () -> driveJoystick.getRawAxis(1)*1.5, 
-      () -> driveJoystick.getRawAxis(2)*1.5)
+      () -> -driveJoystick.getRawAxis(1), 
+      () -> driveJoystick.getRawAxis(2))
 
     ));
 
@@ -136,13 +136,7 @@ public class RobotContainer {
 
     ));
 
-    // operateController.CircleOnlyButton.whileHeld(new ShooterCmd(
 
-    //   m_shooter, 
-    //   () -> SmartDashboard.getNumber("targetRPM", 0),
-    //   false
-
-    // ));
 
     operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
       
@@ -182,6 +176,21 @@ public class RobotContainer {
     operateController.XOnlyButton.whileHeld(new StartEndCommand(
 
       m_roller::fiveKRPMidk,
+      m_roller::stopRoller,
+      m_roller
+
+    ));
+    operateController.CircleOnlyButton.whileHeld(new StartEndCommand(
+      
+      m_shooter::visionShooter,
+      m_shooter::stopShooter,
+      m_shooter
+      
+    ));
+    
+    operateController.CircleOnlyButton.whileHeld(new StartEndCommand(
+
+      m_roller::visionRoller,
       m_roller::stopRoller,
       m_roller
 

@@ -75,8 +75,15 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void initiation() {
         // setShooter((((joystick.getRawAxis(3) + 1) / 4) * 7500));
-        setShooter(getShooterRPM());
+        setShooter(SmartDashboard.getNumber("BRUH", 3000));
+
         System.out.println("ShooterLMAO " + getShooterRPM());
+    }
+
+    public void visionShooter()
+    {
+        setShooter(getShooterRPM());
+
     }
 
     public void leBron() {

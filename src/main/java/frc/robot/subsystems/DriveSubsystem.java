@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,11 +36,12 @@ public class DriveSubsystem extends SubsystemBase {
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
 
   public final WPI_Pigeon2 pigeon2 = new WPI_Pigeon2(4);
-  public final DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
-
 
   public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftLead, leftFollow);
   public final MotorControllerGroup rightMotors = new MotorControllerGroup(rightLead, rightFollow);
+
+  // public final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
+  public final DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
 
 
   //drivetrain kinematics init 
@@ -58,9 +60,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   //feedforward init
   private static final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.DriveConstants.kDriveKS, Constants.DriveConstants.kDriveKV, Constants.DriveConstants.kDriveKA);
-
-
-
 
 
   public DriveSubsystem() {
@@ -85,11 +84,11 @@ public class DriveSubsystem extends SubsystemBase {
         xSpeed = 0;
       }
       else{ //Outside of deadband
-        xSpeed = -speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxFastDriveSpeed;
+        xSpeed = speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxFastDriveSpeed;
       }
   
       //Drive twist
-      if(Math.abs(rot) < 0.1){ //In deadband
+      if(Math.abs(rot) < 0.15){ //In deadband
         rotSpeed = 0;
       }
       else{ //Outside of deadband
@@ -104,11 +103,11 @@ public class DriveSubsystem extends SubsystemBase {
         xSpeed = 0;
       }
       else{ //Outside of deadband
-        xSpeed = -speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
+        xSpeed = speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
       }
   
       //Drive twist
-      if(Math.abs(rot) < 0.1){ //In deadband
+      if(Math.abs(rot) < 0.15){ //In deadband
         rotSpeed = 0;
       }
       else{ //Outside of deadband
@@ -121,7 +120,11 @@ public class DriveSubsystem extends SubsystemBase {
 
     //create a wheelSpeeds object using linear and angular speed
     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rotSpeed));
+    SmartDashboard.putNumber("LeftD", wheelSpeeds.leftMetersPerSecond);
+    SmartDashboard.putNumber("rightD", wheelSpeeds.rightMetersPerSecond);
     setSpeeds(wheelSpeeds);
+
+    SmartDashboard.putNumber("maxDrive", Constants.DriveConstants.kMaxDriveSpeed);
 
   }
 
@@ -135,12 +138,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     leftMotors.setVoltage(leftOutput + leftFeedforward);
     rightMotors.setVoltage(rightOutput + rightFeedforward);
+
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
-
+    // m_drive.feed();
   }
   
   public void zeroSensors() {
@@ -155,7 +159,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   //convert sensorPosition to meters
   public static double toMeters(double sensorCounts){
-    double motorRotations = (double)sensorCounts / 2048;
+    double motorRotations = sensorCounts / 2048;
     double wheelRotations = motorRotations / 7.44;
     double positionMeters = wheelRotations * (Math.PI * Units.inchesToMeters(4));
     return positionMeters;
@@ -167,12 +171,9 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("R Drive", -(toMeters(rightLead.getSelectedSensorVelocity()) * 10));
 		SmartDashboard.putNumber("L Drive", (toMeters(leftLead.getSelectedSensorVelocity()) * 10));
 
-    m_field.setRobotPose(m_odometry.getPoseMeters());
-
+    m_field.setRobotPose(m_odometry.getPoseMeters().getX(), m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
+    m_odometry.update(pigeon2.getRotation2d(), toMeters(leftLead.getSelectedSensorPosition()), -toMeters(rightLead.getSelectedSensorPosition()));
     SmartDashboard.putData("Field", m_field);
-    //m_odometry.update(pigeon2.getRotation2d(), leftLead.getSelectedSensorPosition(), (rightLead.getSelectedSensorPosition()));
-
-    m_odometry.update(pigeon2.getRotation2d(), toMeters(leftLead.getSelectedSensorPosition()), toMeters(rightLead.getSelectedSensorPosition()));
   }
 
   public Pose2d getPose() {
@@ -183,7 +184,7 @@ public class DriveSubsystem extends SubsystemBase {
   {
     double lMeterPerSecond = toMeters(leftLead.getSelectedSensorVelocity()) * 10;
 
-    double rMeterPerSecond = toMeters(rightLead.getSelectedSensorVelocity()) * 10;
+    double rMeterPerSecond = -toMeters(rightLead.getSelectedSensorVelocity()) * 10;
     
     return new DifferentialDriveWheelSpeeds(lMeterPerSecond, rMeterPerSecond);
   }

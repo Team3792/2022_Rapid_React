@@ -91,22 +91,22 @@ public final class Constants {
     public static final double kDriveTrainWidthMeters = 0.71;
 
     //Drivetrain PID Vars
-    public static final double kDrivekP = 0.00691;
+    public static final double kDrivekP = .25;
     public static final double kDrivekI = 0;
     public static final double kDrivekD = 0;
 
     //Drive Speed Constants
-    public static final double kMaxDriveSpeed = 3.5;           // meters per second
+    public static final double kMaxDriveSpeed = 2;           // meters per second
     public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
+    public static final double kMaxAcceleration = 1;
 
-    public static final double kMaxFastDriveSpeed = 6.0;           // meters per second
+    public static final double kMaxFastDriveSpeed = 3.5;           // meters per second
     public static final double kMaxFastAngularSpeed = 3 * Math.PI; // one rotation per second
 
 
-    public static final double kDriveKS = 0.6;
-    public static final double kDriveKV = 1.5;
-
-    public static final double kDriveKA = 0.3;
+    public static final double kDriveKS = 0.7188;
+    public static final double kDriveKV = 2.4646;
+    public static final double kDriveKA = 1.0952;
 
 
     public static final double kTurnRateToleranceDeg = 2;
@@ -167,7 +167,7 @@ public final class Constants {
      * PID Gains
      * 
     */
-    // Feedforward = 869.55/124552.0, 85% (given 100% = 1023) power goes 124552 u/100ms
+    // Feedforward = 869.55/124552.0, 85% (given 100% = 1023) power goes 124552 u/100ms (bad!(?))
     public static final double krollerP = 0.001;
     public static final double krollerI = 0.00001;
     public static final double krollerD = 0;

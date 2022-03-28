@@ -12,7 +12,9 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -71,6 +73,21 @@ public class Auto4BallCenter extends SequentialCommandGroup {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
+    // var autoVoltageConstraint = 
+    //     new DifferentialDriveVoltageConstraint(
+    //       new SimpleMotorFeedforward(
+    //         Constants.DriveConstants.kDriveKS,
+    //         Constants.DriveConstants.kDriveKV,
+    //         Constants.DriveConstants.kDriveKA),
+    //       new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters),
+    //       10);
+
+    // TrajectoryConfig config = new TrajectoryConfig(
+    //     Constants.DriveConstants.kMaxDriveSpeed,
+    //     Constants.DriveConstants.kMaxAcceleration)
+    //     .setKinematics(new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters))
+    //     .addConstraint(autoVoltageConstraint);
+
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
@@ -78,45 +95,44 @@ public class Auto4BallCenter extends SequentialCommandGroup {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
     }
 
-   
-
-
     addCommands(
 
-      new SequentialCommandGroup(
-        
-        new ParallelCommandGroup(
-        
-        //new InstantCommand(() -> new SetDriveCmd(driveTrain).setDriveAuto(-0.3,0.0)),
-        new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
+      new RamseteCommand(
+        trajectory, 
+        driveTrain::getPose, 
+        new RamseteController(), 
+        new SimpleMotorFeedforward(Constants.DriveConstants.kDriveKS, Constants.DriveConstants.kDriveKV, Constants.DriveConstants.kDriveKA), 
+        new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters),
+        driveTrain::getWheelSpeeds, 
+        new PIDController(Constants.DriveConstants.kDrivekP, 0, 0),
+        new PIDController(Constants.DriveConstants.kDrivekP, 0, 0), 
+        driveTrain::tankDriveVolts,
+        driveTrain
+      ));
 
-        new AutoAlignCmd(driveTrain))
+      // new SequentialCommandGroup(
         
-        ),
+      //   new ParallelCommandGroup(
+        
+      //   //new InstantCommand(() -> new SetDriveCmd(driveTrain).setDriveAuto(-0.3,0.0)),
+      //   new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
+
+      //   new AutoAlignCmd(driveTrain))
+        
+      //   ),
   
-        new ParallelRaceGroup(
-          new AutoFeedCmd(feeder),
-          new ShooterCmd(shooter),
-          new RollerCmd(roller)
-        ),
+      //   new ParallelRaceGroup(
+      //     new AutoFeedCmd(feeder),
+      //     new ShooterCmd(shooter),
+      //     new RollerCmd(roller)
+      //   ),
 
-        new RamseteCommand(
-          trajectory, 
-          driveTrain::getPose, 
-          new RamseteController(), 
-          new SimpleMotorFeedforward(Constants.DriveConstants.kDriveKS, Constants.DriveConstants.kDriveKV, Constants.DriveConstants.kDriveKA), 
-          new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters),
-          driveTrain::getWheelSpeeds, 
-          new PIDController(Constants.DriveConstants.kDrivekP, 0, 0), 
-          new PIDController(Constants.DriveConstants.kDrivekP, 0, 0), 
-          driveTrain::tankDriveVolts, 
-          driveTrain
-        )
+        
 
-
+      //   //RamseteCommand
 
        
-      );
+      // );
   }
 
 }

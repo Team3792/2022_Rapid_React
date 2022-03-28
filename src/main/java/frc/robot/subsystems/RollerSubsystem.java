@@ -77,8 +77,15 @@ public class RollerSubsystem extends SubsystemBase {
   public void fiveKRPMidk()
     {
       // setRoller((((joystick.getRawAxis(3) + 1) / 4) * 7500) * 3.7);
-      // setRoller(SmartDashboard.getNumber("BRUH", 3000)* SmartDashboard.getNumber("Ratio", 3.7));
+      setRoller(SmartDashboard.getNumber("Roller", 3000));
+    }
+
+    public void visionRoller()
+    {
+      // System.out.println("Roller: " + getRollerRPM());
+      SmartDashboard.putNumber("ROLLER FAKE", getRollerRPM());
       setRoller(getRollerRPM());
+
     }
     
   public double getRollerRPM() {
@@ -110,10 +117,8 @@ public class RollerSubsystem extends SubsystemBase {
     System.out.println("vVal: " + vVal); 
     OmegaT = -(vVal-2*OmegaB*2*Math.PI)/(friction*2*Math.PI); 
     RPM = (OmegaT*60)/(2*Math.PI); 
-    if (xVal<131) { 
+    if (xVal<140) { 
       return 0.7*RPM; 
-    } else if (xVal < 150){ 
-      return 0.95*RPM; 
     } else{ 
       return 1.2*RPM; 
     }

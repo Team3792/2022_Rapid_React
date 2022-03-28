@@ -53,7 +53,7 @@ public class AutoAlignCmd extends CommandBase{
 
 
         // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
-        driveTrain.drive(-1.0, 0, false);
+        driveTrain.drive(1.0, 0, false);
 
 
       }
@@ -68,7 +68,7 @@ public class AutoAlignCmd extends CommandBase{
 
         // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
         // driveTrain.drive(-0.1, SmartDashboard.getNumber("targetAngle", 0), false);
-        driveTrain.drive(-0.1, 0, false);
+        driveTrain.drive(0.1, 0, false);
 
 
       }
@@ -77,7 +77,7 @@ public class AutoAlignCmd extends CommandBase{
         Constants.stateCounter = 1;
         System.out.println("In da else");
         System.out.println(Constants.stateCounter);
-        driveTrain.drive(-0.0, 0.0, false);
+        driveTrain.drive(0.0, 0.0, false);
 
 
 
@@ -106,7 +106,7 @@ public class AutoAlignCmd extends CommandBase{
 
 
         // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
-        driveTrain.drive(-0.2, 0, false);
+        driveTrain.drive(0.2, 0, false);
 
 
       }
