@@ -50,7 +50,7 @@ public class RollerCmd extends CommandBase{
     // System.out.println("done");
    }
    else{
-    roller.setRoller(8000);
+    roller.visionRoller();
     // System.out.println("in progress");
    }
  }

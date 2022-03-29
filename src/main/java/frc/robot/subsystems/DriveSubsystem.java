@@ -12,12 +12,13 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +28,9 @@ import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  //motor init
+  public String trajectoryGetBallJSON = "paths/output/4ball.wpilib.json";
+  public Trajectory trajectoryGetBall = new Trajectory();
+
   private final Field2d m_field = new Field2d();
 
   public final WPI_TalonFX rightLead = new WPI_TalonFX(Constants.MotorID.kRightDriveLead);
@@ -54,8 +57,8 @@ public class DriveSubsystem extends SubsystemBase {
   private double rotSpeed = 0;
   private double xSpeed = 0;
   
-  private final SlewRateLimiter speedLimiter = new SlewRateLimiter(3);
-  private final SlewRateLimiter rotLimiter = new SlewRateLimiter(10);
+  // private final SlewRateLimiter speedLimiter = new SlewRateLimiter(3);
+  // private final SlewRateLimiter rotLimiter = new SlewRateLimiter(10);
 
 
   //feedforward init
@@ -68,6 +71,8 @@ public class DriveSubsystem extends SubsystemBase {
     rightMotors.setInverted(true);
     rightLead.setSelectedSensorPosition(0);
     leftLead.setSelectedSensorPosition(0);
+
+    m_field.getObject("traj").setTrajectory(trajectoryGetBall);
   }
 
   public double getHeading() {
@@ -84,15 +89,17 @@ public class DriveSubsystem extends SubsystemBase {
         xSpeed = 0;
       }
       else{ //Outside of deadband
-        xSpeed = speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxFastDriveSpeed;
+        xSpeed = (fwd) *  Constants.DriveConstants.kMaxFastDriveSpeed;
+        // speedLimiter.calculate
       }
   
       //Drive twist
-      if(Math.abs(rot) < 0.15){ //In deadband
+      if(Math.abs(rot) < 0.1){ //In deadband
         rotSpeed = 0;
       }
       else{ //Outside of deadband
-         rotSpeed = -rotLimiter.calculate(rot) * Constants.DriveConstants.kMaxFastAngularSpeed;
+         rotSpeed = -(rot) * Constants.DriveConstants.kMaxFastAngularSpeed;
+        //  rotLimiter.calculate
       }
 
       // SmartDashboard.putBoolean("Speed Drive", true);
@@ -103,15 +110,17 @@ public class DriveSubsystem extends SubsystemBase {
         xSpeed = 0;
       }
       else{ //Outside of deadband
-        xSpeed = speedLimiter.calculate(fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
+        xSpeed = (fwd) *  Constants.DriveConstants.kMaxDriveSpeed;
+        // speedLimiter.calculate
       }
   
       //Drive twist
-      if(Math.abs(rot) < 0.15){ //In deadband
+      if(Math.abs(rot) < 0.1){ //In deadband
         rotSpeed = 0;
       }
       else{ //Outside of deadband
-         rotSpeed = -rotLimiter.calculate(rot) * Constants.DriveConstants.kMaxAngularSpeed;
+         rotSpeed = -(rot) * Constants.DriveConstants.kMaxAngularSpeed;
+        //  rotLimiter.calculate
       }
       // SmartDashboard.putBoolean("Speed Drive", true);
 
@@ -139,6 +148,8 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotors.setVoltage(leftOutput + leftFeedforward);
     rightMotors.setVoltage(rightOutput + rightFeedforward);
 
+    SmartDashboard.putNumber("leftV", leftOutput + leftFeedforward);
+    SmartDashboard.putNumber("rightV", rightOutput + rightFeedforward);
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -152,9 +163,9 @@ public class DriveSubsystem extends SubsystemBase {
     leftLead.setSelectedSensorPosition(0);
     rightFollow.setSelectedSensorPosition(0);
     leftFollow.setSelectedSensorPosition(0);
-
     pigeon2.reset();
-    
+    m_odometry.resetPosition(getPose(), pigeon2.getRotation2d());
+    System.out.print("pose reset");
 }
 
   //convert sensorPosition to meters
@@ -168,8 +179,8 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("R Drive", -(toMeters(rightLead.getSelectedSensorVelocity()) * 10));
-		SmartDashboard.putNumber("L Drive", (toMeters(leftLead.getSelectedSensorVelocity()) * 10));
+    SmartDashboard.putNumber("R Drive", -(toMeters(rightFollow.getSelectedSensorVelocity()) * 10));
+		SmartDashboard.putNumber("L Drive", (toMeters(leftFollow.getSelectedSensorVelocity()) * 10));
 
     m_field.setRobotPose(m_odometry.getPoseMeters().getX(), m_odometry.getPoseMeters().getY(), m_odometry.getPoseMeters().getRotation());
     m_odometry.update(pigeon2.getRotation2d(), toMeters(leftLead.getSelectedSensorPosition()), -toMeters(rightLead.getSelectedSensorPosition()));
@@ -178,6 +189,12 @@ public class DriveSubsystem extends SubsystemBase {
 
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
+  }
+
+  public void setPose() {
+    m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(214.842245)), new Rotation2d(214.842245));
+    pigeon2.setYaw(214.842245);
+    System.out.print("pose set");
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds()

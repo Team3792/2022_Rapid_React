@@ -11,6 +11,7 @@ import frc.robot.subsystems.*;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -25,10 +26,9 @@ public class TurnToAngleCmd extends CommandBase {
    */
   private final DriveSubsystem driveTrain;
   private final Supplier<Double> speedFunction;
-  private double targetHeading;
   public boolean finished;
   public int thresholdCounter;
-  public PIDController pid;
+  public PIDController pid = new PIDController(0.003, .05, 0.0015);
 
   public TurnToAngleCmd(DriveSubsystem drive, Supplier<Double> input) {
     driveTrain = drive;
@@ -42,6 +42,8 @@ public class TurnToAngleCmd extends CommandBase {
     finished = false;
 
     thresholdCounter = 0;
+
+    pid.setIntegratorRange(-0.08, 0.08);
   }
 
   @Override
@@ -52,18 +54,23 @@ public class TurnToAngleCmd extends CommandBase {
   @Override
   public void execute(){
 
-       double kP = 0.02;
-        System.out.println("KP: " + kP);
         // Find the heading error; setpoint is given all the time
         double error = SmartDashboard.getNumber("targetAngle", 0);
     
-
-        // Turns the robot to face the desired direction
-        driveTrain.drive(-speedFunction.get(), (kP * error), false);
-        System.out.println((kP * error) + "   speed be at");
+        if (Math.abs(error) > 10) {
+          driveTrain.drive(-speedFunction.get(), Math.signum(error) * 0.1, false);
+        } else {
+          // Turns the robot to face the desired direction
+        driveTrain.drive(-speedFunction.get(), -pid.calculate(error, 0), false);
+        System.out.println(pid.calculate(error, 0) + "   speed be at");
         System.out.println("error is:" + error);
+        }
+        
     
         System.out.print("in da execute");
+        if (Math.abs(error) < 5) {
+          thresholdCounter += 1;
+        }
 
     }
 
@@ -77,7 +84,6 @@ public class TurnToAngleCmd extends CommandBase {
       
   @Override
   public boolean isFinished() {
-    // End when the controller is at the reference.
-    return finished;
+    return thresholdCounter >= 50;
   }
 }

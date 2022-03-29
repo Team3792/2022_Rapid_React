@@ -70,7 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void lowPort() {
-        setShooter(2500);
+        setShooter(2300);
     }
 
     public void initiation() {
@@ -83,30 +83,34 @@ public class ShooterSubsystem extends SubsystemBase {
     public void visionShooter()
     {
         setShooter(getShooterRPM());
-
     }
 
     public void leBron() {
+        setShooter(3336);
     }
 
     public double getShooterRPM() {
         double xVal = SmartDashboard.getNumber("targetDist", 50);
         System.out.println("XVAL " + xVal);
-        if (xVal <= 93) {
-            System.out.println("PART 1");
-            return 0.0000414414259424234 * Math.pow(xVal, 5) 
-                    - 0.0149920706919886  * Math.pow(xVal, 4)  
-                    + 2.13797087428725  * Math.pow(xVal, 3)  
-                    - 150.151797625819  * Math.pow(xVal, 2)  
-                    + 5202.12230744896  * Math.pow(xVal, 1)  
+        if (xVal <= 50)
+        {
+            return -0.0069879149* Math.pow(xVal, 3) 
+                    + 0.9253397123 * Math.pow(xVal, 2) 
+                    - 36.6293462365 * xVal 
+                    + 5393.3848674349;
+        }
+        else if (xVal > 50 && xVal <= 93) {
+            return 0.0000414414259424234 * Math.pow(xVal, 5)
+                    - 0.0149920706919886  * Math.pow(xVal, 4)
+                    + 2.13797087428725  * Math.pow(xVal, 3)
+                    - 150.151797625819  * Math.pow(xVal, 2)
+                    + 5202.12230744896  * Math.pow(xVal, 1)
                     - 68255.4031903005;
         } else {
-            System.out.println("PART 2");
-
-            return 0.00105705403208844 * Math.pow(xVal, 4) 
-                    - 0.473451255106056 * Math.pow(xVal, 3) 
-                    + 78.9367234383612  * Math.pow(xVal, 2) 
-                    - 5795.36686845961  * Math.pow(xVal, 1) 
+            return 0.00105705403208844 * Math.pow(xVal, 4)
+                    - 0.473451255106056 * Math.pow(xVal, 3)
+                    + 78.9367234383612  * Math.pow(xVal, 2)
+                    - 5795.36686845961  * Math.pow(xVal, 1)
                     + 160476.696335883;
         }
     }

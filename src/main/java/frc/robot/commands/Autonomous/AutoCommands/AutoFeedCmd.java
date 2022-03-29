@@ -33,10 +33,11 @@ public class AutoFeedCmd extends CommandBase{
     @Override
     public void execute() {
       timer.start();
-      if(timer.hasElapsed(3.0)){
+      if(timer.hasElapsed(1.5)){
         feeder.setValue(0.8);
+
       }
-      if(timer.hasElapsed(8.0)){
+      if(timer.hasElapsed(5.0)){
           feeder.setValue(0);
           complete = true;
       }

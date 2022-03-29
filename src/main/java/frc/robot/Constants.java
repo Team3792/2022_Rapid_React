@@ -88,24 +88,24 @@ public final class Constants {
   public static final class DriveConstants
   {
     //Drive Kinematics
-    public static final double kDriveTrainWidthMeters = 0.71;
+    public static final double kDriveTrainWidthMeters = 0.6556;
 
     //Drivetrain PID Vars
-    public static final double kDrivekP = .25;
+    public static final double kDrivekP = .35;
     public static final double kDrivekI = 0;
     public static final double kDrivekD = 0;
 
     //Drive Speed Constants
     public static final double kMaxDriveSpeed = 2;           // meters per second
-    public static final double kMaxAngularSpeed = 2 * Math.PI; // one rotation per second
+    public static final double kMaxAngularSpeed = 1.5 * Math.PI; // one rotation per second
     public static final double kMaxAcceleration = 1;
 
     public static final double kMaxFastDriveSpeed = 3.5;           // meters per second
-    public static final double kMaxFastAngularSpeed = 3 * Math.PI; // one rotation per second
+    public static final double kMaxFastAngularSpeed = 2 * Math.PI; // one rotation per second
 
 
-    public static final double kDriveKS = 0.7188;
-    public static final double kDriveKV = 2.4646;
+    public static final double kDriveKS = 0.8;
+    public static final double kDriveKV = 2;
     public static final double kDriveKA = 1.0952;
 
 
@@ -138,10 +138,10 @@ public final class Constants {
      * 
      */
     public static final double kshooterP = 0.2;
-    public static final double kshooterI = 0;
-    public static final double kshooterD = 2;
+    public static final double kshooterI = 0.001;
+    public static final double kshooterD = 3;
     public static final double kshooterF = 1023.0/20660.0;
-    public static final double kshooterIz = 300;
+    public static final double kshooterIz = 200;
     public static final double kshooterPeakOut = 1.00;
   }
 
@@ -168,9 +168,9 @@ public final class Constants {
      * 
     */
     // Feedforward = 869.55/124552.0, 85% (given 100% = 1023) power goes 124552 u/100ms (bad!(?))
-    public static final double krollerP = 0.001;
+    public static final double krollerP = 0.0025;
     public static final double krollerI = 0.00001;
-    public static final double krollerD = 0;
+    public static final double krollerD = 0.01;
     public static final double krollerF = 0.005;
     public static final double krollerIz = 20000;
     public static final double krollerPeakOut = 1.00;

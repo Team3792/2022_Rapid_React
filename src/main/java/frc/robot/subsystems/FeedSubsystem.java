@@ -22,5 +22,10 @@ public class FeedSubsystem extends SubsystemBase {
     feeder.set(v);
   }
 
+  public void stopSubsystemFeed()
+  {
+    feeder.set(0);
+  }
+
 }
 

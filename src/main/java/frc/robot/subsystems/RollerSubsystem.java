@@ -38,8 +38,8 @@ public class RollerSubsystem extends SubsystemBase {
 
     /* Config current limiting */
     roller.enableCurrentLimit(true);
-    roller.configPeakCurrentDuration(5, 30);
-    roller.configPeakCurrentLimit(60, 30);
+    roller.configPeakCurrentDuration(500, 30);
+    roller.configPeakCurrentLimit(80, 30);
 
 		/* Config sensor used for Primary PID [Velocity] */
     roller.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.kTimeoutMs);
@@ -67,6 +67,15 @@ public class RollerSubsystem extends SubsystemBase {
   public void setRoller(double rpm)
     {
       roller.set(ControlMode.Velocity, toRaw(rpm));
+    }
+    public void leBron()
+    {
+      setRoller(9652);
+    }
+
+    public void lowPort()
+    {
+      setRoller(-2300);
     }
 
     public void reverse()
@@ -117,7 +126,10 @@ public class RollerSubsystem extends SubsystemBase {
     System.out.println("vVal: " + vVal); 
     OmegaT = -(vVal-2*OmegaB*2*Math.PI)/(friction*2*Math.PI); 
     RPM = (OmegaT*60)/(2*Math.PI); 
-    if (xVal<140) { 
+    if (xVal < 97){
+      return -0.1*RPM;
+    }
+    else if (xVal<140) { 
       return 0.7*RPM; 
     } else{ 
       return 1.2*RPM; 

@@ -22,10 +22,10 @@ public class AAPowerDistribution extends SubsystemBase {
 
   public static void ringLightOn()
   {
-    aaPDH.setSwitchableChannel(true);
-    System.out.println("turning on");
-    Constants.GlobalStateConstants.kRingLightState = true;
-    SmartDashboard.putBoolean("RingLED", true);
+    // aaPDH.setSwitchableChannel(true);
+    // System.out.println("turning on");
+    // Constants.GlobalStateConstants.kRingLightState = true;
+    // SmartDashboard.putBoolean("RingLED", true);
 
   }
 
@@ -35,29 +35,29 @@ public class AAPowerDistribution extends SubsystemBase {
 
   public static void ringLightOff()
   {
-    aaPDH.setSwitchableChannel(true); //this is scuffed
-    System.out.println("turning off");
-    Constants.GlobalStateConstants.kRingLightState = false;
-    SmartDashboard.putBoolean("RingLED", false);
+    // aaPDH.setSwitchableChannel(true); //this is scuffed
+    // System.out.println("turning off");
+    // Constants.GlobalStateConstants.kRingLightState = false;
+    // SmartDashboard.putBoolean("RingLED", false);
   }
 
   
 
   public static void toggleLight()
   {
-    if (!Constants.GlobalStateConstants.kRingLightState)
-    {
-      aaPDH.setSwitchableChannel(true);
-      Constants.GlobalStateConstants.kRingLightState = true;
-      SmartDashboard.putBoolean("RingLED", true);
+    // if (!Constants.GlobalStateConstants.kRingLightState)
+    // {
+    //   aaPDH.setSwitchableChannel(true);
+    //   Constants.GlobalStateConstants.kRingLightState = true;
+    //   SmartDashboard.putBoolean("RingLED", true);
 
-    }
-    else if (Constants.GlobalStateConstants.kRingLightState)
-    {
-      aaPDH.setSwitchableChannel(true); //this is scuffed
-      Constants.GlobalStateConstants.kRingLightState = false;
-      SmartDashboard.putBoolean("RingLED", false);
-    }
+    // }
+    // else if (Constants.GlobalStateConstants.kRingLightState)
+    // {
+    //   aaPDH.setSwitchableChannel(true); //this is scuffed
+    //   Constants.GlobalStateConstants.kRingLightState = false;
+    //   SmartDashboard.putBoolean("RingLED", false);
+    // }
   }
 
 }

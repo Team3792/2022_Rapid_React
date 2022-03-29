@@ -6,17 +6,23 @@ package frc.robot.commands.Autonomous.AutoRoutines;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -28,7 +34,9 @@ import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.RollerCmd;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.Autonomous.AutoCommands.AutoAlignCmd;
+import frc.robot.commands.Autonomous.AutoCommands.AutoDriveBackMore;
 import frc.robot.commands.Autonomous.AutoCommands.AutoFeedCmd;
+import frc.robot.commands.Autonomous.SemiAuto.TurnToAngleCmd;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -49,8 +57,11 @@ public class Auto4BallCenter extends SequentialCommandGroup {
   private final ShooterSubsystem shooter;
   private final RollerSubsystem roller;
 
-  public String trajectoryJSON = "paths/4ballpath.wpilib.json";
-  public Trajectory trajectory = new Trajectory();
+  public String trajectoryGetBallJSON = "paths/output/4ball.wpilib.json";
+  public Trajectory trajectoryGetBall = new Trajectory();
+
+  public String trajectoryBackJSON = "paths/output/4ballBack.wpilib.json";
+  public Trajectory trajectoryBack = new Trajectory();
 
   //values for controlling stages
   boolean driveDone;
@@ -88,29 +99,108 @@ public class Auto4BallCenter extends SequentialCommandGroup {
     //     .setKinematics(new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters))
     //     .addConstraint(autoVoltageConstraint);
 
+    //     // An example trajectory to follow.  All units in meters.
+    // Trajectory exampleTrajectory =
+    // TrajectoryGenerator.generateTrajectory(
+    //     // Start at the origin facing the +X direction
+    //     new Pose2d(0, 0, new Rotation2d(0)),
+    //     // Pass through these two interior waypoints, making an 's' curve path
+    //     List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
+    //     // End 3 meters straight ahead of where we started, facing forward
+    //     new Pose2d(3, 0, new Rotation2d(0)),
+    //     // Pass config
+    //     config);
+
     try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryGetBallJSON);
+      trajectoryGetBall = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
     } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryGetBallJSON, ex.getStackTrace());
+    }
+
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryBackJSON);
+      trajectoryBack = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryBackJSON, ex.getStackTrace());
     }
 
     addCommands(
+      new SequentialCommandGroup(
+      
+       
 
-      new RamseteCommand(
-        trajectory, 
-        driveTrain::getPose, 
-        new RamseteController(), 
-        new SimpleMotorFeedforward(Constants.DriveConstants.kDriveKS, Constants.DriveConstants.kDriveKV, Constants.DriveConstants.kDriveKA), 
-        new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters),
-        driveTrain::getWheelSpeeds, 
-        new PIDController(Constants.DriveConstants.kDrivekP, 0, 0),
-        new PIDController(Constants.DriveConstants.kDrivekP, 0, 0), 
-        driveTrain::tankDriveVolts,
-        driveTrain
+        new ParallelCommandGroup(
+            new AutoAlignCmd(driveTrain),
+            new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward())
+
+        ),
+        new TurnToAngleCmd(driveTrain, () -> 0.0),
+
+        new ParallelRaceGroup(
+          // new InstantCommand(shooter::visionShooter),
+          // new InstantCommand(roller::visionRoller),
+          new ShooterCmd(shooter),
+          new RollerCmd(roller),
+          new AutoFeedCmd(feeder)
+          
+        ),
+        new InstantCommand(feeder::stopSubsystemFeed),
+
+        new InstantCommand(
+          driveTrain::setPose
+        ),
+
+
+        new RamseteCommand(
+
+          trajectoryGetBall, 
+          driveTrain::getPose, 
+          new RamseteController(), 
+          new SimpleMotorFeedforward(Constants.DriveConstants.kDriveKS, Constants.DriveConstants.kDriveKV, Constants.DriveConstants.kDriveKA), 
+          new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters),
+          driveTrain::getWheelSpeeds, 
+          new PIDController(Constants.DriveConstants.kDrivekP, 0, 0),
+          new PIDController(Constants.DriveConstants.kDrivekP, 0, 0), 
+          driveTrain::tankDriveVolts,
+          driveTrain
+        ),
+
+        
+
+        new RamseteCommand(
+          trajectoryBack, 
+          driveTrain::getPose, 
+          new RamseteController(), 
+          new SimpleMotorFeedforward(Constants.DriveConstants.kDriveKS, Constants.DriveConstants.kDriveKV, Constants.DriveConstants.kDriveKA), 
+          new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters),
+          driveTrain::getWheelSpeeds, 
+          new PIDController(Constants.DriveConstants.kDrivekP, 0, 0),
+          new PIDController(Constants.DriveConstants.kDrivekP, 0, 0), 
+          driveTrain::tankDriveVolts,
+          driveTrain
+        ),
+
+        new InstantCommand(intake::stopSubsystemIntake),
+
+        new TurnToAngleCmd(driveTrain, () -> 0.0),
+
+        new ParallelRaceGroup(
+          // new InstantCommand(shooter::visionShooter),
+          // new InstantCommand(roller::visionRoller),
+          new ShooterCmd(shooter),
+          new RollerCmd(roller),
+          new AutoFeedCmd(feeder)
+          
+        ),
+        new InstantCommand(feeder::stopSubsystemFeed)
+
+      
+      
       ));
 
       // new SequentialCommandGroup(
+      // // );
         
       //   new ParallelCommandGroup(
         
@@ -120,16 +210,18 @@ public class Auto4BallCenter extends SequentialCommandGroup {
       //   new AutoAlignCmd(driveTrain))
         
       //   ),
+      //   new TurnToAngleCmd(driveTrain, () -> 0.0),
+
   
       //   new ParallelRaceGroup(
       //     new AutoFeedCmd(feeder),
       //     new ShooterCmd(shooter),
       //     new RollerCmd(roller)
-      //   ),
+      //   )
 
         
 
-      //   //RamseteCommand
+        //RamseteCommand
 
        
       // );

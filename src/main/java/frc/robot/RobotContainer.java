@@ -100,8 +100,7 @@ public class RobotContainer {
 
     m_drive.setDefaultCommand(new DefaultDriveCmd(m_drive, 
             () -> -driveJoystick.getRawAxis(1),
-            () -> driveJoystick.getRawAxis(2))
-    );
+            () -> Math.signum(driveJoystick.getRawAxis(2)) * Math.pow(driveJoystick.getRawAxis(2), 2)));
 
     autoChooser.setDefaultOption("2 Ball Auto", auto4ball);
 
@@ -145,6 +144,14 @@ public class RobotContainer {
       m_shooter
 
     ));
+
+    operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
+      
+      m_roller::lowPort,
+      m_roller::stopRoller,
+      m_roller
+
+    ));
     
    
     
@@ -162,6 +169,14 @@ public class RobotContainer {
       m_shooter::leBron,
       m_shooter::stopShooter,
       m_shooter
+
+    ));
+
+    operateController.SquareOnlyButton.whileHeld(new StartEndCommand(
+
+      m_roller::leBron,
+      m_roller::stopRoller,
+      m_roller
 
     ));
 

@@ -55,7 +55,7 @@ public class ShooterCmd extends CommandBase{
     // System.out.println("done");
    }
    else{
-    shooter.setShooter(2000);
+    shooter.visionShooter();
 
 
     // System.out.println("in progress");
