@@ -14,18 +14,20 @@ public class RollerCmd extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final RollerSubsystem roller; 
     private Supplier<Double> input;
+    private boolean vision;
+    private boolean preSpin;
 
     //timer for auto init
     private final Timer timer;
 
     //bool for auto or not + cutoff
-    private boolean autoStatus;
     private boolean complete;
     Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
-  public RollerCmd(RollerSubsystem roller) {
+  public RollerCmd(RollerSubsystem roller, boolean vision, boolean preSpin) {
       this.roller = roller;
-
+      this.vision = vision;
+      this.preSpin = preSpin;
       System.out.println("Reached roller Cmd");
 
       timer = new Timer();
@@ -44,15 +46,43 @@ public class RollerCmd extends CommandBase{
   }
 
   @Override
-  public void execute() {
-   if(autoStatus && timer.hasElapsed(8.0)){
-    complete = true;
-    // System.out.println("done");
-   }
-   else{
-    roller.visionRoller();
-    // System.out.println("in progress");
-   }
+  public void execute() 
+  {
+   
+    if (preSpin)
+    {
+     if(timer.hasElapsed(1.0))
+     {
+      roller.initiation();
+     }
+     if (timer.hasElapsed(6.0))
+     {
+      complete = true;
+     }
+
+       // System.out.println("in progress");
+     
+    }
+ 
+    else if (!preSpin)
+    {
+     if(timer.hasElapsed(8.0)){
+       complete = true;
+       // System.out.println("done");
+      }
+      else
+      {
+       if (vision)
+       {
+         roller.visionRoller();
+       }
+       else if (!vision)
+       {
+         roller.initiation();
+       }
+       // System.out.println("in progress");
+      }
+    }
  }
 
  // Called once the command ends or is interrupted.

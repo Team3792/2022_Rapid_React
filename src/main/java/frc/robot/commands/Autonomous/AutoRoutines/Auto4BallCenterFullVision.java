@@ -47,7 +47,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 
 /** default drive using the DriveSubystem. */
-public class Auto4BallCenter extends SequentialCommandGroup {
+public class Auto4BallCenterFullVision extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //drivesubsystem declaration
@@ -75,7 +75,7 @@ public class Auto4BallCenter extends SequentialCommandGroup {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Auto4BallCenter(DriveSubsystem driveTrain, IntakeSubsystem intake, FeedSubsystem feeder, ShooterSubsystem shooter, RollerSubsystem roller) {
+  public Auto4BallCenterFullVision(DriveSubsystem driveTrain, IntakeSubsystem intake, FeedSubsystem feeder, ShooterSubsystem shooter, RollerSubsystem roller) {
     this.driveTrain = driveTrain;
     this.intake = intake;
     this.feeder = feeder;
@@ -126,36 +126,34 @@ public class Auto4BallCenter extends SequentialCommandGroup {
     }
 
     addCommands(
-      new SequentialCommandGroup
-      (
+      new SequentialCommandGroup(
+      
+       
 
-        new ParallelCommandGroup
-        (
-          new ShooterCmd(shooter, false, true),   
-          new RollerCmd(roller, false, true),
+        new ParallelCommandGroup(
+            new TaxiCmd(driveTrain),
+            new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward())
 
-          new SequentialCommandGroup
-          (      
-            new ParallelCommandGroup
-            (
-                new TaxiCmd(driveTrain),
-                new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward())
-            ),
-            new AutoFeedCmd(feeder, true)  
-          )          
         ),
+        new TurnToAngleCmd(driveTrain, () -> 0.0),
 
-        
-        // new TurnToAngleCmd(driveTrain, () -> 0.0),
+        new ParallelRaceGroup(
+          // new InstantCommand(shooter::visionShooter),
+          // new InstantCommand(roller::visionRoller),
+          new ShooterCmd(shooter, true, false),
+          new RollerCmd(roller, true, false),
+          new AutoFeedCmd(feeder, false)
+          
+        ),
+        new InstantCommand(feeder::stopSubsystemFeed),
 
-        new InstantCommand
-        (
+        new InstantCommand(
           driveTrain::setPose
         ),
 
 
-        new RamseteCommand
-        (
+        new RamseteCommand(
+
           trajectoryGetBall, 
           driveTrain::getPose, 
           new RamseteController(), 
@@ -170,8 +168,7 @@ public class Auto4BallCenter extends SequentialCommandGroup {
 
         
 
-        new RamseteCommand
-        (
+        new RamseteCommand(
           trajectoryBack, 
           driveTrain::getPose, 
           new RamseteController(), 
@@ -189,14 +186,14 @@ public class Auto4BallCenter extends SequentialCommandGroup {
         new TurnToAngleCmd(driveTrain, () -> 0.0),
 
         new ParallelRaceGroup(
-          new InstantCommand(shooter::visionShooter),
-          new InstantCommand(roller::visionRoller)
-
-
-          // new AutoFeedCmd(feeder)
+          // new InstantCommand(shooter::visionShooter),
+          // new InstantCommand(roller::visionRoller),
+          new ShooterCmd(shooter, true, false),
+          new RollerCmd(roller, true, false),
+          new AutoFeedCmd(feeder, false)
           
-        )
-        // new InstantCommand(feeder::stopSubsystemFeed)
+        ),
+        new InstantCommand(feeder::stopSubsystemFeed)
 
       
       

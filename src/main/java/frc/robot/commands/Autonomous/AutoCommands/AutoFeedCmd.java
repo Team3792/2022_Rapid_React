@@ -11,6 +11,7 @@ public class AutoFeedCmd extends CommandBase{
   //drivesubsystem declaration
   private final FeedSubsystem feeder;
   private final Timer timer;
+  private boolean preSpin;
 
   private boolean complete;
  
@@ -19,8 +20,9 @@ public class AutoFeedCmd extends CommandBase{
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoFeedCmd(FeedSubsystem feeder) {
+  public AutoFeedCmd(FeedSubsystem feeder, boolean preSpin) {
     this.feeder = feeder;
+    this.preSpin = preSpin;
     this.timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(feeder);
@@ -31,15 +33,31 @@ public class AutoFeedCmd extends CommandBase{
     
     }
     @Override
-    public void execute() {
+    public void execute() 
+    {
       timer.start();
-      if(timer.hasElapsed(1.5)){
-        feeder.setValue(0.8);
 
-      }
-      if(timer.hasElapsed(5.0)){
+      if (preSpin)
+      {
+        feeder.setValue(0.8);
+        
+        if(timer.hasElapsed(3.0))
+        {
           feeder.setValue(0);
           complete = true;
+        }
+      }
+      else if (!preSpin)
+      {
+        if(timer.hasElapsed(1.5))
+        {
+          feeder.setValue(0.8);
+        }
+        if(timer.hasElapsed(5.0))
+        {
+          feeder.setValue(0);
+          complete = true;
+        }
       }
 
     }

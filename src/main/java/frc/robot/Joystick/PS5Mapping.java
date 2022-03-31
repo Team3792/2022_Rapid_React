@@ -128,13 +128,19 @@ public class PS5Mapping extends CommandBase {
 
 
 
-  public void startShake()
+  public void startLightShake()
   {
-    operateController.setRumble(RumbleType.kLeftRumble, 0.5);
-    operateController.setRumble(RumbleType.kRightRumble, 0.5);
+    operateController.setRumble(RumbleType.kLeftRumble, 0.1);
+    operateController.setRumble(RumbleType.kRightRumble, 0.1);
     SmartDashboard.putBoolean("Shoot Ready", true);
-    
 
+  }
+
+  public void startIntenseShake()
+  {
+    operateController.setRumble(RumbleType.kLeftRumble, 0.8);
+    operateController.setRumble(RumbleType.kRightRumble, 0.8);
+    SmartDashboard.putBoolean("Shoot Ready", true);
 
   }
 

@@ -60,32 +60,32 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("RPM", getRPM());
-        SmartDashboard.putNumber("RPMGraph", getRPM());
 
-        SmartDashboard.putNumber("targetRPM", SmartDashboard.getNumber("targetRPM", 0));
     }
 
-    public void setShooter(double rpm){
+    public void setShooter(double rpm)
+    {
         shooter.set(ControlMode.Velocity, toRaw(rpm));
     }
 
-    public void lowPort() {
+    public void lowPort() 
+    {
         setShooter(2300);
     }
 
-    public void initiation() {
-        // setShooter((((joystick.getRawAxis(3) + 1) / 4) * 7500));
-        setShooter(SmartDashboard.getNumber("BRUH", 3000));
+    // public void initiation() {
+    //     // setShooter((((joystick.getRawAxis(3) + 1) / 4) * 7500));
+    //     setShooter(SmartDashboard.getNumber("BRUH", 3000));
 
-        System.out.println("ShooterLMAO " + getShooterRPM());
-    }
+    //     System.out.println("ShooterLMAO " + getShooterRPM());
+    // }
 
     public void visionShooter()
     {
         setShooter(getShooterRPM());
     }
 
-    public void leBron() {
+    public void initiation() {
         setShooter(3336);
     }
 
@@ -127,6 +127,8 @@ public class ShooterSubsystem extends SubsystemBase {
         double rpmVal = toRPM(shooter.getSelectedSensorVelocity());
         return (rpmVal);
     }
+
+    
 
     private double toRPM(double rawV) {
         return (rawV * 600 * 2 / 2048);

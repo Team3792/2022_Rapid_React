@@ -14,6 +14,8 @@ public class ShooterCmd extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     private final ShooterSubsystem shooter; 
     private Supplier<Double> input;
+    private boolean vision;
+    private boolean preSpin;
 
     //timer for auto init
     private final Timer timer;
@@ -23,17 +25,14 @@ public class ShooterCmd extends CommandBase{
     private boolean complete;
     Joystick driveJoystick = new Joystick(Constants.ButtonConstant.kDriveJoystick);
 
-  public ShooterCmd(ShooterSubsystem shooter) {
+  public ShooterCmd(ShooterSubsystem shooter, boolean vision, boolean preSpin) {
       this.shooter = shooter;
-
+      this.vision = vision;
+      this.preSpin = preSpin;
       System.out.println("Reached Shooter Cmd");
 
       timer = new Timer();
       timer.start();
-      
-
-
-
       complete = false;
     }
 
@@ -49,16 +48,43 @@ public class ShooterCmd extends CommandBase{
   }
 
   @Override
-  public void execute() {
-   if(timer.hasElapsed(8.0)){
-    complete = true;
-    // System.out.println("done");
+  public void execute() 
+  {
+   if (preSpin)
+   {
+    if(timer.hasElapsed(0.7))
+    {
+      shooter.initiation();
+
+      // System.out.println("done");
+     }
+    if (timer.hasElapsed(6.0))
+    {
+      shooter.stopShooter();
+      complete = true;
+    }
+      // System.out.println("in progress");
+     
    }
-   else{
-    shooter.visionShooter();
 
-
-    // System.out.println("in progress");
+   else if (!preSpin)
+   {
+    if(timer.hasElapsed(8.0)){
+      complete = true;
+      // System.out.println("done");
+     }
+     else
+     {
+      if (vision)
+      {
+        shooter.visionShooter();
+      }
+      else if (!vision)
+      {
+        shooter.initiation();
+      }
+      // System.out.println("in progress");
+     }
    }
  }
 

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Joystick.PS5Mapping;
+import frc.robot.Joystick.ShootReadyCmd;
 import frc.robot.commands.DefaultDriveCmd;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.commands.FeederCmd;
@@ -24,6 +25,7 @@ import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.SpeedDriveCmd;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto2Ball;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto4BallCenter;
+import frc.robot.commands.Autonomous.AutoRoutines.AutoVision2Ball;
 import frc.robot.commands.Autonomous.SemiAuto.TurnToAngleCmd;
 import frc.robot.subsystems.AAPowerDistribution;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -85,10 +87,15 @@ public class RobotContainer {
 
   //Auto Declarators
   private final Auto2Ball auto2ball = new Auto2Ball(m_drive, 
-  m_intake, m_feeder, m_shooter);
+  m_intake, m_feeder, m_shooter, m_roller);
 
   private final Auto4BallCenter auto4ball = new Auto4BallCenter(m_drive, 
   m_intake, m_feeder, m_shooter, m_roller);
+
+  private final AutoVision2Ball auto2vision = new AutoVision2Ball(m_drive, 
+  m_intake, m_feeder, m_shooter, m_roller);
+
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -102,8 +109,12 @@ public class RobotContainer {
             () -> -driveJoystick.getRawAxis(1),
             () -> Math.signum(driveJoystick.getRawAxis(2)) * Math.pow(driveJoystick.getRawAxis(2), 2)));
 
-    autoChooser.setDefaultOption("2 Ball Auto", auto4ball);
-
+    autoChooser.setDefaultOption("4 Ball Auto", auto4ball);
+    autoChooser.addOption("2 Ball Vision", auto2vision);
+    autoChooser.addOption("2 Ball", auto2ball);
+    
+    
+    SmartDashboard.putData(autoChooser);
 
 
     //m_drive.setDefaultCommand(defaultDrive);
@@ -137,48 +148,28 @@ public class RobotContainer {
 
 
 
-    operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
-      
-      m_shooter::lowPort,
-      m_shooter::stopShooter,
-      m_shooter
-
-    ));
-
-    operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
-      
-      m_roller::lowPort,
-      m_roller::stopRoller,
-      m_roller
-
-    ));
+    
     
    
     
     
-    // ShooterCmd(
+ 
+    
+    // operateController.SquareOnlyButton.whileHeld(new StartEndCommand(
 
-    //   m_shooter,
-    //   () -> m_shooter.getShooterRPM(),
-    //   false
+    //   m_shooter::leBron,
+    //   m_shooter::stopShooter,
+    //   m_shooter
 
     // ));
-    
-    operateController.SquareOnlyButton.whileHeld(new StartEndCommand(
 
-      m_shooter::leBron,
-      m_shooter::stopShooter,
-      m_shooter
+    // operateController.SquareOnlyButton.whileHeld(new StartEndCommand(
 
-    ));
+    //   m_roller::leBron,
+    //   m_roller::stopRoller,
+    //   m_roller
 
-    operateController.SquareOnlyButton.whileHeld(new StartEndCommand(
-
-      m_roller::leBron,
-      m_roller::stopRoller,
-      m_roller
-
-    ));
+    // ));
 
     operateController.XOnlyButton.whileHeld(new StartEndCommand(
       
@@ -190,11 +181,19 @@ public class RobotContainer {
     
     operateController.XOnlyButton.whileHeld(new StartEndCommand(
 
-      m_roller::fiveKRPMidk,
+      m_roller::initiation,
       m_roller::stopRoller,
       m_roller
 
     ));
+
+    operateController.XOnlyButton.whileHeld(
+      
+      new ShootReadyCmd(3336, 9652, false)
+
+    );
+
+
     operateController.CircleOnlyButton.whileHeld(new StartEndCommand(
       
       m_shooter::visionShooter,
@@ -210,6 +209,34 @@ public class RobotContainer {
       m_roller
 
     ));
+
+    operateController.CircleOnlyButton.whileHeld(
+      
+      new ShootReadyCmd(0.0, 0.0, true)
+
+    );
+
+    operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
+      
+      m_shooter::lowPort,
+      m_shooter::stopShooter,
+      m_shooter
+
+    ));
+
+    operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
+      
+      m_roller::lowPort,
+      m_roller::stopRoller,
+      m_roller
+
+    ));
+
+    operateController.TriangleOnlyButton.whileHeld(
+      
+      new ShootReadyCmd(2300, -2300, false)
+
+    );
     
     
     // RollerCmd(
@@ -415,7 +442,7 @@ operateController.pivotBack.whenReleased(new InstantCommand(
 readyShoot.whileHeld(new StartEndCommand(
     
   // Start a flywheel spinning at 50% power
-  () -> operateController.startShake(),
+  () -> operateController.startLightShake(),
   // Stop the flywheel at the end of the command
   () -> operateController.stopShake(),
   // Requires the feeder subsystem
@@ -519,6 +546,8 @@ operateController.LFaceButton.whenPressed(new InstantCommand(
   //}
   public Command getAutonomousCommand(){
     //filler for rn- change later when we actually have an auto command group
-    return new Auto4BallCenter(m_drive, m_intake, m_feeder, m_shooter, m_roller);
+    // return new Auto4BallCenter(m_drive, m_intake, m_feeder, m_shooter, m_roller);
+
+    return autoChooser.getSelected();
   }
 }

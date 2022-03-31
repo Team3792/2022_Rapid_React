@@ -19,6 +19,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -129,8 +131,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     //create a wheelSpeeds object using linear and angular speed
     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rotSpeed));
-    SmartDashboard.putNumber("LeftD", wheelSpeeds.leftMetersPerSecond);
-    SmartDashboard.putNumber("rightD", wheelSpeeds.rightMetersPerSecond);
+    // SmartDashboard.putNumber("LeftD", wheelSpeeds.leftMetersPerSecond);
+    // SmartDashboard.putNumber("rightD", wheelSpeeds.rightMetersPerSecond);
     setSpeeds(wheelSpeeds);
 
     SmartDashboard.putNumber("maxDrive", Constants.DriveConstants.kMaxDriveSpeed);
@@ -148,8 +150,8 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotors.setVoltage(leftOutput + leftFeedforward);
     rightMotors.setVoltage(rightOutput + rightFeedforward);
 
-    SmartDashboard.putNumber("leftV", leftOutput + leftFeedforward);
-    SmartDashboard.putNumber("rightV", rightOutput + rightFeedforward);
+    // SmartDashboard.putNumber("leftV", leftOutput + leftFeedforward);
+    // SmartDashboard.putNumber("rightV", rightOutput + rightFeedforward);
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -191,10 +193,26 @@ public class DriveSubsystem extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
+  //Set Pose for Auto
   public void setPose() {
-    m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(214.842245)), new Rotation2d(214.842245));
-    pigeon2.setYaw(214.842245);
-    System.out.print("pose set");
+
+    DriverStation.getAlliance();
+
+    if (DriverStation.getAlliance() == Alliance.Blue)
+    {
+      m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(214.842245)), new Rotation2d(214.842245));
+      pigeon2.setYaw(214.842245);
+      System.out.print("pose set");
+    }
+    else if (DriverStation.getAlliance() == Alliance.Red)
+    {
+      m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(124.842245)), new Rotation2d(124.842245));
+      pigeon2.setYaw(124.842245);
+      System.out.print("pose set");
+    }
+
+
+    
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds()

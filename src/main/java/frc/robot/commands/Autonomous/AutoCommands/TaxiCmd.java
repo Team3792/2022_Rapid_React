@@ -8,7 +8,7 @@ import frc.robot.subsystems.AAPowerDistribution;
 import frc.robot.subsystems.DriveSubsystem;
 
 
-public class AutoAlignCmd extends CommandBase{
+public class TaxiCmd extends CommandBase{
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //subsystem declarations
@@ -24,7 +24,7 @@ public class AutoAlignCmd extends CommandBase{
    *
    * @param subsystem The subsystem used by this command.
    */
-  public AutoAlignCmd(DriveSubsystem driveTrain) {
+  public TaxiCmd(DriveSubsystem driveTrain) {
     this.driveTrain = driveTrain;
 
      
@@ -57,7 +57,8 @@ public class AutoAlignCmd extends CommandBase{
 
 
       }
-      else if(((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) >=  FeetToEncoder(1))) && ((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(3)){
+      else if(((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) >=  FeetToEncoder(1))) 
+            && ((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(3)){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
         SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
         SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());
@@ -71,7 +72,8 @@ public class AutoAlignCmd extends CommandBase{
 
       }
 
-      else if(((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) >=  FeetToEncoder(3))) && ((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(5)){
+      else if(((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) >=  FeetToEncoder(3))) 
+              && ((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(5)){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
         SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
         SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());

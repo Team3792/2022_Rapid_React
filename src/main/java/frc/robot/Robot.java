@@ -18,6 +18,7 @@ import frc.robot.commands.IntakeCmd;
 import frc.robot.subsystems.AAPowerDistribution;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.FeedSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 // import edu.wpi.first.cscore.UsbCamera;
 /**
@@ -26,6 +27,7 @@ import frc.robot.subsystems.IntakeSubsystem;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
+import frc.robot.subsystems.ShooterSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
@@ -33,6 +35,12 @@ public class Robot extends TimedRobot {
 
   // private PDHSubsystem m_PDH = new PDHSubsystem();
   private IntakeSubsystem m_intake = new IntakeSubsystem();
+  private FeedSubsystem m_feeder = new FeedSubsystem();
+  private ElevatorSubsystem elevator = new ElevatorSubsystem();
+  private DriveSubsystem drive = new DriveSubsystem();
+
+
+
 
   public final WPI_TalonFX rightLead = new WPI_TalonFX(Constants.MotorID.kRightDriveLead);
   public final WPI_TalonFX rightFollow = new WPI_TalonFX(Constants.MotorID.kRightDriveFollow);
@@ -40,9 +48,7 @@ public class Robot extends TimedRobot {
   public final WPI_TalonFX leftFollow = new WPI_TalonFX(Constants.MotorID.kLeftDriveFollow);
   public final WPI_TalonFX shooter = new WPI_TalonFX(Constants.MotorID.kShootMotor);
 
-  ElevatorSubsystem elevator = new ElevatorSubsystem();
-
-  DriveSubsystem drive = new DriveSubsystem();
+  
 
 
 
@@ -85,16 +91,15 @@ public class Robot extends TimedRobot {
     // cs.setResolution(200, 130);
     // cs.setFPS(15);
 
-    SmartDashboard.putBoolean("CLIMB NOW", true);
+    SmartDashboard.putBoolean("CLIMB NOW", false);
+    SmartDashboard.putBoolean("Jetson Connected", false);
 
 
-    new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
+
+    // new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
     AAPowerDistribution.ringLightOff();
     SmartDashboard.putBoolean("Shoot Ready", false);
-    SmartDashboard.putNumber("BRUH", 3000);
-    SmartDashboard.putNumber("Roller", 1000);
-
-    SmartDashboard.putNumber("Ratio", 3.7);
+    
 
     drive.zeroSensors();
 
@@ -180,6 +185,19 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
 
+    elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
+    elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
+
+    rightLead.setNeutralMode(NeutralMode.Brake);
+    rightFollow.setNeutralMode(NeutralMode.Brake);
+    leftLead.setNeutralMode(NeutralMode.Brake);
+    leftFollow.setNeutralMode(NeutralMode.Brake);
+
+
+    m_intake.stopSubsystemIntake();
+    m_feeder.stopSubsystemFeed();
+
+
     // new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);
     // new RunCommand(() -> new FeederCmd(m_feeder).stopFeeder(), m_feeder);
 
@@ -191,13 +209,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    elevator.rightElevatorMotor.set(TalonFXControlMode.PercentOutput, 0);
-    elevator.leftElevatorMotor.set(TalonFXControlMode.PercentOutput,  0);
-
-    rightLead.setNeutralMode(NeutralMode.Brake);
-    rightFollow.setNeutralMode(NeutralMode.Brake);
-    leftLead.setNeutralMode(NeutralMode.Brake);
-    leftFollow.setNeutralMode(NeutralMode.Brake);
+    
 
   }
 
@@ -206,7 +218,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     if (DriverStation.getMatchTime() <= 45)
     {
-      SmartDashboard.putBoolean("CLIMB NOW", false);
+      SmartDashboard.putBoolean("CLIMB NOW", true);
     }
 
   }

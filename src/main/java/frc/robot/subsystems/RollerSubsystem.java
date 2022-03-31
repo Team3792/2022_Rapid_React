@@ -18,13 +18,11 @@ import frc.robot.Constants;
 /** Add your docs here. */
 public class RollerSubsystem extends SubsystemBase {
   private final WPI_TalonSRX roller = new WPI_TalonSRX(Constants.MotorID.kRollerMotor);
-  private Joystick joystick = new Joystick(0);
 
 
   @Override
     public void periodic() {
       SmartDashboard.putNumber("rollerRPM", getRPM());
-      SmartDashboard.putNumber("rollerRPMGraph", getRPM());
 
     }
   
@@ -68,7 +66,7 @@ public class RollerSubsystem extends SubsystemBase {
     {
       roller.set(ControlMode.Velocity, toRaw(rpm));
     }
-    public void leBron()
+    public void initiation()
     {
       setRoller(9652);
     }
@@ -83,16 +81,15 @@ public class RollerSubsystem extends SubsystemBase {
       setRoller(-3000);
     }
 
-  public void fiveKRPMidk()
-    {
-      // setRoller((((joystick.getRawAxis(3) + 1) / 4) * 7500) * 3.7);
-      setRoller(SmartDashboard.getNumber("Roller", 3000));
-    }
+  // public void fiveKRPMidk()
+  //   {
+  //     // setRoller((((joystick.getRawAxis(3) + 1) / 4) * 7500) * 3.7);
+  //     setRoller(SmartDashboard.getNumber("Roller", 3000));
+  //   }
 
     public void visionRoller()
     {
       // System.out.println("Roller: " + getRollerRPM());
-      SmartDashboard.putNumber("ROLLER FAKE", getRollerRPM());
       setRoller(getRollerRPM());
 
     }
