@@ -56,13 +56,34 @@ public class Auto2Ball extends SequentialCommandGroup {
 
     addCommands(
 
+
+      // new SequentialCommandGroup
+      // (
+
+      //   new ParallelCommandGroup
+      //   (
+      //     new ShooterCmd(shooter, false, true),   
+      //     new RollerCmd(roller, false, true),
+
+      //     new SequentialCommandGroup
+      //     (      
+      //       new ParallelCommandGroup
+      //       (
+      //           new TaxiCmd(driveTrain),
+      //           new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()))
+      //       ),
+      //       new AutoFeedCmd(feeder, true)  
+      //     )          
+      //   )
+
       new SequentialCommandGroup
       (
-        
+        new InstantCommand(driveTrain::zeroSensors),
+        new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
+
         new ParallelRaceGroup
         (
 
-          new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
           new TaxiCmd(driveTrain))  
 
         ),

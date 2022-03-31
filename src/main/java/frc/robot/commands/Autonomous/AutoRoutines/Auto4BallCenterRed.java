@@ -46,8 +46,9 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 
 
+
 /** default drive using the DriveSubystem. */
-public class Auto4BallCenter extends SequentialCommandGroup {
+public class Auto4BallCenterRed extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //drivesubsystem declaration
@@ -57,12 +58,10 @@ public class Auto4BallCenter extends SequentialCommandGroup {
   private final ShooterSubsystem shooter;
   private final RollerSubsystem roller;
 
-
-  
-  public String trajectoryGetBallJSON = "paths/output/4ball.wpilib.json";
+  public String trajectoryGetBallJSON = "paths/output/4ballRed.wpilib.json";
   public Trajectory trajectoryGetBall = new Trajectory();
 
-  public String trajectoryBackJSON = "paths/output/4ballBack.wpilib.json";
+  public String trajectoryBackJSON = "paths/output/4ballBackRed.wpilib.json";
   public Trajectory trajectoryBack = new Trajectory();
 
   //values for controlling stages
@@ -77,7 +76,7 @@ public class Auto4BallCenter extends SequentialCommandGroup {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Auto4BallCenter(DriveSubsystem driveTrain, IntakeSubsystem intake, FeedSubsystem feeder, ShooterSubsystem shooter, RollerSubsystem roller) {
+  public Auto4BallCenterRed(DriveSubsystem driveTrain, IntakeSubsystem intake, FeedSubsystem feeder, ShooterSubsystem shooter, RollerSubsystem roller) {
     this.driveTrain = driveTrain;
     this.intake = intake;
     this.feeder = feeder;

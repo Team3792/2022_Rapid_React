@@ -54,6 +54,7 @@ public class TaxiCmd extends CommandBase{
 
         // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
         driveTrain.drive(1.0, 0, false);
+        System.out.println("Reached Taxi Speed");
 
 
       }
@@ -68,6 +69,7 @@ public class TaxiCmd extends CommandBase{
         // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
         // driveTrain.drive(-0.1, SmartDashboard.getNumber("targetAngle", 0), false);
         driveTrain.drive(0.1, 0, false);
+        System.out.println("Reached Taxi Slow");
 
 
       }

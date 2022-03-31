@@ -8,6 +8,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -86,10 +88,9 @@ public class Robot extends TimedRobot {
 
     m_robotContainer = new RobotContainer();
     // LiveWindow.disableAllTelemetry();
-    // CameraServer.startAutomaticCapture();
-    // UsbCamera cs = CameraServer.startAutomaticCapture();
-    // cs.setResolution(200, 130);
-    // cs.setFPS(15);
+      UsbCamera cs = CameraServer.startAutomaticCapture();
+    cs.setResolution(100, 65);
+    cs.setFPS(15);
 
     SmartDashboard.putBoolean("CLIMB NOW", false);
     SmartDashboard.putBoolean("Jetson Connected", false);

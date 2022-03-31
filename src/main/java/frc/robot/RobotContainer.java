@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Joystick.PS5Mapping;
-import frc.robot.Joystick.ShootReadyCmd;
+// import frc.robot.Joystick.ShootReadyCmd;
 import frc.robot.commands.DefaultDriveCmd;
 import frc.robot.commands.ElevatorCmd;
 import frc.robot.commands.FeederCmd;
@@ -26,6 +26,8 @@ import frc.robot.commands.SpeedDriveCmd;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto2Ball;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto4BallCenter;
 import frc.robot.commands.Autonomous.AutoRoutines.AutoVision2Ball;
+import frc.robot.commands.Autonomous.AutoRoutines.Auto4BallCenterRed;
+
 import frc.robot.commands.Autonomous.SemiAuto.TurnToAngleCmd;
 import frc.robot.subsystems.AAPowerDistribution;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -92,6 +94,9 @@ public class RobotContainer {
   private final Auto4BallCenter auto4ball = new Auto4BallCenter(m_drive, 
   m_intake, m_feeder, m_shooter, m_roller);
 
+  private final Auto4BallCenterRed auto4ballRed = new Auto4BallCenterRed(m_drive, m_intake,
+  m_feeder, m_shooter, m_roller);
+
   private final AutoVision2Ball auto2vision = new AutoVision2Ball(m_drive, 
   m_intake, m_feeder, m_shooter, m_roller);
 
@@ -112,6 +117,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("4 Ball Auto", auto4ball);
     autoChooser.addOption("2 Ball Vision", auto2vision);
     autoChooser.addOption("2 Ball", auto2ball);
+    autoChooser.addOption("4 Ball Red", auto4ballRed);
     
     
     SmartDashboard.putData(autoChooser);
@@ -187,11 +193,11 @@ public class RobotContainer {
 
     ));
 
-    operateController.XOnlyButton.whileHeld(
+    // operateController.XOnlyButton.whileHeld(
       
-      new ShootReadyCmd(3336, 9652, false)
+    //   new ShootReadyCmd(3336, 9652, false)
 
-    );
+    // );
 
 
     operateController.CircleOnlyButton.whileHeld(new StartEndCommand(
@@ -210,11 +216,11 @@ public class RobotContainer {
 
     ));
 
-    operateController.CircleOnlyButton.whileHeld(
+    // operateController.CircleOnlyButton.whileHeld(
       
-      new ShootReadyCmd(0.0, 0.0, true)
+    //   new ShootReadyCmd(0.0, 0.0, true)
 
-    );
+    // );
 
     operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
       
@@ -232,11 +238,11 @@ public class RobotContainer {
 
     ));
 
-    operateController.TriangleOnlyButton.whileHeld(
+    // operateController.TriangleOnlyButton.whileHeld(
       
-      new ShootReadyCmd(2300, -2300, false)
+    //   new ShootReadyCmd(2300, -2300, false)
 
-    );
+    // );
     
     
     // RollerCmd(
