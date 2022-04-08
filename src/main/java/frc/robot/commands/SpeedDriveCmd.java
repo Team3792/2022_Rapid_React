@@ -49,7 +49,7 @@ public class SpeedDriveCmd extends CommandBase {
   @Override
   public void execute() {
     //regular drive with inputted joystick values
-    driveTrain.drive(speedFunction.get(), turnFunction.get(), true);
+    driveTrain.drive(speedFunction.get(), turnFunction.get(), false);
     // System.out.println("Reached here");
   }
 

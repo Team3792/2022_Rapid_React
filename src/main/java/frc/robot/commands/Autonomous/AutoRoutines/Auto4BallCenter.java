@@ -131,21 +131,35 @@ public class Auto4BallCenter extends SequentialCommandGroup {
       new SequentialCommandGroup
       (
 
-        new ParallelCommandGroup
-        (
-          new ShooterCmd(shooter, false, true),   
-          new RollerCmd(roller, false, true),
+        new InstantCommand(driveTrain::zeroSensors),
+        new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
+        new InstantCommand(shooter::initiation),
+        new InstantCommand(roller::initiation),
 
-          new SequentialCommandGroup
-          (      
-            new ParallelCommandGroup
-            (
-                new TaxiCmd(driveTrain),
-                new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward())
-            ),
-            new AutoFeedCmd(feeder, true)  
-          )          
-        ),
+        new TaxiCmd(driveTrain),  
+        new TurnToAngleCmd(driveTrain, () -> 0.0),
+        new AutoFeedCmd(feeder, false),
+        new InstantCommand(shooter::stopShooter),
+        new InstantCommand(roller::stopRoller),
+
+
+        // new ParallelCommandGroup
+        // (
+
+          
+        //   new ShooterCmd(shooter, false, true),   
+        //   new RollerCmd(roller, false, true),
+
+        //   new SequentialCommandGroup
+        //   (      
+        //     new ParallelCommandGroup
+        //     (
+        //         new TaxiCmd(driveTrain),
+        //         new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward())
+        //     ),
+        //     new AutoFeedCmd(feeder, true)  
+        //   )          
+        // ),
 
         
         // new TurnToAngleCmd(driveTrain, () -> 0.0),

@@ -7,6 +7,7 @@ package frc.robot.commands.Autonomous.AutoRoutines;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.IntakeCmd;
@@ -80,21 +81,18 @@ public class Auto2Ball extends SequentialCommandGroup {
       (
         new InstantCommand(driveTrain::zeroSensors),
         new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
+        new InstantCommand(shooter::initiation),
+        new InstantCommand(roller::initiation),
 
-        new ParallelRaceGroup
-        (
+        new TaxiCmd(driveTrain),  
+        new AutoFeedCmd(feeder, false),
+        new InstantCommand(shooter::stopShooter),
+        new InstantCommand(roller::stopRoller),
 
-          new TaxiCmd(driveTrain))  
 
-        ),
   
-        new ParallelCommandGroup
-        (
-          new AutoFeedCmd(feeder, false),
-          new ShooterCmd(shooter, false, false),
-          new RollerCmd(roller, false, false)
-        ),
-        new AutoDriveBackMore(driveTrain)
+        
+        new AutoDriveBackMore(driveTrain))
        
       );
   }

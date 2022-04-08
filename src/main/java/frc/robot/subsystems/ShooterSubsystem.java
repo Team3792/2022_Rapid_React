@@ -90,7 +90,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public double getShooterRPM() {
-        double xVal = SmartDashboard.getNumber("targetDist", 50);
+        double xVal = SmartDashboard.getNumber("targetDist", 84);
         System.out.println("XVAL " + xVal);
         if (xVal <= 50)
         {

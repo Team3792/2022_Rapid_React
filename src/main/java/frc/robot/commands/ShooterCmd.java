@@ -50,42 +50,51 @@ public class ShooterCmd extends CommandBase{
   @Override
   public void execute() 
   {
-   if (preSpin)
-   {
-    if(timer.hasElapsed(0.7))
-    {
-      shooter.initiation();
-
-      // System.out.println("done");
-     }
-    if (timer.hasElapsed(6.0))
-    {
-      shooter.stopShooter();
-      complete = true;
-    }
-      // System.out.println("in progress");
-     
-   }
-
-   else if (!preSpin)
-   {
     if(timer.hasElapsed(8.0)){
-      complete = true;
-      // System.out.println("done");
-     }
-     else
-     {
-      if (vision)
-      {
-        shooter.visionShooter();
-      }
-      else if (!vision)
-      {
-        shooter.initiation();
-      }
-      // System.out.println("in progress");
-     }
-   }
+          complete = true;
+          // System.out.println("done");
+    }
+          shooter.setShooter(5000);
+
+
+    
+
+  //  if (preSpin)
+  //  {
+  //   if(timer.hasElapsed(0.7))
+  //   {
+  //     shooter.initiation();
+
+  //     // System.out.println("done");
+  //    }
+  //   if (timer.hasElapsed(6.0))
+  //   {
+  //     shooter.stopShooter();
+  //     complete = true;
+  //   }
+  //     // System.out.println("in progress");
+     
+  //  }
+
+  //  else if (!preSpin)
+  //  {
+  //   if(timer.hasElapsed(8.0)){
+  //     complete = true;
+  //     // System.out.println("done");
+  //    }
+  //    else
+  //    {
+  //     if (vision)
+  //     {
+  //       shooter.visionShooter();
+  //     }
+  //     else if (!vision)
+  //     {
+  //       shooter.initiation();
+  //     }
+  //     // System.out.println("in progress");
+  //    }
+  //  }
  }
 
  // Called once the command ends or is interrupted.

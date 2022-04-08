@@ -49,7 +49,7 @@ public class DefaultDriveCmd extends CommandBase {
   @Override
   public void execute() {
     //regular drive with inputted joystick values
-    driveTrain.drive(speedFunction.get(), turnFunction.get(), false);
+    driveTrain.drive(speedFunction.get(), turnFunction.get(), true);
   }
 
   // Called once the command ends or is interrupted.

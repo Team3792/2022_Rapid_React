@@ -7,6 +7,8 @@ package frc.robot.commands.Autonomous.AutoRoutines;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.RollerCmd;
@@ -55,25 +57,48 @@ public class AutoVision2Ball extends SequentialCommandGroup {
 
     addCommands(
 
-      new SequentialCommandGroup(
-        
-        new ParallelCommandGroup(
-        
 
-        //new InstantCommand(() -> new SetDriveCmd(driveTrain).setDriveAuto(-0.3,0.0)),
+      // new SequentialCommandGroup
+      // (
+
+      //   new ParallelCommandGroup
+      //   (
+      //     new ShooterCmd(shooter, false, true),   
+      //     new RollerCmd(roller, false, true),
+
+      //     new SequentialCommandGroup
+      //     (      
+      //       new ParallelCommandGroup
+      //       (
+      //           new TaxiCmd(driveTrain),
+      //           new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()))
+      //       ),
+      //       new AutoFeedCmd(feeder, true)  
+      //     )          
+      //   )
+
+      new SequentialCommandGroup
+      (
+        new InstantCommand(driveTrain::zeroSensors),
         new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
 
-        new TaxiCmd(driveTrain))  
+        new ParallelRaceGroup
+        (
+
+          new TaxiCmd(driveTrain))  
+
         ),
   
-        new ParallelCommandGroup(
+        new ParallelDeadlineGroup
+        (
           new AutoFeedCmd(feeder, false),
-          new ShooterCmd(shooter, true, false),
-          new RollerCmd(roller, true, false)),
+          new InstantCommand(shooter::visionShooter),
+          new InstantCommand(roller::visionRoller)
 
-          new AutoDriveBackMore(driveTrain)
-
-
+          // new ShooterCmd(shooter, false, false),
+          // new RollerCmd(roller, false, false)
+        ),
+        new AutoDriveBackMore(driveTrain)
        
       );
   }

@@ -49,11 +49,12 @@ public class AutoFeedCmd extends CommandBase{
       }
       else if (!preSpin)
       {
-        if(timer.hasElapsed(1.5))
+        if(timer.hasElapsed(2.5))
         {
           feeder.setValue(0.8);
+          System.out.println("Here");
         }
-        if(timer.hasElapsed(5.0))
+        if(timer.hasElapsed(6.0))
         {
           feeder.setValue(0);
           complete = true;

@@ -95,7 +95,7 @@ public class RollerSubsystem extends SubsystemBase {
     }
     
   public double getRollerRPM() {
-    double xVal = SmartDashboard.getNumber("targetDist", 50);
+    double xVal = SmartDashboard.getNumber("targetDist", 84);
     double kShootVal;
     if (xVal <= 93) {
         kShootVal = 0.0000414414259424234 * Math.pow(xVal, 5) 
