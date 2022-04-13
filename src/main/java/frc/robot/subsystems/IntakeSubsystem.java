@@ -4,11 +4,11 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+// import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+// import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,8 +16,8 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
   private final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.MotorID.kIntakeMotor);
   private final WPI_TalonSRX intakeToggleMotor = new WPI_TalonSRX(Constants.MotorID.kIntakeToggleMotor);
-  private final DigitalInput topLimitSwitch = new DigitalInput(0);
-  private final DigitalInput bottomLimitSwitch = new DigitalInput(1);
+  // private final DigitalInput topLimitSwitch = new DigitalInput(0);
+  // private final DigitalInput bottomLimitSwitch = new DigitalInput(1);
   
   public IntakeSubsystem() {}
 
@@ -35,12 +35,21 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void dropIntake()
   {
-    intakeToggleMotor.set(0.27);
+    intakeToggleMotor.set(0.40);
   }
 
   public void raiseIntake()
   {
-    intakeToggleMotor.set(-0.27);
+    intakeToggleMotor.set(-0.40);
+  }
+
+  public void toggleIntake()
+  {
+    if (intakeToggleMotor.getSensorCollection().isFwdLimitSwitchClosed())
+    {
+      
+    }
+
   }
 
   public void stopTheMadness()
