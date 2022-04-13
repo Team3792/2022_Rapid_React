@@ -35,11 +35,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void dropIntake()
   {
+<<<<<<< Updated upstream
     intakeToggleMotor.set(0.40);
+=======
+    intakeToggleMotor.set(0.1);
+>>>>>>> Stashed changes
   }
 
   public void raiseIntake()
   {
+<<<<<<< Updated upstream
     intakeToggleMotor.set(-0.40);
   }
 
@@ -50,6 +55,9 @@ public class IntakeSubsystem extends SubsystemBase {
       
     }
 
+=======
+    intakeToggleMotor.set(-0.1);
+>>>>>>> Stashed changes
   }
 
   public void stopTheMadness()
