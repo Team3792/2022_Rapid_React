@@ -74,6 +74,7 @@ public final class Constants {
 
     //Intake Motor (Victor SPX)
     public static final int kIntakeMotor = 20;
+    public static final int kIntakeToggleMotor = 21;
 
     //Elevator Motor (Talon FX/Falcon)
     public static final int kLeftElevatorMotor = 30;

@@ -534,6 +534,24 @@ operateController.LFaceButton.whenPressed(new InstantCommand(
 
 ));
 
+operateController.RFaceButton.whileHeld(new StartEndCommand(
+  m_intake::dropIntake, 
+  m_intake::stopTheMadness,
+  m_intake
+  
+
+));
+
+operateController.LFaceButton.whileHeld(new StartEndCommand(
+  m_intake::raiseIntake, 
+  m_intake::stopTheMadness,
+  m_intake
+  
+
+));
+
+
+
 
 
 
