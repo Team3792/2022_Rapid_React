@@ -21,6 +21,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,10 +49,8 @@ public class DriveSubsystem extends SubsystemBase {
   // public final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
   public final DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
 
-
   //drivetrain kinematics init 
   private static DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters);
-
 
   //PID things init
   private static final PIDController m_leftPIDController = new PIDController(Constants.DriveConstants.kDrivekP, Constants.DriveConstants.kDrivekI, Constants.DriveConstants.kDrivekD);
@@ -149,10 +148,15 @@ public class DriveSubsystem extends SubsystemBase {
 
     leftMotors.setVoltage(leftOutput + leftFeedforward);
     rightMotors.setVoltage(rightOutput + rightFeedforward);
+    // m_drive.feed();
 
     // SmartDashboard.putNumber("leftV", leftOutput + leftFeedforward);
     // SmartDashboard.putNumber("rightV", rightOutput + rightFeedforward);
   }
+
+  // public void arcadeDrive(double fwd, double rot) {
+  //   m_drive.arcadeDrive(fwd, rot);
+  // }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMotors.setVoltage(leftVolts);

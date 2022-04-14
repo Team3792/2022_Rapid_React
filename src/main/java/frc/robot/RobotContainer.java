@@ -23,6 +23,8 @@ import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.RollerCmd;
 import frc.robot.commands.ShooterCmd;
 import frc.robot.commands.SpeedDriveCmd;
+import frc.robot.commands.VisionRollerCmd;
+import frc.robot.commands.VisionShooterCmd;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto2Ball;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto4BallCenter;
 import frc.robot.commands.Autonomous.AutoRoutines.AutoVision2Ball;
@@ -222,20 +224,36 @@ public class RobotContainer {
 
     // );
 
-    operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
+    // operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
       
-      m_shooter::lowPort,
-      m_shooter::stopShooter,
-      m_shooter
+    //   m_shooter::lowPort,
+    //   m_shooter::stopShooter,
+    //   m_shooter
 
+    // ));
+
+    operateController.TriangleOnlyButton.whileHeld(new VisionShooterCmd(
+      
+      m_shooter,
+      false,
+      false
+      
     ));
 
-    operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
+    // operateController.TriangleOnlyButton.whileHeld(new StartEndCommand(
       
-      m_roller::lowPort,
-      m_roller::stopRoller,
-      m_roller
+    //   m_roller::lowPort,
+    //   m_roller::stopRoller,
+    //   m_roller
 
+    // ));
+
+    operateController.TriangleOnlyButton.whileHeld(new VisionRollerCmd(
+      
+      m_roller,
+      false,
+      false
+      
     ));
 
     // operateController.TriangleOnlyButton.whileHeld(
@@ -535,18 +553,18 @@ operateController.LFaceButton.whenPressed(new InstantCommand(
 ));
 
 operateController.RFaceButton.whileHeld(new StartEndCommand(
+
   m_intake::dropIntake, 
   m_intake::stopTheMadness,
   m_intake
   
-
 ));
 
 operateController.LFaceButton.whileHeld(new StartEndCommand(
+
   m_intake::raiseIntake, 
   m_intake::stopTheMadness,
   m_intake
-  
 
 ));
 

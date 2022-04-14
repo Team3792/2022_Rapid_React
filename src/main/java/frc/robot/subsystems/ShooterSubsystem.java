@@ -60,7 +60,6 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("RPM", getRPM());
-
     }
 
     public void setShooter(double rpm)
