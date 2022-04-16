@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 
 public class DriveSubsystem extends SubsystemBase {
@@ -46,11 +47,11 @@ public class DriveSubsystem extends SubsystemBase {
   public final MotorControllerGroup leftMotors = new MotorControllerGroup(leftLead, leftFollow);
   public final MotorControllerGroup rightMotors = new MotorControllerGroup(rightLead, rightFollow);
 
-  // public final DifferentialDrive m_drive = new DifferentialDrive(leftMotors, rightMotors);
   public final DifferentialDriveOdometry m_odometry = new DifferentialDriveOdometry(new Rotation2d());
 
   //drivetrain kinematics init 
   private static DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters);
+  private final DifferentialDrive m_diffdrive = new DifferentialDrive(leftMotors, rightMotors);
 
   //PID things init
   private static final PIDController m_leftPIDController = new PIDController(Constants.DriveConstants.kDrivekP, Constants.DriveConstants.kDrivekI, Constants.DriveConstants.kDrivekD);
@@ -73,6 +74,7 @@ public class DriveSubsystem extends SubsystemBase {
     rightLead.setSelectedSensorPosition(0);
     leftLead.setSelectedSensorPosition(0);
 
+    m_diffdrive.setSafetyEnabled(false);
     m_field.getObject("traj").setTrajectory(trajectoryGetBall);
   }
 
@@ -161,7 +163,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
-    // m_drive.feed();
   }
   
   public void zeroSensors() {
@@ -170,7 +171,7 @@ public class DriveSubsystem extends SubsystemBase {
     rightFollow.setSelectedSensorPosition(0);
     leftFollow.setSelectedSensorPosition(0);
     pigeon2.reset();
-    m_odometry.resetPosition(getPose(), pigeon2.getRotation2d());
+    m_odometry.resetPosition(new Pose2d(), pigeon2.getRotation2d());
     System.out.print("pose reset");
 }
 
@@ -202,18 +203,23 @@ public class DriveSubsystem extends SubsystemBase {
 
     DriverStation.getAlliance();
 
-    if (DriverStation.getAlliance() == Alliance.Blue)
-    {
-      m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(214.842245)), new Rotation2d(214.842245));
-      pigeon2.setYaw(214.842245);
+    // if (DriverStation.getAlliance() == Alliance.Blue)
+    // {
+    //   m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(214.842245)), new Rotation2d(214.842245));
+    //   pigeon2.setYaw(214.842245);
+    //   System.out.print("pose set");
+    // }
+    // else if (DriverStation.getAlliance() == Alliance.Red)
+    // {
+    //   m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(124.842245)), new Rotation2d(124.842245));
+    //   pigeon2.setYaw(124.842245);
+    //   System.out.print("pose set");
+    // }
+
+    //For pathtest
+    m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(214)), new Rotation2d(214));
+      pigeon2.setYaw(214);
       System.out.print("pose set");
-    }
-    else if (DriverStation.getAlliance() == Alliance.Red)
-    {
-      m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(124.842245)), new Rotation2d(124.842245));
-      pigeon2.setYaw(124.842245);
-      System.out.print("pose set");
-    }
 
 
     

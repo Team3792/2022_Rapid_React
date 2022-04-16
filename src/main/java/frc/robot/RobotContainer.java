@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +32,7 @@ import frc.robot.commands.VisionShooterCmd;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto2Ball;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto4BallCenter;
 import frc.robot.commands.Autonomous.AutoRoutines.AutoVision2Ball;
+import frc.robot.commands.Autonomous.AutoRoutines.PathTest;
 import frc.robot.commands.Autonomous.AutoRoutines.Auto4BallCenterRed;
 
 import frc.robot.commands.Autonomous.SemiAuto.TurnToAngleCmd;
@@ -102,6 +107,8 @@ public class RobotContainer {
   private final AutoVision2Ball auto2vision = new AutoVision2Ball(m_drive, 
   m_intake, m_feeder, m_shooter, m_roller);
 
+  private final PathTest pathtest = new PathTest(m_drive, m_intake, m_feeder, m_shooter, m_roller);
+
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -120,6 +127,7 @@ public class RobotContainer {
     autoChooser.addOption("2 Ball Vision", auto2vision);
     autoChooser.addOption("2 Ball", auto2ball);
     autoChooser.addOption("4 Ball Red", auto4ballRed);
+    autoChooser.addOption("pathtest", pathtest);
     
     
     SmartDashboard.putData(autoChooser);

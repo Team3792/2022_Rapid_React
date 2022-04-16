@@ -75,7 +75,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 	setRobotDistanceConfigs(rightInvert, rightConfig);
 
 	/* Setup difference signal to be used to keep elevators in phase */
-	setRobotTurnConfigs(rightInvert, rightConfig);
+	// setRobotTurnConfigs(rightInvert, rightConfig);
 
 	/* FPID for Distance */
 	rightConfig.slot0.kP = Constants.ElevatorConstants.kElevatorP;
@@ -86,14 +86,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 	rightConfig.slot0.closedLoopPeakOutput = Constants.ElevatorConstants.kElevatorPeakOutput;
 	rightConfig.slot0.allowableClosedloopError = 1000;
 
-	/* FPID for Correction */
-	rightConfig.slot1.kP = Constants.ElevatorAuxConstants.kElevatorAuxP;
-	rightConfig.slot1.kI = Constants.ElevatorAuxConstants.kElevatorAuxI;
-	rightConfig.slot1.kD = Constants.ElevatorAuxConstants.kElevatorAuxD;
-	rightConfig.slot1.kF = Constants.ElevatorAuxConstants.kElevatorAuxF;
-	rightConfig.slot1.integralZone = Constants.ElevatorAuxConstants.kElevatorAuxIzone;
-	rightConfig.slot1.closedLoopPeakOutput = Constants.ElevatorAuxConstants.kElevatorAuxPeakOutput;
-	rightConfig.slot0.allowableClosedloopError = 0;
+	// /* FPID for Correction */
+	// rightConfig.slot1.kP = Constants.ElevatorAuxConstants.kElevatorAuxP;
+	// rightConfig.slot1.kI = Constants.ElevatorAuxConstants.kElevatorAuxI;
+	// rightConfig.slot1.kD = Constants.ElevatorAuxConstants.kElevatorAuxD;
+	// rightConfig.slot1.kF = Constants.ElevatorAuxConstants.kElevatorAuxF;
+	// rightConfig.slot1.integralZone = Constants.ElevatorAuxConstants.kElevatorAuxIzone;
+	// rightConfig.slot1.closedLoopPeakOutput = Constants.ElevatorAuxConstants.kElevatorAuxPeakOutput;
+	// rightConfig.slot0.allowableClosedloopError = 0;
 
 	/** Config the neutral deadband. */
 	rightConfig.neutralDeadband = .001;
@@ -120,9 +120,9 @@ public class ElevatorSubsystem extends SubsystemBase {
 	rightElevatorMotor.configAllSettings(rightConfig);
 
 	/* Set status frame periods to ensure we don't have stale data */
-	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, 30);
+	// rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, 30);
 	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, 30);
-	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, 30);
+	// rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, 30);
 	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, 30);
 	leftElevatorMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, 30);
 

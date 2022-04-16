@@ -12,6 +12,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,14 +23,13 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-// import edu.wpi.first.cscore.UsbCamera;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-import frc.robot.subsystems.ShooterSubsystem;
+
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
@@ -83,12 +83,12 @@ public class Robot extends TimedRobot {
     
 
 
-
+  
 
 
     m_robotContainer = new RobotContainer();
-    // LiveWindow.disableAllTelemetry();
-      UsbCamera cs = CameraServer.startAutomaticCapture();
+    LiveWindow.disableAllTelemetry();
+    UsbCamera cs = CameraServer.startAutomaticCapture();
     cs.setResolution(100, 65);
     cs.setFPS(15);
 

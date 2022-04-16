@@ -99,10 +99,10 @@ public final class Constants {
     //Drive Speed Constants
     public static final double kMaxDriveSpeed = 2;           // meters per second
     public static final double kMaxAngularSpeed = 1.5 * Math.PI; // one rotation per second
-    public static final double kMaxAcceleration = 1;
 
     public static final double kMaxFastDriveSpeed = 3.5;           // meters per second
     public static final double kMaxFastAngularSpeed = 2 * Math.PI; // one rotation per second
+    public static final double kMaxAcceleration = 2;
 
 
     public static final double kDriveKS = 0.8;
@@ -169,10 +169,10 @@ public final class Constants {
      * 
     */
     // Feedforward = 869.55/124552.0, 85% (given 100% = 1023) power goes 124552 u/100ms (bad!(?))
-    public static final double krollerP = 0.0025;
-    public static final double krollerI = 0.00001;
+    public static final double krollerP = 0.003;
+    public static final double krollerI = 0.000015;
     public static final double krollerD = 0.01;
-    public static final double krollerF = 0.005;
+    public static final double krollerF = 0.004;
     public static final double krollerIz = 20000;
     public static final double krollerPeakOut = 1.00;
   }

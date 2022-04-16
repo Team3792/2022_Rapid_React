@@ -28,7 +28,7 @@ public class TurnToAngleCmd extends CommandBase {
   private final Supplier<Double> speedFunction;
   public boolean finished;
   public int thresholdCounter;
-  public PIDController pid = new PIDController(0.003, .05, 0.0015);
+  public PIDController pid = new PIDController(0.0035, .05, 0.002);
 
   public TurnToAngleCmd(DriveSubsystem drive, Supplier<Double> input) {
     driveTrain = drive;
@@ -57,8 +57,8 @@ public class TurnToAngleCmd extends CommandBase {
         // Find the heading error; setpoint is given all the time
         double error = SmartDashboard.getNumber("targetAngle", 0);
     
-        if (Math.abs(error) > 10) {
-          driveTrain.drive(-speedFunction.get(), Math.signum(error) * 0.1, false);
+        if (Math.abs(error) > 15) {
+          driveTrain.drive(-speedFunction.get(), Math.signum(error) * 0.2, false);
         } else {
           // Turns the robot to face the desired direction
         driveTrain.drive(-speedFunction.get(), -pid.calculate(error, 0), false);

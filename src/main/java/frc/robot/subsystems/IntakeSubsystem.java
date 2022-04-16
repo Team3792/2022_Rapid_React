@@ -35,7 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void dropIntake()
   {
-    intakeToggleMotor.set(0.5);
+    intakeToggleMotor.set(0.4);
   }
 
   public void raiseIntake()

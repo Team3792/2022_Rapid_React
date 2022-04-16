@@ -86,33 +86,6 @@ public class Auto4BallCenter extends SequentialCommandGroup {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
 
-    // var autoVoltageConstraint = 
-    //     new DifferentialDriveVoltageConstraint(
-    //       new SimpleMotorFeedforward(
-    //         Constants.DriveConstants.kDriveKS,
-    //         Constants.DriveConstants.kDriveKV,
-    //         Constants.DriveConstants.kDriveKA),
-    //       new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters),
-    //       10);
-
-    // TrajectoryConfig config = new TrajectoryConfig(
-    //     Constants.DriveConstants.kMaxDriveSpeed,
-    //     Constants.DriveConstants.kMaxAcceleration)
-    //     .setKinematics(new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters))
-    //     .addConstraint(autoVoltageConstraint);
-
-    //     // An example trajectory to follow.  All units in meters.
-    // Trajectory exampleTrajectory =
-    // TrajectoryGenerator.generateTrajectory(
-    //     // Start at the origin facing the +X direction
-    //     new Pose2d(0, 0, new Rotation2d(0)),
-    //     // Pass through these two interior waypoints, making an 's' curve path
-    //     List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
-    //     // End 3 meters straight ahead of where we started, facing forward
-    //     new Pose2d(3, 0, new Rotation2d(0)),
-    //     // Pass config
-    //     config);
-
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryGetBallJSON);
       trajectoryGetBall = TrajectoryUtil.fromPathweaverJson(trajectoryPath);

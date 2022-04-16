@@ -73,7 +73,7 @@ public class ClimbSubsystem extends SubsystemBase {
 	setRobotDistanceConfigs(rightInvert, rightConfig);
 
 	/* Setup difference signal to be used to keep climbs in phase */
-	setRobotTurnConfigs(rightInvert, rightConfig);
+	// setRobotTurnConfigs(rightInvert, rightConfig);
 
 	/* FPID for Distance */
 	rightConfig.slot0.kP = Constants.ClimbConstants.kClimbP;
@@ -84,14 +84,14 @@ public class ClimbSubsystem extends SubsystemBase {
 	rightConfig.slot0.closedLoopPeakOutput = Constants.ClimbConstants.kClimbPeakOutput;
 	rightConfig.slot0.allowableClosedloopError = 50;
 
-	/* FPID for Correction */
-	rightConfig.slot1.kP = Constants.ClimbAuxConstants.kClimbAuxP;
-	rightConfig.slot1.kI = Constants.ClimbAuxConstants.kClimbAuxI;
-	rightConfig.slot1.kD = Constants.ClimbAuxConstants.kClimbAuxD;
-	rightConfig.slot1.kF = Constants.ClimbAuxConstants.kClimbAuxF;
-	rightConfig.slot1.integralZone = Constants.ClimbAuxConstants.kClimbAuxIzone;
-	rightConfig.slot1.closedLoopPeakOutput = Constants.ClimbAuxConstants.kClimbAuxPeakOutput;
-	rightConfig.slot0.allowableClosedloopError = 0;
+	// /* FPID for Correction */
+	// rightConfig.slot1.kP = Constants.ClimbAuxConstants.kClimbAuxP;
+	// rightConfig.slot1.kI = Constants.ClimbAuxConstants.kClimbAuxI;
+	// rightConfig.slot1.kD = Constants.ClimbAuxConstants.kClimbAuxD;
+	// rightConfig.slot1.kF = Constants.ClimbAuxConstants.kClimbAuxF;
+	// rightConfig.slot1.integralZone = Constants.ClimbAuxConstants.kClimbAuxIzone;
+	// rightConfig.slot1.closedLoopPeakOutput = Constants.ClimbAuxConstants.kClimbAuxPeakOutput;
+	// rightConfig.slot0.allowableClosedloopError = 0;
 
 	/** Config the neutral deadband. */
 	rightConfig.neutralDeadband = .001;
@@ -114,9 +114,9 @@ public class ClimbSubsystem extends SubsystemBase {
 	rightClimbMotor.configAllSettings(rightConfig);
 
 	/* Set status frame periods to ensure we don't have stale data */
-	rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, 30);
+	// rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, 30);
 	rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, 30);
-	rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, 30);
+	// rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, 30);
 	rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, 30);
 	leftClimbMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, 30);
 
