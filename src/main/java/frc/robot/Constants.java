@@ -89,10 +89,12 @@ public final class Constants {
   public static final class DriveConstants
   {
     //Drive Kinematics
-    public static final double kDriveTrainWidthMeters = 0.6556;
+    public static final double kDriveTrainWidthMeters = 0.725;
+    // public static final double kDriveTrainWidthMeters = 0.62;
 
     //Drivetrain PID Vars
-    public static final double kDrivekP = .35;
+    // public static final double kDrivekP = .375;
+    public static final double kDrivekP = 2.4;
     public static final double kDrivekI = 0;
     public static final double kDrivekD = 0;
 
@@ -102,12 +104,12 @@ public final class Constants {
 
     public static final double kMaxFastDriveSpeed = 3.5;           // meters per second
     public static final double kMaxFastAngularSpeed = 2 * Math.PI; // one rotation per second
-    public static final double kMaxAcceleration = 2;
+    public static final double kMaxAcceleration = 1;
 
 
     public static final double kDriveKS = 0.8;
-    public static final double kDriveKV = 2;
-    public static final double kDriveKA = 1.0952;
+    public static final double kDriveKV = 2.5;
+    public static final double kDriveKA = 0.13;
 
 
     public static final double kTurnRateToleranceDeg = 2;

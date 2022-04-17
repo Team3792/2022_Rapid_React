@@ -132,11 +132,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     //create a wheelSpeeds object using linear and angular speed
     var wheelSpeeds = m_kinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0.0, rotSpeed));
-    // SmartDashboard.putNumber("LeftD", wheelSpeeds.leftMetersPerSecond);
-    // SmartDashboard.putNumber("rightD", wheelSpeeds.rightMetersPerSecond);
+    SmartDashboard.putNumber("LeftD", wheelSpeeds.leftMetersPerSecond);
+    SmartDashboard.putNumber("RightD", wheelSpeeds.rightMetersPerSecond);
     setSpeeds(wheelSpeeds);
-
-    SmartDashboard.putNumber("maxDrive", Constants.DriveConstants.kMaxDriveSpeed);
 
   }
 
@@ -145,15 +143,14 @@ public class DriveSubsystem extends SubsystemBase {
     final double leftFeedforward = feedforward.calculate(speeds.leftMetersPerSecond);
     final double rightFeedforward = feedforward.calculate(speeds.rightMetersPerSecond);
     
-    final double leftOutput = m_leftPIDController.calculate(toMeters(leftLead.getSelectedSensorVelocity()), speeds.leftMetersPerSecond);
-    final double rightOutput = m_rightPIDController.calculate(toMeters(-rightLead.getSelectedSensorVelocity()), speeds.rightMetersPerSecond);
+    final double leftOutput = m_leftPIDController.calculate(getWheelSpeeds().leftMetersPerSecond, speeds.leftMetersPerSecond);
+    final double rightOutput = m_rightPIDController.calculate(getWheelSpeeds().rightMetersPerSecond, speeds.rightMetersPerSecond);
 
     leftMotors.setVoltage(leftOutput + leftFeedforward);
     rightMotors.setVoltage(rightOutput + rightFeedforward);
-    // m_drive.feed();
 
-    // SmartDashboard.putNumber("leftV", leftOutput + leftFeedforward);
-    // SmartDashboard.putNumber("rightV", rightOutput + rightFeedforward);
+    SmartDashboard.putNumber("leftV", leftOutput + leftFeedforward);
+    SmartDashboard.putNumber("rightV", rightOutput + rightFeedforward);
   }
 
   // public void arcadeDrive(double fwd, double rot) {
@@ -171,8 +168,8 @@ public class DriveSubsystem extends SubsystemBase {
     rightFollow.setSelectedSensorPosition(0);
     leftFollow.setSelectedSensorPosition(0);
     pigeon2.reset();
-    m_odometry.resetPosition(new Pose2d(), pigeon2.getRotation2d());
-    System.out.print("pose reset");
+    // m_odometry.resetPosition(new Pose2d(), pigeon2.getRotation2d());
+    System.out.print("sensors reset");
 }
 
   //convert sensorPosition to meters
@@ -203,23 +200,23 @@ public class DriveSubsystem extends SubsystemBase {
 
     DriverStation.getAlliance();
 
-    // if (DriverStation.getAlliance() == Alliance.Blue)
-    // {
-    //   m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(214.842245)), new Rotation2d(214.842245));
-    //   pigeon2.setYaw(214.842245);
-    //   System.out.print("pose set");
-    // }
-    // else if (DriverStation.getAlliance() == Alliance.Red)
-    // {
-    //   m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(124.842245)), new Rotation2d(124.842245));
-    //   pigeon2.setYaw(124.842245);
-    //   System.out.print("pose set");
-    // }
-
-    //For pathtest
-    m_odometry.resetPosition(new Pose2d(new Translation2d(5, 1.8), new Rotation2d(214)), new Rotation2d(214));
-      pigeon2.setYaw(214);
+    if (DriverStation.getAlliance() == Alliance.Blue)
+    {
+      m_odometry.resetPosition(new Pose2d(new Translation2d(4.95, 1.75), new Rotation2d(-2.5328289138099698 + 2 * Math.PI)), new Rotation2d(-2.5328289138099698 + 2 * Math.PI));
+      pigeon2.setYaw(Math.toDegrees(-2.5328289138099698 + 2 * Math.PI));
       System.out.print("pose set");
+    }
+    else if (DriverStation.getAlliance() == Alliance.Red)
+    {
+      m_odometry.resetPosition(new Pose2d(new Translation2d(11.7, 6.5), new Rotation2d(0.6087637397798236)), new Rotation2d(0.6087637397798236));
+      pigeon2.setYaw(Math.toDegrees(0.6087637397798236));
+      System.out.print("pose set");
+    }
+
+    // /* For pathtest */
+    // m_odometry.resetPosition(new Pose2d(new Translation2d(5.6, 2.4), new Rotation2d(Math.toRadians(214))), new Rotation2d(Math.toRadians(214)));
+    //   pigeon2.setYaw(214);
+    //   System.out.print("pose set");
 
 
     

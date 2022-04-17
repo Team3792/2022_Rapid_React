@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -45,6 +46,9 @@ public class ShooterSubsystem extends SubsystemBase {
 		shooter.config_kI(Constants.ShooterConstants.kPIDLoopIdx, Constants.ShooterConstants.kshooterI, Constants.ShooterConstants.kTimeoutMs);
 		shooter.config_kD(Constants.ShooterConstants.kPIDLoopIdx, Constants.ShooterConstants.kshooterD, Constants.ShooterConstants.kTimeoutMs);
         shooter.config_IntegralZone(Constants.ShooterConstants.kPIDLoopIdx, Constants.ShooterConstants.kshooterIz, Constants.ShooterConstants.kTimeoutMs);
+
+        // shooter.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
+        
 		/*
 		 * Talon FX does not need sensor phase set for its integrated sensor
 		 * This is because it will always be correct if the selected feedback device is integrated sensor (default value)

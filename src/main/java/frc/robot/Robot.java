@@ -23,12 +23,14 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.FeedSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.RollerSubsystem;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -40,6 +42,9 @@ public class Robot extends TimedRobot {
   private FeedSubsystem m_feeder = new FeedSubsystem();
   private ElevatorSubsystem elevator = new ElevatorSubsystem();
   private DriveSubsystem drive = new DriveSubsystem();
+  
+  private ShooterSubsystem m_shooter = new ShooterSubsystem();
+  private RollerSubsystem m_roller = new RollerSubsystem();
 
 
 
@@ -161,8 +166,6 @@ public class Robot extends TimedRobot {
 
     drive.zeroSensors();
     
-    shooter.setSelectedSensorPosition(0);
-    
     rightLead.setNeutralMode(NeutralMode.Brake);
     rightFollow.setNeutralMode(NeutralMode.Brake);
     leftLead.setNeutralMode(NeutralMode.Brake);
@@ -197,6 +200,10 @@ public class Robot extends TimedRobot {
 
     m_intake.stopSubsystemIntake();
     m_feeder.stopSubsystemFeed();
+
+    m_shooter.stopShooter();
+    m_roller.stopRoller();
+    
 
 
     // new RunCommand(() -> new IntakeCmd(m_intake).stopIntake(), m_intake);

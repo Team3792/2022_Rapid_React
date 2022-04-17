@@ -8,6 +8,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -60,6 +61,8 @@ public class RollerSubsystem extends SubsystemBase {
 		roller.config_kI(Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.krollerI, Constants.RollerConstants.kTimeoutMs);
 		roller.config_kD(Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.krollerD, Constants.RollerConstants.kTimeoutMs);
     roller.config_IntegralZone(Constants.RollerConstants.kPIDLoopIdx, Constants.RollerConstants.krollerIz, Constants.RollerConstants.kTimeoutMs);
+
+    // roller.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
   }
 
   public void setRoller(double rpm)

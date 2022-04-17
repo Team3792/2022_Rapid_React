@@ -37,19 +37,22 @@ public class TaxiCmd extends CommandBase{
     @Override
     public void initialize() 
     {
-      new InstantCommand(AAPowerDistribution::ringLightOn);  
-
+      // new InstantCommand(AAPowerDistribution::ringLightOn);  
+      driveTrain.zeroSensors();
+      complete = false;
+      System.out.println("We are here at the fucking taxi command");
     }
 
 
     @Override
     public void execute() {
-      if((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(5.5))){
+      if((Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2) <  FeetToEncoder(3))){
         //SmartDashboard.putNumber("area_gotten", SmartDashboard.getNumber("area", 0));
         SmartDashboard.putNumber("Right Drive", driveTrain.rightLead.getSelectedSensorPosition());
         SmartDashboard.putNumber("Left Drive", driveTrain.leftLead.getSelectedSensorPosition());
+        
         SmartDashboard.putNumber("Combine", Math.abs((Math.abs(driveTrain.leftLead.getSelectedSensorPosition()) + Math.abs(driveTrain.rightLead.getSelectedSensorPosition())) / 2));
-        SmartDashboard.putNumber("Correct Val", FeetToEncoder(5.5));
+        SmartDashboard.putNumber("Correct Val", FeetToEncoder(3));
 
 
         // System.out.println("Angle here: " + SmartDashboard.getNumber("targetAngle", 0));
@@ -58,9 +61,7 @@ public class TaxiCmd extends CommandBase{
 
 
       }
-
-      else
-      {
+      else{
         System.out.println("In da else");
         driveTrain.drive(0.0, 0.0, false);
 

@@ -121,15 +121,15 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 	/* Set status frame periods to ensure we don't have stale data */
 	// rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, 30);
-	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, 30);
+	// rightElevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 30);
 	// rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, 30);
-	rightElevatorMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, 30);
-	leftElevatorMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, 30);
+	// rightElevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 30);
+	// leftElevatorMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, 30);
 
 	/* Initialize */
 	rightElevatorMotor.selectProfileSlot(0, 0);
 	rightElevatorMotor.selectProfileSlot(1, 1);
-	rightElevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 10);
+
 	zeroSensors();
 	}
 

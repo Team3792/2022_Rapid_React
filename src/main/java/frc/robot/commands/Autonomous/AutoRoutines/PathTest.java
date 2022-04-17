@@ -85,17 +85,36 @@ public class PathTest extends SequentialCommandGroup {
       .addConstraint(autoVoltageConstraint);
 
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory =
+    Trajectory exampleTraj =
     TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-        new Pose2d(5, 1.8, new Rotation2d(214)),
+        new Pose2d(5.6, 2.4, new Rotation2d(Math.toRadians(214))),
         // Pass through these two interior waypoints, making a straight path
-        List.of(new Translation2d(3.9, 1.5), new Translation2d(2.3, 1.25)),
+        List.of(new Translation2d(3.9, 1.5), new Translation2d(2.8, 1.5)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(1.05, 1.13, new Rotation2d(180)),
+        new Pose2d(2, 1.5, new Rotation2d(Math.toRadians(190))),
         // Pass config
         config);
 
+      Trajectory testTraj =
+    TrajectoryGenerator.generateTrajectory(
+        // Start at the origin facing the +X direction
+        new Pose2d(5, 1.8, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making a straight path
+        List.of(new Translation2d(5.33, 1.8), new Translation2d(5.66, 1.8)),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(6, 1.8, new Rotation2d(0)),
+        // Pass config
+        config);
+
+      var leftController = new PIDController(Constants.DriveConstants.kDrivekP, 0, 0);
+      var rightController = new PIDController(Constants.DriveConstants.kDrivekP, 0, 0);
+
+      // var leftController = new PIDController(0, 0, 0);
+      // var rightController = new PIDController(0, 0, 0);
+
+      RamseteController disabledRamsete = new RamseteController();
+      disabledRamsete.setEnabled(false); 
 
     addCommands(
 
@@ -103,19 +122,26 @@ public class PathTest extends SequentialCommandGroup {
       new SequentialCommandGroup
       (
         new InstantCommand(driveTrain::zeroSensors),
+
         new InstantCommand(driveTrain::setPose),
 
         new RamseteCommand
         (
-          exampleTrajectory, 
+          exampleTraj, 
           driveTrain::getPose, 
-          new RamseteController(), 
+          new RamseteController(),
+          // disabledRamsete, 
           new SimpleMotorFeedforward(Constants.DriveConstants.kDriveKS, Constants.DriveConstants.kDriveKV, Constants.DriveConstants.kDriveKA), 
           new DifferentialDriveKinematics(Constants.DriveConstants.kDriveTrainWidthMeters),
           driveTrain::getWheelSpeeds, 
-          new PIDController(Constants.DriveConstants.kDrivekP, 0, 0),
-          new PIDController(Constants.DriveConstants.kDrivekP, 0, 0), 
-          driveTrain::tankDriveVolts,
+          leftController, rightController, 
+          (leftVolts, rightVolts) -> {
+            driveTrain.tankDriveVolts(leftVolts, rightVolts);
+            SmartDashboard.putNumber("RWheelSpeed", driveTrain.getWheelSpeeds().rightMetersPerSecond);
+            SmartDashboard.putNumber("LWheelSpeed", driveTrain.getWheelSpeeds().leftMetersPerSecond);
+            SmartDashboard.putNumber("LeftD", leftController.getSetpoint());
+            SmartDashboard.putNumber("RightD", rightController.getSetpoint());
+          },
           driveTrain
         )
        

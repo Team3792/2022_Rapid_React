@@ -62,12 +62,12 @@ public class TurnToAngleCmd extends CommandBase {
         } else {
           // Turns the robot to face the desired direction
         driveTrain.drive(-speedFunction.get(), -pid.calculate(error, 0), false);
-        System.out.println(pid.calculate(error, 0) + "   speed be at");
-        System.out.println("error is:" + error);
+        // System.out.println(pid.calculate(error, 0) + "   speed be at");
+        // System.out.println("error is:" + error);
         }
         
     
-        System.out.print("in da execute");
+        // System.out.print("in da execute");
         if (Math.abs(error) < 5) {
           thresholdCounter += 1;
         }

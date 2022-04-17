@@ -27,21 +27,31 @@ public class AutoFeedCmd extends CommandBase{
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(feeder);
 
-    complete = false;
 
+   
 
     
     }
+
+
+    @Override
+    public void initialize()
+    {
+      timer.reset();
+      complete = false;
+      timer.start();
+
+    }
+
     @Override
     public void execute() 
     {
-      timer.start();
 
       if (preSpin)
       {
         feeder.setValue(0.8);
         
-        if(timer.hasElapsed(3.0))
+        if(timer.hasElapsed(2.0))
         {
           feeder.setValue(0);
           complete = true;
@@ -52,7 +62,6 @@ public class AutoFeedCmd extends CommandBase{
         if(timer.hasElapsed(2.5))
         {
           feeder.setValue(0.8);
-          System.out.println("Here");
         }
         if(timer.hasElapsed(6.0))
         {

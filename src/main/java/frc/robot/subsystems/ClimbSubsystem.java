@@ -60,70 +60,66 @@ public class ClimbSubsystem extends SubsystemBase {
 
 	/** Distance Configs */
 
-	/* Configure Feedback Sensors */
-	leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Feedback Source
+	// /* Configure Feedback Sensors */
+	// leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Feedback Source
 
-	/* Configure the Remote (Left) Talon's selected sensor as a remote sensor for the right Talon */
-	rightConfig.remoteFilter0.remoteSensorDeviceID = leftClimbMotor.getDeviceID(); //Device ID of Remote Source
-	rightConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor; //Remote Source Type
+	// /* Configure the Remote (Left) Talon's selected sensor as a remote sensor for the right Talon */
+	// rightConfig.remoteFilter0.remoteSensorDeviceID = leftClimbMotor.getDeviceID(); //Device ID of Remote Source
+	// rightConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.TalonFX_SelectedSensor; //Remote Source Type
 	
-	/* Now that the Left sensor can be used by the master Talon,
-	 * set up the Left (Aux) and Right (Master) distance into a single
-	 * Robot distance as the Master's Selected Sensor 0. */
-	setRobotDistanceConfigs(rightInvert, rightConfig);
+	// /* Now that the Left sensor can be used by the master Talon,
+	//  * set up the Left (Aux) and Right (Master) distance into a single
+	//  * Robot distance as the Master's Selected Sensor 0. */
+	// setRobotDistanceConfigs(rightInvert, rightConfig);
 
-	/* Setup difference signal to be used to keep climbs in phase */
-	// setRobotTurnConfigs(rightInvert, rightConfig);
+	// /* Setup difference signal to be used to keep climbs in phase */
+	// // setRobotTurnConfigs(rightInvert, rightConfig);
 
-	/* FPID for Distance */
-	rightConfig.slot0.kP = Constants.ClimbConstants.kClimbP;
-	rightConfig.slot0.kI = Constants.ClimbConstants.kClimbI;
-	rightConfig.slot0.kD = Constants.ClimbConstants.kClimbD;
-	rightConfig.slot0.kF = Constants.ClimbConstants.kClimbF;
-	rightConfig.slot0.integralZone = Constants.ClimbConstants.kClimbIzone;
-	rightConfig.slot0.closedLoopPeakOutput = Constants.ClimbConstants.kClimbPeakOutput;
-	rightConfig.slot0.allowableClosedloopError = 50;
+	// /* FPID for Distance */
+	// rightConfig.slot0.kP = Constants.ClimbConstants.kClimbP;
+	// rightConfig.slot0.kI = Constants.ClimbConstants.kClimbI;
+	// rightConfig.slot0.kD = Constants.ClimbConstants.kClimbD;
+	// rightConfig.slot0.kF = Constants.ClimbConstants.kClimbF;
+	// rightConfig.slot0.integralZone = Constants.ClimbConstants.kClimbIzone;
+	// rightConfig.slot0.closedLoopPeakOutput = Constants.ClimbConstants.kClimbPeakOutput;
+	// rightConfig.slot0.allowableClosedloopError = 50;
 
-	// /* FPID for Correction */
-	// rightConfig.slot1.kP = Constants.ClimbAuxConstants.kClimbAuxP;
-	// rightConfig.slot1.kI = Constants.ClimbAuxConstants.kClimbAuxI;
-	// rightConfig.slot1.kD = Constants.ClimbAuxConstants.kClimbAuxD;
-	// rightConfig.slot1.kF = Constants.ClimbAuxConstants.kClimbAuxF;
-	// rightConfig.slot1.integralZone = Constants.ClimbAuxConstants.kClimbAuxIzone;
-	// rightConfig.slot1.closedLoopPeakOutput = Constants.ClimbAuxConstants.kClimbAuxPeakOutput;
-	// rightConfig.slot0.allowableClosedloopError = 0;
+	// // /* FPID for Correction */
+	// // rightConfig.slot1.kP = Constants.ClimbAuxConstants.kClimbAuxP;
+	// // rightConfig.slot1.kI = Constants.ClimbAuxConstants.kClimbAuxI;
+	// // rightConfig.slot1.kD = Constants.ClimbAuxConstants.kClimbAuxD;
+	// // rightConfig.slot1.kF = Constants.ClimbAuxConstants.kClimbAuxF;
+	// // rightConfig.slot1.integralZone = Constants.ClimbAuxConstants.kClimbAuxIzone;
+	// // rightConfig.slot1.closedLoopPeakOutput = Constants.ClimbAuxConstants.kClimbAuxPeakOutput;
+	// // rightConfig.slot0.allowableClosedloopError = 0;
 
-	/** Config the neutral deadband. */
-	rightConfig.neutralDeadband = .001;
-	leftConfig.neutralDeadband = .001;
-	/**
-	 * 1ms per loop.  PID loop can be slowed down if need be.
-	 */
-	int closedLoopTimeMs = 1;
-	rightConfig.slot0.closedLoopPeriod = closedLoopTimeMs;
-	rightConfig.slot1.closedLoopPeriod = closedLoopTimeMs;
-	rightConfig.slot2.closedLoopPeriod = closedLoopTimeMs;
-	rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
+	// /** Config the neutral deadband. */
+	// rightConfig.neutralDeadband = .001;
+	// leftConfig.neutralDeadband = .001;
+	// /**
+	//  * 1ms per loop.  PID loop can be slowed down if need be.
+	//  */
+	// int closedLoopTimeMs = 1;
+	// rightConfig.slot0.closedLoopPeriod = closedLoopTimeMs;
+	// rightConfig.slot1.closedLoopPeriod = closedLoopTimeMs;
+	// rightConfig.slot2.closedLoopPeriod = closedLoopTimeMs;
+	// rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
 
-	/* Motion Magic Configs */
-	rightConfig.motionAcceleration = Constants.ClimbConstants.kClimbAccel; //(distance units per 100 ms) per second
-	rightConfig.motionCruiseVelocity = Constants.ClimbConstants.kClimbMaxV; // distance units per 100 ms
+	// /* Motion Magic Configs */
+	// rightConfig.motionAcceleration = Constants.ClimbConstants.kClimbAccel; //(distance units per 100 ms) per second
+	// rightConfig.motionCruiseVelocity = Constants.ClimbConstants.kClimbMaxV; // distance units per 100 ms
 
-	/* APPLY the config settings */
-	leftClimbMotor.configAllSettings(leftConfig);
-	rightClimbMotor.configAllSettings(rightConfig);
+	// /* APPLY the config settings */
+	// leftClimbMotor.configAllSettings(leftConfig);
+	// rightClimbMotor.configAllSettings(rightConfig);
 
-	/* Set status frame periods to ensure we don't have stale data */
-	// rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, 30);
-	rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, 30);
-	// rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, 30);
-	rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, 30);
-	leftClimbMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, 30);
+	// /* Set status frame periods to ensure we don't have stale data */
+	// // rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 10, 30);
+	// // rightClimbMotor.setStatusFramePeriod(StatusFrame.Status_10_MotionMagic, 10, 30)
 
-	/* Initialize */
-	rightClimbMotor.selectProfileSlot(0, 0);
-	rightClimbMotor.selectProfileSlot(1, 1);
-	rightClimbMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 10);
+	// /* Initialize */
+	// rightClimbMotor.selectProfileSlot(0, 0);
+	// rightClimbMotor.selectProfileSlot(1, 1);
 	zeroSensors();
 	}
 

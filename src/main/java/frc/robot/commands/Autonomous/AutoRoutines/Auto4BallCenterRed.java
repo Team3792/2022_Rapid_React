@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -33,6 +34,8 @@ import frc.robot.Constants;
 import frc.robot.commands.IntakeCmd;
 import frc.robot.commands.RollerCmd;
 import frc.robot.commands.ShooterCmd;
+import frc.robot.commands.VisionRollerCmd;
+import frc.robot.commands.VisionShooterCmd;
 import frc.robot.commands.Autonomous.AutoCommands.TaxiCmd;
 import frc.robot.commands.Autonomous.AutoCommands.AutoDriveBackMore;
 import frc.robot.commands.Autonomous.AutoCommands.AutoFeedCmd;
@@ -129,25 +132,56 @@ public class Auto4BallCenterRed extends SequentialCommandGroup {
     addCommands(
       new SequentialCommandGroup
       (
+        new InstantCommand(shooter::stopShooter),
+        new InstantCommand(intake::stopSubsystemIntake),
+        new InstantCommand(roller::stopRoller),
+        new InstantCommand(driveTrain::zeroSensors),
+        new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
 
-        new ParallelCommandGroup
-        (
-          new ShooterCmd(shooter, false, true),   
-          new RollerCmd(roller, false, true),
+        new ParallelDeadlineGroup(
+          new TaxiCmd(driveTrain),
+          new InstantCommand(intake::dropIntake),
+          new VisionShooterCmd(shooter, false, false),
+          new VisionRollerCmd(roller, false, false)
+          ),
 
-          new SequentialCommandGroup
-          (      
-            new ParallelCommandGroup
-            (
-                new TaxiCmd(driveTrain),
-                new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward())
-            ),
-            new AutoFeedCmd(feeder, true)  
-          )          
-        ),
+        // new InstantCommand(shooter::visionShooter),
+        // new InstantCommand(roller::visionRoller),
+        // new InstantCommand(intake::dropIntake),
+        // new TaxiCmd(driveTrain),
+
+        new TurnToAngleCmd(driveTrain, () -> 0.0),
+        new AutoFeedCmd(feeder, true),
+        new InstantCommand(shooter::stopShooter),
+        new InstantCommand(roller::stopRoller),
+
+        
+
+
+        // new ParallelCommandGroup
+        // (
+
+          
+        //   new ShooterCmd(shooter, false, true),   
+        //   new RollerCmd(roller, false, true),
+
+        //   new SequentialCommandGroup
+        //   (      
+        //     new ParallelCommandGroup
+        //     (
+        //         new TaxiCmd(driveTrain),
+        //         new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward())
+        //     ),
+        //     new AutoFeedCmd(feeder, true)  
+        //   )          
+        // ),
 
         
         // new TurnToAngleCmd(driveTrain, () -> 0.0),
+
+        new InstantCommand(
+          driveTrain::zeroSensors
+        ),
 
         new InstantCommand
         (
@@ -168,6 +202,7 @@ public class Auto4BallCenterRed extends SequentialCommandGroup {
           driveTrain::tankDriveVolts,
           driveTrain
         ),
+        new InstantCommand(() -> new IntakeCmd(intake).runIntakeForward()),
 
         
 
@@ -185,24 +220,30 @@ public class Auto4BallCenterRed extends SequentialCommandGroup {
           driveTrain
         ),
 
+
+        new InstantCommand(intake::raiseIntake),
+
         new InstantCommand(intake::stopSubsystemIntake),
 
-        new TurnToAngleCmd(driveTrain, () -> 0.0),
+        new ParallelDeadlineGroup(
 
-        new ParallelRaceGroup(
-          new InstantCommand(shooter::visionShooter),
-          new InstantCommand(roller::visionRoller)
+          new TurnToAngleCmd(driveTrain, () -> 0.0),
+          new VisionShooterCmd(shooter, false, false),
+          new VisionRollerCmd(roller, false, false)
 
-
-          // new AutoFeedCmd(feeder)
           
-        )
+        ),
+        
+
+
+        new AutoFeedCmd(feeder, true)
+
         // new InstantCommand(feeder::stopSubsystemFeed)
 
       
       
       ));
-
+      
       // new SequentialCommandGroup(
       // // );
         
